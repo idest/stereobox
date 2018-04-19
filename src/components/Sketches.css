@@ -1,0 +1,82 @@
+.sketches {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: green;
+  height: 400px;
+}
+
+.sketch {
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: solid 1px red;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.compass-clino {
+  background-color: yellow;
+  width: 100%;
+  height: 100%;
+}
+
+.schmidt {
+  background-color: blue;
+  width: 100%;
+  height: 100%;
+}
+
+.context {
+  background-color: orange;
+  width: 100%;
+}
+
+.compass {
+  background-color: cyan;
+  width: 100%;
+  height: 60%;
+}
+
+.clino {
+  background-color: brown;
+  width: 100%;
+  height: 40%;
+}
+
+@media screen and (min-width: 960px) {
+  .compass-clino {
+    width: 30%;
+  }
+  .schmidt {
+    width: 40%;
+  }
+  .context {
+    width: 30%;
+  }
+}
+/*
+@media screen and (min-width: 520px) {
+  #sketch-holder {
+    width:60%;
+  }
+  #sketch-controls {
+    width:40%;
+  }
+  #container {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  #container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 960px;
+  }
+}
+*/
