@@ -12,37 +12,42 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border: solid 1px red;
+  /*border: solid 1px red;*/
   background-color: black;
   color: white;
   text-align: center;
 }
 
 .compass-clino {
-  background-color: yellow;
+  /*background-color: yellow;*/
   width: 100%;
   height: 100%;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border: solid 1px gray;
 }
 
 .schmidt {
-  background-color: blue;
+  /*background-color: blue;*/
   width: 100%;
   height: 100%;
+  border: solid 1px gray;
 }
 
 .context {
-  background-color: orange;
+  background-color: #333333;
   width: 100%;
+  border: solid 1px gray;
 }
 
 .compass {
-  background-color: cyan;
+  /*background-color: cyan;*/
   width: 100%;
   height: 60%;
 }
 
 .clino {
-  background-color: brown;
+  /*background-color: brown;*/
   width: 100%;
   height: 40%;
 }

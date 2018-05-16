@@ -33,8 +33,9 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
-        <p style={{ textAlign: 'center' }}> Wait for it... </p>
+      <div className="container">
+        <h1>Compass</h1>
+        <h3>An interactive tool for plane visualization</h3>
         <Controls
           azimuth={this.state.planeAzimuth}
           dip={this.state.planeDip}

@@ -1,9 +1,9 @@
 .Rtable {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 0 3em 0;
-  padding: 0;
-  background-color: green;
+  margin: 0;
+  padding-bottom: 20px;
+  background-color: black;
 }
 
 .Rtable-cell {
@@ -12,7 +12,7 @@
   width: 100%;
   overflow: hidden;
   list-style: none;
-  border: solid 1px white;
+  border: solid 1px gray;
   background-color: black;
   color: white;
   text-align: center;
