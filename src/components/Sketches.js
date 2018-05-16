@@ -7,9 +7,6 @@ import Schmidt from './Schmidt';
 import './Sketches.css';
 
 class Sketches extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     let sketchProps = {
       azimuth: this.props.azimuth,

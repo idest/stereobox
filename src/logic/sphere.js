@@ -11,7 +11,6 @@ const sph2cart = sphVector => {
   const x = Math.cos(lat) * Math.cos(lon);
   const y = Math.cos(lat) * Math.sin(lon);
   const z = Math.sin(lat);
-  const m = nj.array([x, y, z]);
   return nj.array([x, y, z]);
 };
 

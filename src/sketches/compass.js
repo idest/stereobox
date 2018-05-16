@@ -125,7 +125,7 @@ const compass = (width, height, props) => {
         let cardinalSize = cr * 0.3 * cardinalSizes[i];
         p5.textSize(cardinalSize);
         let cFraction = 360 / cardinalLabels.length;
-        let cardinalWidth = p5.textWidth(cardinalLabels[i]);
+        p5.textWidth(cardinalLabels[i]); //cardinalWidth
         let cardinalX1 = angleToX(cFraction * i) * 0.7;
         let cardinalY1 = angleToY(cFraction * i) * 0.7 + cardinalSize / 2.5;
         p5.text(cardinalLabels[i], cardinalX1, cardinalY1);
