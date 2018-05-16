@@ -25,6 +25,14 @@ h3 {
   color: darkgray;
 }
 
+.controls {
+  width: 100%;
+}
+
+.sketches {
+  width: 100%;
+}
+
 @media screen and (min-width: 960px) {
   .container {
     margin-left: auto;

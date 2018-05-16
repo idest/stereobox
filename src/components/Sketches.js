@@ -27,7 +27,7 @@ class Sketches extends React.Component {
           <Schmidt sketchProps={sketchProps} />
         </div>
         <div className="sketch context">
-          <p style={{ color: 'darkgray' }}>Wait for it...</p>
+          <p style={{ color: 'darkgray' }}>Wait for it....</p>
         </div>
       </div>
     );
