@@ -3,9 +3,13 @@ import React from 'react';
 import { Sketch } from './lib/sketch';
 import compass from '../sketches/compass';
 import clino from '../sketches/clino';
+import Schmidt from './Schmidt';
 import './Sketches.css';
 
 class Sketches extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     let sketchProps = {
       azimuth: this.props.azimuth,
@@ -22,7 +26,9 @@ class Sketches extends React.Component {
             <Sketch sketch={clino} sketchProps={sketchProps} />
           </div>
         </div>
-        <div className="sketch schmidt" />
+        <div className="sketch schmidt">
+          <Schmidt sketchProps={sketchProps} />
+        </div>
         <div className="sketch context" />
       </div>
     );
