@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react';
 
-import { RemountOnResize } from './remount';
+import { RemountOnResize } from './Remount';
 
 import p5 from 'p5';
 

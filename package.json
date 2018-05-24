@@ -15,7 +15,8 @@
     "prettier": "^1.12.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "three": "^0.92.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [

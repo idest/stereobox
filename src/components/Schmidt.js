@@ -27,8 +27,8 @@ class Schmidt extends Component {
     return geoPath().projection(projection);
   }
   updateSchmidtNet() {
-    const az = this.props.sketchProps.azimuth,
-      dip = this.props.sketchProps.dip,
+    const az = this.props.azimuth,
+      dip = this.props.dip,
       e1 = [0, 0],
       aux1 = [90, 0],
       aux2 = rotateSph(aux1, e1, 270 - az),

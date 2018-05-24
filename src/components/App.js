@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Controls from './Controls';
-import Sketches from './Sketches';
+import Visualizations from './Visualizations';
 import './App.css';
 
 class App extends Component {
@@ -37,12 +37,14 @@ class App extends Component {
         <h1>Compass</h1>
         <h3>An interactive tool for plane visualization</h3>
         <Controls
+          className="controls"
           azimuth={this.state.planeAzimuth}
           dip={this.state.planeDip}
           lastInput={this.state.lastInput}
           changePlaneState={this.changePlaneState}
         />
-        <Sketches
+        <Visualizations
+          className="visualizations"
           azimuth={this.state.planeAzimuth}
           dip={this.state.planeDip}
           changePlaneState={this.changePlaneState}
