@@ -27,10 +27,11 @@ class Visualizations extends React.Component {
           <Schmidt azimuth={this.props.azimuth} dip={this.props.dip} />
         </div>
         <div className="viz context">
-          <p style={{ color: 'darkgray' }}>Wait for it....</p>
+          <Context azimuth={this.props.azimuth} dip={this.props.dip} />
         </div>
       </div>
     );
   }
 }
+//<p style={{ color: 'darkgray' }}>Wait for it....</p>
 export default Visualizations;

@@ -135,10 +135,10 @@ const compass = (width, height, props) => {
       let azNeedleAngle = fixAngle(az);
       let ddNeedleAngle = fixAngle(az + 90);
       // Azimuth Needle
-      p5.stroke(255, 100, 100);
+      p5.stroke(255, 125, 125);
       p5.line(0, 0, cr * p5.cos(azNeedleAngle), -cr * p5.sin(azNeedleAngle));
       // Azimuth Needle extension
-      p5.stroke(255);
+      p5.stroke(125, 125, 255);
       p5.line(
         0,
         0,
@@ -146,7 +146,7 @@ const compass = (width, height, props) => {
         -cr * p5.sin(azNeedleAngle + 180)
       );
       // Dip Direction Needle
-      p5.stroke(100, 200, 100);
+      p5.stroke(175, 175, 175);
       p5.line(0, 0, cr * p5.cos(ddNeedleAngle), -cr * p5.sin(ddNeedleAngle));
       p5.pop();
     };
