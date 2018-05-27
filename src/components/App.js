@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.changePlaneState = this.changePlaneState.bind(this);
-    this.state = { planeAzimuth: 315, planeDip: 45, lastInput: 'AZ' };
+    this.state = { planeAzimuth: 45, planeDip: 45, lastInput: 'AZ' };
   }
   changePlaneState(newPlaneState) {
     let planeAzimuth =

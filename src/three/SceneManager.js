@@ -1,9 +1,9 @@
 import * as THREE from 'three';
+import OrbitControls from './lib/OrbitControls';
+import * as utils from './utils';
 import GeneralLights from './GeneralLights';
 import Semisphere from './Semisphere';
 import Plane from './Plane';
-import * as utils from './utils';
-import * as dat from 'dat.gui';
 
 export default (canvas, initialProps, eventBus) => {
   const clock = new THREE.Clock();
@@ -16,7 +16,7 @@ export default (canvas, initialProps, eventBus) => {
   const scene = buildScene();
   const renderer = buildRenderer(screenDimensions);
   const camera = buildCamera(screenDimensions);
-  const gui = buildGUI({ camera });
+  const controls = new OrbitControls(camera, renderer.domElement);
   const sceneSubjects = createSceneSubjects(scene, initialProps, eventBus);
 
   const origin = new THREE.Vector3(0, 0, 0);
@@ -58,56 +58,15 @@ export default (canvas, initialProps, eventBus) => {
       nearPlane,
       farPlane
     );
-    camera.position.set(0, 5, 7.5);
-    camera.lookAt(0, 0, 0);
+    const resetCamera = () => {
+      camera.position.set(0, 5, 7.5);
+      camera.lookAt(0, 0, 0);
+    };
+    resetCamera();
+
+    eventBus.subscribe('resetCamera', resetCamera);
 
     return camera;
-  }
-
-  function buildGUI(components) {
-    const { camera } = components;
-    let x = camera.position.x;
-    let y = camera.position.y;
-    let z = camera.position.z;
-    const initialXRot = Math.asin(x / z) / Math.PI * 180;
-    const initialYRot = Math.asin(y / z) / Math.PI * 180;
-    const parameters = {
-      cameraXRot: initialXRot,
-      cameraYRot: initialYRot,
-      resetCamera: () => {
-        camera.position.set(x, y, z);
-        parameters.cameraXRot = initialXRot;
-        parameters.cameraYRot = initialYRot;
-        camera.lookAt(0, 0, 0);
-      }
-    };
-    const gui = new dat.GUI();
-    gui.add(parameters, 'resetCamera');
-    /*
-    gui
-      .add(parameters, 'cameraXRot', -180, 180)
-      .name('H. Angle')
-      .onChange(v => {
-        const rotAngle = v / 180 * Math.PI;
-        camera.position.x = 0 * Math.cos(rotAngle) + z * Math.sin(rotAngle);
-        camera.position.z = z * Math.cos(rotAngle) - 0 * Math.sin(rotAngle);
-        //missing y parameter when y != 0
-        camera.lookAt(0, 0, 0);
-      })
-      .listen();
-    */
-    gui
-      .add(parameters, 'cameraYRot', -90, 90)
-      .name('V. Angle')
-      .onChange(v => {
-        const rotAngle = (v - initialYRot) / 180 * Math.PI;
-        camera.position.y = y * Math.cos(rotAngle) + z * Math.sin(rotAngle);
-        camera.position.z = z * Math.cos(rotAngle) - y * Math.sin(rotAngle);
-        //missing z parameter when z != 0
-        camera.lookAt(0, 0, 0);
-      })
-      .listen();
-    return parameters;
   }
 
   function createSceneSubjects(scene, initialProps, eventBus) {

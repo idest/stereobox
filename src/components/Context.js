@@ -9,6 +9,7 @@ class Context extends React.Component {
     super(props);
     this.threeRootElement = React.createRef();
     this.eventBus = new EventBus();
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
   componentDidMount() {
     const initialProps = {
@@ -18,9 +19,19 @@ class Context extends React.Component {
     };
     threeEntryPoint(this.threeRootElement.current, initialProps, this.eventBus);
   }
+  handleButtonClick() {
+    this.eventBus.post('resetCamera');
+  }
   render() {
     this.eventBus.post('propsUpdate', { ...this.props });
-    return <div className="threeContainer" ref={this.threeRootElement} />;
+    return (
+      <div className="contextContainer">
+        <div className="threeContainer" ref={this.threeRootElement} />
+        <button className="resetButton" onClick={this.handleButtonClick}>
+          Reset Camera
+        </button>
+      </div>
+    );
   }
 }
 
