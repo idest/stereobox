@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-//import ReactDOM from 'react-dom';
-//import { select } from 'd3-selection';
 import { geoPath, geoGraticule, geoAzimuthalEqualArea } from 'd3-geo';
-//import nj from 'numjs';
 import { rotateSph } from '../logic/sphere';
 import './Schmidt.css';
 
@@ -36,10 +33,6 @@ class Schmidt extends Component {
       aux2Left = rotateSph(aux1, e1, 360 - az),
       e2 = aux2Right,
       p = rotateSph(aux2, e2, dip);
-    console.log('aux2', aux2[0] + 1, aux2[1] - 1);
-    console.log('aux2Right', aux2Right[0] + 1, aux2Right[1] - 1);
-    console.log('aux2Left', aux2Left[0] + 1, aux2Left[1] - 1);
-    console.log('p', p[0], p[1]);
     return [
       [...aux2Right].reverse(),
       [...p].reverse(),
@@ -61,10 +54,10 @@ class Schmidt extends Component {
           <path id="sphere" d={path({ type: 'Sphere' })} />
           <path id="graticule" d={path(geoGraticule()())} />
         </defs>
-        <use class="fill" href="#sphere" />
-        <use class="fill" href="#graticule" />
+        <use className="fill" href="#sphere" />
+        <use className="fill" href="#graticule" />
         <path
-          class="arc"
+          className="arc"
           d={path({ type: 'LineString', coordinates: coordinates })}
         />
       </svg>

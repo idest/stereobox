@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import * as utils from './utils';
 
 export default (scene, initialProps, eventBus) => {
-  console.log('props', initialProps);
   const { azimuth, dip, r1, r2 } = initialProps;
   const plane = new THREE.Group();
   plane.add(planeSurface());

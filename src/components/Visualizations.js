@@ -2,6 +2,7 @@ import React from 'react';
 import { Sketch } from './lib/Sketch';
 import compass from '../p5/compass';
 import clino from '../p5/clino';
+import Compass from './Compass';
 import Schmidt from './Schmidt';
 import Context from './Context';
 import './Visualizations.css';
@@ -17,7 +18,11 @@ class Visualizations extends React.Component {
       <div className="visualizations">
         <div className="viz compass-clino">
           <div className="viz compass">
-            <Sketch sketch={compass} sketchProps={sketchProps} />
+            <Compass
+              azimuth={this.props.azimuth}
+              changePlaneState={this.props.changePlaneState}
+              animateAzimuthChange={this.props.animateAzimuthChange}
+            />
           </div>
           <div className="viz clino">
             <Sketch sketch={clino} sketchProps={sketchProps} />

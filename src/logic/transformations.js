@@ -81,10 +81,9 @@ function toDDFromAZ(az, dip) {
 function tryConvert(horizontal, vertical, validatorFunction, convertFunction) {
   const validated = validatorFunction(horizontal, vertical);
   if (validated) {
-    console.log('todo bien');
     return convertFunction(validated.horizontal, validated.vertical);
   } else {
-    console.log('todo mal');
+    console.log('Validation error');
   }
   return { horizontal: NaN, vertical: NaN };
 }

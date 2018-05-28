@@ -212,7 +212,6 @@ class Reading extends React.Component {
     }
   }
   handleChange(e) {
-    console.log('handleChange fired!');
     this.props.onValueChange(this.props.dir, e.target.value);
   }
   render() {
