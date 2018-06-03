@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { geoPath, geoGraticule, geoAzimuthalEqualArea } from 'd3-geo';
 import { rotateSph } from '../logic/sphere';
-import './Schmidt.css';
+import './styles/Schmidt.css';
 
 class Schmidt extends Component {
   constructor(props) {
@@ -42,8 +42,6 @@ class Schmidt extends Component {
   render() {
     const path = this.createSchmidtNet(this.state.width, this.state.height);
     const coordinates = this.updateSchmidtNet();
-    console.log('path', this.path);
-    console.log('graticule', this.graticule);
     return (
       <svg
         className="svg"

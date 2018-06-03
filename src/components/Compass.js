@@ -1,251 +1,174 @@
-import './Compass.css';
 import React, { Component } from 'react';
+import CircleTicks from './lib/CircleTicks';
+import NeedleLogic from './lib/NeedleLogic';
+import Needle from './lib/Needle';
 
 class Compass extends Component {
   constructor(props) {
     super(props);
-    this.radius = 40;
-    this.majorTicks = this.getTicks(Math.PI / 6, 4, true);
-    this.minorTicks = this.getTicks(Math.PI / 18, 2, false);
-    this.cardinalPoints = this.getCardinalPoints(
-      ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
-      [1, 0.5, 1, 0.5, 1, 0.5, 1, 0.5]
-    );
     this.preventSVGDrag = this.preventSVGDrag.bind(this);
+    this.onNeedleDrag = this.onNeedleDrag.bind(this);
+    this.onNeedleBackgroundClick = this.onNeedleBackgroundClick.bind(this);
+    this.azColor = '#ff0000';
+    this.azExtColor = '#0000ff';
+    this.dipColor = '#00ff00';
   }
-  getTicks(tickStep, tickLength, tickLabel) {
-    const ticks = [];
-    const r = this.radius;
-    for (let i = 0; i < 2 * Math.PI / tickStep; i++) {
-      const currentStep = i * tickStep;
-      const x = Math.cos(currentStep);
-      const y = Math.sin(currentStep);
-      const labelX = x * (r + 5);
-      const labelY = y * (r + 5);
-      const labelExtraRot =
-        currentStep <= Math.PI / 2 || currentStep >= 3 / 2 * Math.PI ? 90 : -90;
-      const labelRot = 180 * currentStep / Math.PI + labelExtraRot;
-      let label;
-      if (tickLabel === true) {
-        label = (
-          <text
-            x={labelX}
-            y={labelY}
-            font-size="5"
-            text-anchor="middle"
-            transform={`rotate(${labelRot}, ${labelX}, ${labelY})`}
-            dy="0.4em"
-            stroke-width="0.1"
-            fill="white"
-          >
-            {(180 * currentStep / Math.PI).toFixed(0)}
-          </text>
-        );
+  azimuthAnimationUpdater(azimuth, newAzimuth) {
+    let az = azimuth;
+    const newAz = newAzimuth;
+    const modAz = (azToMod, azDiff) => {
+      let azMod = azToMod;
+      if (azDiff > 180) {
+        if (newAz > azToMod) {
+          azMod = newAz + (360 - azDiff);
+        } else {
+          azMod = newAz - (360 - azDiff);
+        }
       }
-      ticks.push(
-        <g stroke="white" transform={`rotate(${-90})`}>
-          <line
-            key={i}
-            x1={x * r}
-            x2={x * (r - tickLength)}
-            y1={y * r}
-            y2={y * (r - tickLength)}
-            stroke-width="0.5"
-          />
-          {label}
-        </g>
-      );
-    }
-    return ticks;
+      return azMod;
+    };
+    const fixAz = azToFix => {
+      let azFix = azToFix;
+      if (azToFix < 0) {
+        azFix = azToFix + 360;
+      } else {
+        azFix = azToFix % 360;
+      }
+      return azFix;
+    };
+    const updater = () => {
+      const azDiff = Math.abs(newAz - az);
+      if (azDiff > 2) {
+        az = modAz(az, azDiff);
+        az = 0.93 * az + 0.07 * newAz;
+        az = fixAz(az);
+        return { planeAzimuth: az };
+      }
+      return false;
+    };
+    return updater;
   }
-  getCardinalPoints(cardinalLabels, cardinalSizes) {
-    const cardinalPoints = [];
-    for (let i = 0; i < cardinalLabels.length; i++) {
-      const currentSize = cardinalSizes[i];
-      const currentAngle = i * 2 * Math.PI / cardinalLabels.length;
-      const x = Math.sin(currentAngle);
-      const y = Math.cos(currentAngle);
-      const r = this.radius;
-      cardinalPoints.push(
-        <g>
-          <text
-            x={x * (r - 12)}
-            y={-y * (r - 12)}
-            stroke="white"
-            fill="white"
-            text-anchor="middle"
-            dy="0.4em"
-            font-size={`${12 * currentSize}`}
-            stroke-width="0.1"
-          >
-            {cardinalLabels[i]}
-          </text>
-        </g>
-      );
+  onNeedleDrag(needleId, currentMouseAngle) {
+    let fixedMouseAngle = currentMouseAngle + 90;
+    fixedMouseAngle =
+      fixedMouseAngle > 360 ? fixedMouseAngle - 360 : fixedMouseAngle;
+    let newAzimuth;
+    if (needleId === 'azimuth') {
+      newAzimuth = fixedMouseAngle;
+    } else if (needleId === 'azimuthExt') {
+      newAzimuth = fixedMouseAngle - 180;
+    } else if (needleId === 'dipDirection') {
+      newAzimuth = fixedMouseAngle - 90;
     }
-    return cardinalPoints;
+    newAzimuth = newAzimuth < 0 ? newAzimuth + 360 : newAzimuth;
+    this.props.changePlaneState({
+      planeAzimuth: newAzimuth,
+      lastInput: 'COM_DRAG'
+    });
+  }
+  onNeedleBackgroundClick(currentMouseAngle) {
+    let newAzimuth = currentMouseAngle + 90;
+    newAzimuth = newAzimuth > 360 ? newAzimuth - 360 : newAzimuth;
+    const animationId = `COM${currentMouseAngle}`;
+    const stateUpdater = this.azimuthAnimationUpdater(
+      this.props.azimuth,
+      newAzimuth
+    );
+    this.props.animateStateChange(stateUpdater, animationId);
   }
   preventSVGDrag(e) {
     e.preventDefault();
   }
   render() {
+    const { radius: r, azimuth } = this.props;
     return (
       <svg
-        className="compass"
-        style={{ width: '100%', height: '100%' }}
         viewBox="0 0 100 100"
         onDragStart={this.preventSVGDrag}
+        style={{ width: '100%', height: '100%' }}
       >
         <g id="compassGroup" transform="translate(50,50)">
-          <circle
-            cx="0"
-            cy="0"
-            r={this.radius}
-            stroke="white"
-            fill="transparent"
+          <circle cx="0" cy="0" r={r} stroke="white" fill="transparent" />
+          <CircleTicks
+            step={Math.PI / 6}
+            length={4}
+            radius={r}
+            rotation={-90}
+            label={step => (180 * step / Math.PI).toFixed(0)}
           />
-          {this.majorTicks}
-          {this.minorTicks}
-          {this.cardinalPoints}
-          <CompassNeedles
-            length={this.radius}
-            azColor="red"
-            azExtColor="blue"
-            dipColor="green"
-            azimuth={this.props.azimuth}
-            changePlaneState={this.props.changePlaneState}
-            animateAzimuthChange={this.props.animateAzimuthChange}
+          <CircleTicks step={Math.PI / 18} length={2} radius={r} />
+          <CardinalPoints
+            labels={['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']}
+            fontSizes={[12, 6]}
+            radius={r - 14}
           />
+          <NeedleLogic
+            onNeedleDrag={this.onNeedleDrag}
+            onNeedleBackgroundClick={this.onNeedleBackgroundClick}
+            needleCenterInSVGCoords={{ x: 50, y: 50 }}
+            path={`M0,0 m ${r + 8},0 
+              a1,1 0 0 0 ${-2 * (r + 8)},0
+              a1,1 0 0 0 ${2 * (r + 8)},0`}
+          >
+            <Needle
+              id="azimuth"
+              color={this.azColor}
+              angle={Math.PI * azimuth / 180 - Math.PI / 2}
+              length={r}
+            />
+            <Needle
+              id="dipDirection"
+              color={this.dipColor}
+              angle={Math.PI * azimuth / 180}
+              length={r * 0.5}
+            />
+            <Needle
+              id="azimuthExt"
+              color={this.azExtColor}
+              angle={Math.PI * azimuth / 180 + Math.PI / 2}
+              length={r}
+            />
+          </NeedleLogic>
+          <circle stroke="white" fill="white" r="0.4" cx="0" cy="0" />
         </g>
       </svg>
     );
   }
 }
 
-class CompassNeedles extends Component {
+class CardinalPoints extends Component {
   constructor(props) {
     super(props);
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.xClick = undefined;
-    this.yClick = undefined;
-    this.clickedElement = null;
-  }
-  handleMouseDown(e) {
-    this.clickedElement = e.target.id;
-    console.log('Mouse Down');
-  }
-  handleMouseMove(e) {
-    console.log('Mouse Move');
-    if (!this.clickedElement) {
-      return;
-    }
-    const { x, y } = this.getEventCoordinates(e);
-    const currentMouseAngle = this.getMouseAngle(x, y);
-    let newAzimuth;
-    if (this.clickedElement === 'azimuth') {
-      newAzimuth = currentMouseAngle;
-    } else if (this.clickedElement === 'azimuthExt') {
-      newAzimuth = currentMouseAngle - 180;
-    } else if (this.clickedElement === 'dip') {
-      newAzimuth = currentMouseAngle - 90;
-    }
-    newAzimuth = newAzimuth < 0 ? newAzimuth + 360 : newAzimuth;
-    this.props.changePlaneState({
-      planeAzimuth: newAzimuth,
-      lastInput: 'DRAG'
-    });
-  }
-  handleMouseUp(e) {
-    console.log('Mouse Up');
-    this.clickedElement = null;
-  }
-  handleClick(e) {
-    console.log('Mouse Click');
-    const { x, y } = this.getEventCoordinates(e);
-    const newAzimuth = this.getMouseAngle(x, y);
-    const animationId = `ANIM${x}${y}`;
-    console.log('animationId', animationId);
-    this.props.animateAzimuthChange(newAzimuth, animationId);
-  }
-  getEventCoordinates(e) {
-    const svg = e.target.ownerSVGElement;
-    const compassGroup = svg.querySelector('#compassGroup');
-    //const groupTransform = svg.getTransformToElement(compassGroup);
-    //const transform = groupTransform.multiply(svg.getScreenCTM().inverse());
-    const transform = svg.getScreenCTM().inverse();
-    const point = svg.createSVGPoint();
-    point.x = e.clientX;
-    point.y = e.clientY;
-    const localPoint = point.matrixTransform(transform);
-    // TODO: Unhardcode these 50s
-    return { x: localPoint.x - 50, y: localPoint.y - 50 };
-  }
-  getMouseAngle(xMouse, yMouse) {
-    const tan = xMouse / -yMouse || 0;
-    let mouseAngle = 180 * Math.atan(tan) / Math.PI;
-    if (yMouse >= 0) {
-      mouseAngle = mouseAngle + 180;
-    } else if (xMouse < 0) {
-      mouseAngle = mouseAngle + 360;
-    }
-    return mouseAngle;
-  }
-  getNeedle(needleId, needleColor) {
-    let y2 = '0';
-    let x2 = '0';
-    if (needleId === 'azimuth') {
-      y2 = `${-this.props.length}`;
-    } else if (needleId === 'azimuthExt') {
-      y2 = `${this.props.length}`;
-    } else if (needleId === 'dip') {
-      x2 = `${0.5 * this.props.length}`;
-    }
-    return (
-      <g>
-        <line stroke={needleColor} x1="0" x2={x2} y1="0" y2={y2} />
-        <line
-          id={needleId}
-          className="needle"
-          stroke-width="15"
-          stroke="transparent"
-          fill="transparent"
-          onMouseDown={this.handleMouseDown}
-          x1="0"
-          x2={x2}
-          y1="0"
-          y2={y2}
-        />
-      </g>
-    );
+    this.cardinalPoints = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   }
   render() {
+    const { labels, fontSizes, radius } = this.props;
+    const labelTypes = fontSizes ? labels.length / 4 : null;
     return (
-      <g
-        onMouseMove={this.handleMouseMove}
-        onMouseUp={this.handleMouseUp}
-        onMouseLeave={this.handleMouseUp}
-      >
-        <g
-          transform={`rotate(${this.props.azimuth})`}
-          stroke-width="1.4"
-          fill="white"
-        >
-          <circle
-            cx="0"
-            cy="0"
-            r={this.props.length + 10}
-            fill="transparent"
-            onClick={this.handleClick}
-          />
-          {this.getNeedle('azimuth', this.props.azColor)}
-          {this.getNeedle('azimuthExt', this.props.azExtColor)}
-          {this.getNeedle('dip', this.props.dipColor)}
-          <circle stroke="white" fill="white" r="0.4" cx="0" cy="0" />
-        </g>
-      </g>
+      <React.Fragment>
+        {labels.map((label, i) => {
+          const angle = i * 2 * Math.PI / labels.length;
+          const size = fontSizes ? fontSizes[i % labelTypes] : 12;
+          const x = Math.sin(angle);
+          const y = Math.cos(angle);
+          return (
+            <g key={i}>
+              <text
+                x={x * radius}
+                y={-y * radius}
+                stroke="white"
+                fill="white"
+                textAnchor="middle"
+                dy="0.4em"
+                fontSize={`${size}`}
+                strokeWidth="0.1"
+              >
+                {label}
+              </text>
+            </g>
+          );
+        })}
+      </React.Fragment>
     );
   }
 }

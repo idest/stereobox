@@ -1,0 +1,8 @@
+.needle {
+  cursor: pointer;
+  cursor: grab;
+}
+
+.needle:active {
+  cursor: grabbing;
+}

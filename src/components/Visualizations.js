@@ -1,32 +1,20 @@
 import React from 'react';
-import { Sketch } from './lib/Sketch';
-import compass from '../p5/compass';
-import clino from '../p5/clino';
-import Compass from './Compass';
+import CompassClino from './CompassClino';
 import Schmidt from './Schmidt';
 import Context from './Context';
-import './Visualizations.css';
+import './styles/Visualizations.css';
 
 class Visualizations extends React.Component {
   render() {
-    let sketchProps = {
-      azimuth: this.props.azimuth,
-      dip: this.props.dip,
-      changePlaneState: this.props.changePlaneState
-    };
     return (
       <div className="visualizations">
         <div className="viz compass-clino">
-          <div className="viz compass">
-            <Compass
-              azimuth={this.props.azimuth}
-              changePlaneState={this.props.changePlaneState}
-              animateAzimuthChange={this.props.animateAzimuthChange}
-            />
-          </div>
-          <div className="viz clino">
-            <Sketch sketch={clino} sketchProps={sketchProps} />
-          </div>
+          <CompassClino
+            azimuth={this.props.azimuth}
+            dip={this.props.dip}
+            changePlaneState={this.props.changePlaneState}
+            animateStateChange={this.props.animateStateChange}
+          />
         </div>
         <div className="viz schmidt">
           <Schmidt azimuth={this.props.azimuth} dip={this.props.dip} />

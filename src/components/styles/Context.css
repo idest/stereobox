@@ -6,11 +6,15 @@
 }
 .threeContainer {
   width: 100%;
-  height: 90%;
+  height: 80%;
 }
-.resetButton {
+.buttons {
   width: 100%;
-  height: 10%;
+  height: 20%;
+}
+.button {
+  width: 100%;
+  height: 50%;
   background-color: #181818;
   color: #dcdcdc;
   border: 1px solid #505050;
@@ -18,6 +22,6 @@
   text-decoration: none;
   outline: none;
 }
-.resetButton:hover {
+.button:hover {
   background-color: #101010;
 }

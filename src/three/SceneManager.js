@@ -4,6 +4,8 @@ import * as utils from './utils';
 import GeneralLights from './GeneralLights';
 import Semisphere from './Semisphere';
 import Plane from './Plane';
+//import webglAvailable from './helpers/detector';
+//import { CanvasRenderer } from './lib/CanvasRenderer';
 
 export default (canvas, initialProps, eventBus) => {
   const clock = new THREE.Clock();
@@ -22,6 +24,8 @@ export default (canvas, initialProps, eventBus) => {
   const origin = new THREE.Vector3(0, 0, 0);
   scene.add(utils.getPoints(origin, new THREE.Color(0xffffff)));
 
+  eventBus.subscribe('resetControls', resetControls(controls));
+
   function buildScene() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#000');
@@ -30,6 +34,20 @@ export default (canvas, initialProps, eventBus) => {
   }
 
   function buildRenderer({ width, height }) {
+    /*
+    const webgl = webglAvailable() ? true : false;
+    const renderer = webgl
+      ? new THREE.WebGLRenderer({
+          canvas: canvas,
+          antialias: true,
+          alpha: true
+        })
+      : new CanvasRenderer({ canvas: canvas, antialias: true, alpha: true });
+    if (webgl === true) {
+      const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
+      renderer.setPixelRatio(DPR);
+    }
+      */
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
@@ -49,7 +67,7 @@ export default (canvas, initialProps, eventBus) => {
 
   function buildCamera({ width, height }) {
     const aspectRatio = width / height;
-    const fieldOfView = 45;
+    const fieldOfView = 50;
     const nearPlane = 1;
     const farPlane = 100;
     const camera = new THREE.PerspectiveCamera(
@@ -58,15 +76,15 @@ export default (canvas, initialProps, eventBus) => {
       nearPlane,
       farPlane
     );
-    const resetCamera = () => {
-      camera.position.set(0, 5, 7.5);
-      camera.lookAt(0, 0, 0);
-    };
-    resetCamera();
 
-    eventBus.subscribe('resetCamera', resetCamera);
+    camera.position.set(0, 5, 6);
+    camera.lookAt(0, 0, 0);
 
     return camera;
+  }
+
+  function resetControls(controls) {
+    return () => controls.reset();
   }
 
   function createSceneSubjects(scene, initialProps, eventBus) {

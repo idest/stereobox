@@ -9,7 +9,14 @@ export default (containerElement, initialProps, eventBus) => {
 
   function createCanvas(document, containerElement) {
     const canvas = document.createElement('canvas');
+    canvas.style.cursor = 'grab';
+    canvas.onmousedown = function() {
+      this.style.cursor = 'grabbing';
+    };
     containerElement.appendChild(canvas);
+    canvas.onmouseup = function() {
+      this.style.cursor = 'grab';
+    };
     return canvas;
   }
 

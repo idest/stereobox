@@ -20,15 +20,12 @@ export function createSphereArc(P, Q) {
   return sphereArc;
 }
 
-export function getCurve(curve, color) {
+export function getCurve(curve, parameters) {
   var geometry = new THREE.Geometry();
   geometry.vertices = curve.getPoints(100);
   var line = new MeshLine();
   line.setGeometry(geometry);
-  var material = new MeshLineMaterial({
-    lineWidth: 0.03,
-    color: color
-  });
+  var material = new MeshLineMaterial(parameters);
   return new THREE.Mesh(line.geometry, material);
 }
 
@@ -38,7 +35,7 @@ export function getLine(P, Q, color, dashed) {
   var line = new MeshLine();
   line.setGeometry(geometry);
   var material = new MeshLineMaterial({
-    lineWidth: 0.1,
+    lineWidth: 0.05,
     color: color
   });
   return new THREE.Mesh(line.geometry, material);
@@ -55,3 +52,21 @@ export function getPoints(points, color) {
   });
   return new THREE.Points(geometry, material);
 }
+
+export function drawCircle(radius, parameters) {
+  let geometry, material, meshLine;
+  geometry = new THREE.Geometry();
+  for (let i = 0, v; i < 2 * Math.PI; i += 2 * Math.PI / 100) {
+    console.log(i);
+    v = new THREE.Vector3(radius * Math.cos(i), 0, radius * Math.sin(i));
+    geometry.vertices.push(v);
+  }
+  meshLine = new MeshLine();
+  meshLine.setGeometry(geometry);
+  material = new MeshLineMaterial(parameters);
+  const mesh = new THREE.Mesh(meshLine.geometry, material);
+  console.log(mesh);
+  return mesh;
+}
+
+export const toRad = degrees => degrees / 180 * Math.PI;

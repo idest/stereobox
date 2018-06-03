@@ -4,15 +4,29 @@ import helvetikerFont from './static/helvetiker_regular.typeface.json';
 
 export default (scene, initialProps, eventBus) => {
   const { r1, r2 } = initialProps;
-  scene.add(semisphere(r1, r2));
+  const sphereSolid = semisphereSolid(r1, r2);
+  const sphereWireframe = semisphereWireframe(r2);
+  let semisphere = sphereSolid;
+  scene.add(semisphere);
   scene.add(axes(r2));
   //0x4d6691
   //0x486087
-  function semisphere(r1, r2) {
+  eventBus.subscribe('toggleWireframe', toggleWireframe);
+
+  function toggleWireframe() {
+    scene.remove(semisphere);
+    let newSemisphere =
+      semisphere === sphereSolid ? sphereWireframe : sphereSolid;
+    semisphere = newSemisphere;
+    scene.add(semisphere);
+  }
+
+  function semisphereSolid(r1, r2) {
     // Clipping Plane
     const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     // innerSphere
-    const innerSphereGeometry = new THREE.SphereGeometry(r1, 32, 32);
+    let innerSphereGeometry = new THREE.SphereGeometry(r1, 32, 32);
+    innerSphereGeometry.rotateX(Math.PI / 2);
     const innerSphereMaterial = new THREE.MeshLambertMaterial({
       color: 0x474448,
       clippingPlanes: [clippingPlane],
@@ -23,7 +37,8 @@ export default (scene, initialProps, eventBus) => {
       innerSphereMaterial
     );
     // outerSphere
-    const outerSphereGeometry = new THREE.SphereGeometry(r2, 32, 32);
+    let outerSphereGeometry = new THREE.SphereGeometry(r2, 32, 32);
+    outerSphereGeometry.rotateX(Math.PI / 2);
     const outerSphereMaterial = new THREE.MeshLambertMaterial({
       color: 0x474448,
       clippingPlanes: [clippingPlane]
@@ -32,6 +47,7 @@ export default (scene, initialProps, eventBus) => {
       outerSphereGeometry,
       outerSphereMaterial
     );
+
     // horizontalRing
     const ringGeometry = new THREE.RingGeometry(r1 - 0.01, r2 + 0.01, 64);
     const ringMaterial = new THREE.MeshLambertMaterial({
@@ -45,6 +61,37 @@ export default (scene, initialProps, eventBus) => {
     semisphere.add(innerSphere, ring, outerSphere);
     return semisphere;
   }
+
+  function semisphereWireframe(r2) {
+    // Clipping Plane
+    const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
+
+    // outerSphere
+    let outerSphereGeometry = new THREE.SphereGeometry(r2, 32, 32);
+    outerSphereGeometry.rotateX(Math.PI / 2);
+    outerSphereGeometry = new THREE.EdgesGeometry(outerSphereGeometry);
+    const outerSphereMaterial = new THREE.LineBasicMaterial({
+      color: 0x606060,
+      clippingPlanes: [clippingPlane]
+    });
+    var outerSphere = new THREE.LineSegments(
+      outerSphereGeometry,
+      outerSphereMaterial
+    );
+
+    //horizontalCircle
+    const circleColor = new THREE.Color(0xffffff);
+    const circle = utils.drawCircle(r2, {
+      lineWidth: 0.05,
+      color: circleColor
+    });
+
+    // Meshes
+    const semisphere = new THREE.Group();
+    semisphere.add(outerSphere, circle);
+    return semisphere;
+  }
+
   function axes(r) {
     const axes = new THREE.Group();
     const N = new THREE.Vector3(0, 0, -1);
