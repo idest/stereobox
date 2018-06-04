@@ -5,7 +5,6 @@ import GeneralLights from './GeneralLights';
 import Semisphere from './Semisphere';
 import Plane from './Plane';
 //import webglAvailable from './helpers/detector';
-//import { CanvasRenderer } from './lib/CanvasRenderer';
 
 export default (canvas, initialProps, eventBus) => {
   const clock = new THREE.Clock();
