@@ -14,6 +14,17 @@ class App extends Component {
       lastInput: 'AZ',
       lastAnimationId: null
     };
+    this.colors = {
+      azNeedleColor: '#ff0000',
+      azExtNeedleColor: '#0000ff',
+      dipDirectionNeedleColor: '#00ff00',
+      dipNeedleColor: '#ffff00',
+      backgroundColor: '#000000',
+      backgroundColor2: '#181818',
+      foregroundColor: '#ffffff',
+      foregroundColor2: '#dcdcdc',
+      foregroundColor3: '#a9a9a9'
+    };
   }
   changePlaneState(newPlaneState) {
     let planeAzimuth =

@@ -112,18 +112,21 @@ class Controls extends React.Component {
     return (
       <ControlsTable>
         <PlaneReading
+          index={0}
           horizontal={this.AZ.horizontal}
           vertical={this.AZ.vertical}
           name="Azimuth / Dip (RHR)"
           onPlaneChange={this.onAZChange}
         />
         <PlaneReading
+          index={1}
           horizontal={this.QD.horizontal}
           vertical={this.QD.vertical}
           name="Strike / Dip"
           onPlaneChange={this.onQDChange}
         />
         <PlaneReading
+          index={2}
           horizontal={this.DD.horizontal}
           vertical={this.DD.vertical}
           name="Dip Direction / Dip"
@@ -155,6 +158,8 @@ class PlaneReading extends React.Component {
   constructor(props) {
     super(props);
     this.onValueChange = this.onValueChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.firstInput = React.createRef();
   }
   onValueChange(dir, value) {
     let horizontalReading = this.props.horizontal;
@@ -166,6 +171,9 @@ class PlaneReading extends React.Component {
     }
     this.props.onPlaneChange(horizontalReading, verticalReading);
   }
+  handleFocus(e) {
+    this.firstInput.current.focus();
+  }
   render() {
     return (
       <React.Fragment>
@@ -173,15 +181,19 @@ class PlaneReading extends React.Component {
           <span>{this.props.name}</span>
         </div>
         <Reading
+          spanRef={this.firstInput}
+          tabIndex={this.props.index * 3 + 1}
           value={this.props.horizontal}
           dir="horizontal"
           onValueChange={this.onValueChange}
         />
         <Reading
+          tabIndex={this.props.index * 3 + 2}
           value={this.props.vertical}
           dir="vertical"
           onValueChange={this.onValueChange}
         />
+        <div tabIndex={this.props.index * 3 + 3} onFocus={this.handleFocus} />
       </React.Fragment>
     );
   }
@@ -224,10 +236,18 @@ class Reading extends React.Component {
         onBlur={this.turnEditableOff}
         onKeyPress={this.handleKeyPress}
         type="text"
+        tabIndex={this.props.tabIndex}
         value={value}
       />
     ) : (
-      <span onClick={this.turnEditableOn}>{value}</span>
+      <span
+        ref={this.props.spanRef}
+        onClick={this.turnEditableOn}
+        tabIndex={this.props.tabIndex}
+        onFocus={this.turnEditableOn}
+      >
+        {value}
+      </span>
     );
     return <div className="Rtable-cell">{reading}</div>;
   }
