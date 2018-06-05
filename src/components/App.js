@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import Controls from './Controls';
-import Visualizations from './Visualizations';
-import './styles/App.css';
+import Readings from './Readings';
+import GeoCompass from './GeoCompass';
+import SchmidtNet from './SchmidtNet';
+import Context from './Context';
+import styled from 'styled-components';
+import { media } from '../utils/style';
 
 class App extends Component {
   constructor(props) {
@@ -83,27 +86,129 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="container">
-        <h1>Compass</h1>
-        <h3>An interactive tool to visualize planes</h3>
-        <Controls
-          className="controls"
-          azimuth={this.state.planeAzimuth}
-          dip={this.state.planeDip}
-          lastInput={this.state.lastInput}
-          changePlaneState={this.changePlaneState}
-        />
-        <Visualizations
-          className="visualizations"
-          azimuth={this.state.planeAzimuth}
-          dip={this.state.planeDip}
-          changePlaneState={this.changePlaneState}
-          animateStateChange={this.animateStateChange}
-        />
-      </div>
+      <AppWrapper>
+        <Title>Compass</Title>
+        <Subtitle>An interactive tool to visualize planes</Subtitle>
+        <ReadingsWrapper>
+          <Readings
+            className="controls"
+            azimuth={this.state.planeAzimuth}
+            dip={this.state.planeDip}
+            lastInput={this.state.lastInput}
+            changePlaneState={this.changePlaneState}
+          />
+        </ReadingsWrapper>
+        <Visualizations>
+          <GeoCompassWrapper>
+            <GeoCompass
+              azimuth={this.state.planeAzimuth}
+              dip={this.state.planeDip}
+              changePlaneState={this.changePlaneState}
+              animateStateChange={this.animateStateChange}
+            />
+          </GeoCompassWrapper>
+          <SchmidtNetWrapper>
+            <SchmidtNet
+              azimuth={this.state.planeAzimuth}
+              dip={this.state.planeDip}
+            />
+          </SchmidtNetWrapper>
+          <ContextWrapper>
+            <Context
+              azimuth={this.state.planeAzimuth}
+              dip={this.state.planeDip}
+            />
+          </ContextWrapper>
+        </Visualizations>
+      </AppWrapper>
     );
   }
 }
+
+const FlexContainer = styled.div``;
+
+const AppWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  /*align-items: center;*/
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: black;
+  color: WhiteSmoke;
+  padding: 30px;
+  ${media.giant`
+    margin-left: auto; 
+    margin-right: auto;
+    width: 992px;
+  `};
+`;
+
+const Title = styled.h1`
+  width: 100%;
+  margin-bottom: 0;
+`;
+
+const Subtitle = styled.h3`
+  width: 100%;
+  margin-top: 0;
+  color: darkgray;
+`;
+
+const ReadingsWrapper = styled.div`
+  width: 100%;
+`;
+
+const Visualizations = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: green;
+  height: 400px;
+`;
+
+const Viz = styled.div`
+  box-sizing: border-box;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: black;
+  color: white;
+  text-algin: center;
+`;
+
+const GeoCompassWrapper = Viz.extend`
+  width: 100%;
+  height: 100%;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border: solid 1px gray;
+  ${media.giant`
+    width: 30%;
+  `};
+`;
+
+const SchmidtNetWrapper = Viz.extend`
+  width: 100%;
+  height: 100%;
+  border: solid 1px gray;
+  ${media.giant`
+    width: 40%;
+  `};
+`;
+
+const ContextWrapper = Viz.extend`
+  background-color: #333333;
+  width: 100%;
+  border: solid 1px gray;
+  ${media.giant`
+    width: 30%;
+  `};
+`;
+
 /*
         */
 export default App;
