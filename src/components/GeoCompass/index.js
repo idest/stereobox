@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import CompassContainer from './CompassContainer';
+import ClinoContainer from './ClinoContainer';
 import Compass from './Compass';
 import Clino from './Clino';
 import styled from 'styled-components';
@@ -13,22 +15,26 @@ class GeoCompass extends Component {
     return (
       <React.Fragment>
         <CompassWrapper>
-          <Compass
+          <CompassContainer
             azimuth={this.props.azimuth}
             changePlaneState={this.props.changePlaneState}
             animateStateChange={this.props.animateStateChange}
-            radius={this.radius}
-          />
+          >
+            <Compass radius={this.radius} />
+          </CompassContainer>
         </CompassWrapper>
         <ClinoWrapper>
-          <Clino
+          <ClinoContainer
             azimuth={this.props.azimuth}
             dip={this.props.dip}
-            radius={this.radius}
-            clinoToCompassRatio={this.clinoToCompassRatio}
             changePlaneState={this.props.changePlaneState}
             animateStateChange={this.props.animateStateChange}
-          />
+          >
+            <Clino
+              radius={this.radius}
+              clinoToCompassRatio={this.clinoToCompassRatio}
+            />
+          </ClinoContainer>
         </ClinoWrapper>
       </React.Fragment>
     );
