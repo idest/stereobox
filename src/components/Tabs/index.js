@@ -42,7 +42,8 @@ const TabsWrapper = styled.div`
 `;
 const TabTitle = styled.div`
   color: ${props =>
-    props.active ? props.theme.fgColorD20 : props.theme.fgColorD40};
+    props.active ? props.theme.fgColorD20 : props.theme.fgColorD60};
+  cursor: pointer;
 `;
 
 const TabsSelector = styled.div`

@@ -63,7 +63,7 @@ export default (canvas, initialProps, eventBus) => {
       farPlane
     );
 
-    camera.position.set(0, 5, 5);
+    camera.position.set(0, 6, 6);
     camera.lookAt(0, 0, 0);
 
     return camera;

@@ -87,14 +87,16 @@ const Container = styled.div`
 
 const Handle = styled.div`
   box-sizing: border-box;
+  display: flex;
   position: relative;
   top: ${props => props.top}px;
   width: 100%;
   height: 20px;
   padding: 0.2em;
   border-bottom: 1px solid ${props => props.theme.bgColorL40};
+  justify-content: center;
+  align-items: center;
   background: ${props => props.theme.bgColorL10};
-  text-align: center;
   cursor: pointer;
 `;
 

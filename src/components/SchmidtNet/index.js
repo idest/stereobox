@@ -114,8 +114,10 @@ const SpherePath = styled.path`
 
 const LinePath = SpherePath.extend``;
 
+/*
 const PointPath = SpherePath.extend`
   fill: ${props => props.theme.fgColorD20};
 `;
+*/
 
 export default SchmidtNet;

@@ -146,13 +146,13 @@ class App extends Component {
                     />
                   </Tab>
                   <Tab title="Stereonet">
-                    <SchmidtNet
+                    <StyledSchmidtNet
                       azimuth={this.state.planeAzimuth}
                       dip={this.state.planeDip}
                     />
                   </Tab>
                   <Tab title="3D Context">
-                    <Context
+                    <StyledContext
                       azimuth={this.state.planeAzimuth}
                       dip={this.state.planeDip}
                     />
@@ -203,8 +203,6 @@ class App extends Component {
   }
 }
 
-const FlexContainer = styled.div``;
-
 const AppWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -224,18 +222,18 @@ const AppWrapper = styled.div`
     text-align: center;
   `};
   ${media.desktop`
-    width: 960px; 
+    width: 960px;
   `};
 `;
 
 const Title = styled.h1`
   ${media.tablet`
+    margin-bottom: 0.5em;
     display: none;
   `};
   ${media.desktop`
     display: block;
     width: 100%;
-    margin-bottom: 0;
     color: ${props => props.theme.fgColorD20};
   `};
 `;
@@ -281,6 +279,7 @@ const StyledReadings = styled(Readings)`
 const StyledGeoCompass = styled(GeoCompass)`
   box-sizing: border-box;
   height: 100%;
+  min-height: 300px;
   width: auto;
   padding-top: 15px;
   padding-bottom: 5px;
@@ -314,12 +313,13 @@ const VisualizationsSection = styled.div`
     height: 100%;
   `};
   ${media.desktop`
-    flex-flow: row; 
+    flex-flow: row;
     width: 70%;
   `};
 `;
 
 const StyledSchmidtNet = styled(SchmidtNet)`
+  min-height: 300px;
   ${media.tablet`
     width: 100%;
   `};
@@ -331,6 +331,7 @@ const StyledSchmidtNet = styled(SchmidtNet)`
 
 const StyledContext = styled(Context)`
   box-sizing: border-box;
+  min-height: 300px;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   ${media.tablet`
     width: 100%;
@@ -344,9 +345,13 @@ const StyledContext = styled(Context)`
   `};
 `;
 
+/*
+const FlexContainer = styled.div``;
+
 const Empty = styled.div`
   width: 100%;
   height: 25%;
 `;
+*/
 
 export default App;
