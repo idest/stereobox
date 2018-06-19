@@ -29,8 +29,7 @@ class ClinoCardinalTags extends Component {
     const cardinalTags = this.getCardinalTags(this.props.azimuth);
     return (
       <g
-        stroke="white"
-        fill="white"
+        className={this.props.className}
         fontSize="6"
         textAnchor="middle"
         strokeWidth="0.1"

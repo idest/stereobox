@@ -11,17 +11,16 @@ class CompassCardinalPoints extends Component {
     return (
       <React.Fragment>
         {labels.map((label, i) => {
-          const angle = i * 2 * Math.PI / labels.length;
+          const angle = (i * 2 * Math.PI) / labels.length;
           const size = fontSizes ? fontSizes[i % labelTypes] : 12;
           const x = Math.sin(angle);
           const y = Math.cos(angle);
           return (
             <g key={i}>
               <text
+                className={this.props.className}
                 x={x * radius}
                 y={-y * radius}
-                stroke="white"
-                fill="white"
                 textAnchor="middle"
                 dy="0.4em"
                 fontSize={`${size}`}

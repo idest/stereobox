@@ -6,80 +6,116 @@ import styled from 'styled-components';
 class SchmidtNet extends Component {
   constructor(props) {
     super(props);
-    this.updateSchmidtNet = this.updateSchmidtNet.bind(this);
     this.createSchmidtNet = this.createSchmidtNet.bind(this);
+    this.getPlaneCoordinates = this.getPlaneCoordinates.bind(this);
     this.svg = React.createRef();
     this.state = { width: 0, height: 0 };
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
   componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions);
+    //const clientRect = this.svg.current.getBoundingClientRect();
+    //this.setState({ width: clientRect.width, height: clientRect.height });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+  updateDimensions() {
     const clientRect = this.svg.current.getBoundingClientRect();
     this.setState({ width: clientRect.width, height: clientRect.height });
   }
-  createSchmidtNet(width, height) {
+  createSchmidtNet() {
+    const geojson = { type: 'Sphere' };
+    const pad = 20; //padding
     var projection = geoAzimuthalEqualArea()
-      .scale(100)
-      .translate([width / 2, height / 2])
       .precision(0.1)
-      .clipAngle(90);
+      .clipAngle(90)
+      .fitExtent(
+        [[pad, pad], [this.state.width - pad, this.state.height - pad]],
+        geojson
+      );
     return geoPath().projection(projection);
   }
-  updateSchmidtNet() {
+  getPlaneCoordinates() {
     const az = this.props.azimuth,
       dip = this.props.dip,
       e1 = [0, 0],
       aux1 = [90, 0],
       aux2 = rotateSph(aux1, e1, 270 - az),
-      aux2Right = rotateSph(aux1, e1, 180 - az),
-      aux2Left = rotateSph(aux1, e1, 360 - az),
+      aux2Right = rotateSph(aux2, e1, -90),
+      aux2Left = rotateSph(aux2, e1, 90),
       e2 = aux2Right,
-      p = rotateSph(aux2, e2, dip);
-    return [
-      [...aux2Right].reverse(),
-      [...p].reverse(),
-      [...aux2Left].reverse()
-    ];
+      p = rotateSph(aux2, e2, dip),
+      pole = rotateSph(p, e2, 90);
+    return {
+      plane: [
+        [...aux2Right].reverse(),
+        [...p].reverse(),
+        [...aux2Left].reverse()
+      ],
+      pole: pole.reverse()
+    };
   }
+  getPlaneFromCoordinates() {}
   render() {
-    const path = this.createSchmidtNet(this.state.width, this.state.height);
-    const coordinates = this.updateSchmidtNet();
+    const path = this.createSchmidtNet();
+    const planeCoordinates = this.getPlaneCoordinates();
     return (
-      <BackgroundSvg
-        className="svg"
-        innerRef={this.svg}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <defs>
-          <SpherePath id="sphere" d={path({ type: 'Sphere' })} />
+      <Wrapper className={this.props.className}>
+        <svg
+          className="svg"
+          style={{ height: '100%', width: '100%' }}
+          ref={this.svg}
+        >
+          <defs />
+          <SpherePath
+            style={{ height: '100%', width: '100%' }}
+            id="sphere"
+            d={path({ type: 'Sphere' })}
+          />
           <GraticulePath id="graticule" d={path(geoGraticule()())} />
-        </defs>
-        <use href="#sphere" />
-        <use href="#graticule" />
-        <SpherePath
-          className="arc"
-          d={path({ type: 'LineString', coordinates: coordinates })}
-        />
-      </BackgroundSvg>
+          <LinePath
+            d={path({
+              type: 'LineString',
+              coordinates: planeCoordinates.plane
+            })}
+          />
+        </svg>
+      </Wrapper>
     );
   }
 }
 
-const BackgroundSvg = styled.svg`
-  background: black;
+const Wrapper = styled.div`
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 1em;
   align-items: center;
+  justify-content: center;
+  /*background: black;*/
 `;
 const GraticulePath = styled.path`
+  height: 100%;
+  width: 100%;
   fill: none;
-  stroke: #dcdcdc;
+  stroke: ${props => props.theme.fgColorD60};
   stroke-width: 0.5px;
-  stroke-opacity: 0.5;
 `;
 const SpherePath = styled.path`
+  height: 100%;
+  width: 100%;
   fill: none;
-  stroke: #dcdcdc;
+  stroke: ${props => props.theme.fgColorD20};
   stroke-width: 1px;
-  stroke-opacity: 1;
+`;
+
+const LinePath = SpherePath.extend``;
+
+const PointPath = SpherePath.extend`
+  fill: ${props => props.theme.fgColorD20};
 `;
 
 export default SchmidtNet;

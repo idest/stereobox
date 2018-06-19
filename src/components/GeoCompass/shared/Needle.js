@@ -8,10 +8,18 @@ class Needle extends Component {
     const y = length * Math.sin(angle);
     return (
       <g>
+        <LineBorder
+          strokeWidth="3"
+          strokeLinecap="round"
+          x1="0"
+          x2={x}
+          y1="0"
+          y2={y}
+        />
         <line
           stroke={color}
-          strokeWidth="1.4"
-          fill="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
           x1="0"
           x2={x}
           y1="0"
@@ -39,6 +47,10 @@ const LineWrapper = styled.line`
   &:active {
     cursor: grabbing;
   }
+`;
+
+const LineBorder = styled.line`
+  stroke: ${props => props.theme.bgColorD2};
 `;
 
 export default Needle;

@@ -1,15 +1,21 @@
 import React from 'react';
+import styled, { withTheme } from 'styled-components';
 import threeEntryPoint from '../../three/threeEntryPoint';
 import EventBus from '../../three/helpers/eventbus';
-import styled from 'styled-components';
+import Slider from '../Gui/Slider';
+import Checkbox from '../Gui/Checkbox';
+import Button from '../Gui/Button';
+import Expander from '../Gui/Expander';
 
 class Context extends React.Component {
   constructor(props) {
     super(props);
     this.threeRootElement = React.createRef();
     this.eventBus = new EventBus();
-    this.handleResetButtonClick = this.handleResetButtonClick.bind(this);
-    this.handleToggleButtonClick = this.handleToggleButtonClick.bind(this);
+    this.handleCameraReset = this.handleCameraReset.bind(this);
+    this.handleWireframeChange = this.handleWireframeChange.bind(this);
+    this.handlePlaneTrimChange = this.handlePlaneTrimChange.bind(this);
+    this.handlePlaneOpacityChange = this.handlePlaneOpacityChange.bind(this);
   }
   componentDidMount() {
     const initialProps = {
@@ -19,24 +25,43 @@ class Context extends React.Component {
     };
     threeEntryPoint(this.threeRootElement.current, initialProps, this.eventBus);
   }
-  handleResetButtonClick() {
-    this.eventBus.post('resetControls');
+  handleCameraReset() {
+    this.eventBus.post('resetCamera');
   }
-  handleToggleButtonClick() {
-    this.eventBus.post('toggleWireframe');
+  handleWireframeChange(checked) {
+    this.eventBus.post('wireframeChange', checked);
+  }
+  handlePlaneTrimChange(checked) {
+    this.eventBus.post('planeTrimChange', checked);
+  }
+  handlePlaneOpacityChange(planeOpacity) {
+    console.log('react fired');
+    this.eventBus.post('planeOpacityChange', planeOpacity);
   }
   render() {
     this.eventBus.post('propsUpdate', { ...this.props });
     return (
-      <ContextContainer>
+      <ContextContainer className={this.props.className}>
+        <StyledExpander height={120}>
+          <Gui>
+            <Checkbox
+              title="Wireframe"
+              callback={this.handleWireframeChange}
+              checked={false}
+            />
+            <Checkbox
+              title="Trim plane"
+              callback={this.handlePlaneTrimChange}
+              checked={true}
+            />
+            <Slider
+              title="Plane opacity"
+              callback={this.handlePlaneOpacityChange}
+            />
+            <Button onClick={this.handleCameraReset}>Reset Camera</Button>
+          </Gui>
+        </StyledExpander>
         <ThreeContainer innerRef={this.threeRootElement} />
-        <ButtonContainer>
-          <Button onClick={this.handleResetButtonClick}>Reset Camera</Button>
-          <Button onClick={this.handleToggleButtonClick}>
-            {' '}
-            Toggle Wireframe{' '}
-          </Button>
-        </ButtonContainer>
       </ContextContainer>
     );
   }
@@ -44,33 +69,24 @@ class Context extends React.Component {
 
 const ContextContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: column;
   width: 100%;
   height: 100%;
 `;
 
 const ThreeContainer = styled.div`
-  width: 100%;
-  height: 80%;
+  flex: 1;
+  overflow: hidden;
 `;
 
-const ButtonContainer = styled.div`
-  width: 100%;
-  height: 20%;
+const StyledExpander = styled(Expander)``;
+
+const Gui = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  grid-auto-rows: 1fr;
+  font-size: 0.7em;
 `;
 
-const Button = styled.button`
-  width: 100%;
-  height: 50%;
-  background-color: #181818;
-  color: #dcdcdc;
-  border: 1px solid #505050;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
-  &:hover {
-    background-color: #101010;
-  }
-`;
-
-export default Context;
+export default withTheme(Context);

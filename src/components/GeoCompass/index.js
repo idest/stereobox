@@ -13,7 +13,7 @@ class GeoCompass extends Component {
   }
   render() {
     return (
-      <React.Fragment>
+      <div className={this.props.className}>
         <CompassWrapper>
           <CompassContainer
             azimuth={this.props.azimuth}
@@ -36,7 +36,7 @@ class GeoCompass extends Component {
             />
           </ClinoContainer>
         </ClinoWrapper>
-      </React.Fragment>
+      </div>
     );
   }
 }

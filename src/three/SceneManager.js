@@ -1,9 +1,9 @@
-import * as THREE from 'three';
-import OrbitControls from './lib/OrbitControls';
+//import * as THREE from 'three';
+import { default as THREE } from './lib/three';
 import * as utils from './utils';
-import GeneralLights from './GeneralLights';
-import Semisphere from './Semisphere';
-import Plane from './Plane';
+import GeneralLights from './scene_subjects/GeneralLights';
+import Semisphere from './scene_subjects/Semisphere';
+import Plane from './scene_subjects/Plane';
 //import webglAvailable from './helpers/detector';
 
 export default (canvas, initialProps, eventBus) => {
@@ -13,40 +13,27 @@ export default (canvas, initialProps, eventBus) => {
     width: canvas.width,
     height: canvas.height
   };
+  console.log(screenDimensions);
 
   const scene = buildScene();
   const renderer = buildRenderer(screenDimensions);
   const camera = buildCamera(screenDimensions);
-  const controls = new OrbitControls(camera, renderer.domElement);
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
   const sceneSubjects = createSceneSubjects(scene, initialProps, eventBus);
 
   const origin = new THREE.Vector3(0, 0, 0);
   scene.add(utils.getPoints(origin, new THREE.Color(0xffffff)));
 
-  eventBus.subscribe('resetControls', resetControls(controls));
+  eventBus.subscribe('resetCamera', resetControls(controls));
 
   function buildScene() {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#000');
+    scene.background = new THREE.Color(initialProps.theme.bgColor);
 
     return scene;
   }
 
   function buildRenderer({ width, height }) {
-    /*
-    const webgl = webglAvailable() ? true : false;
-    const renderer = webgl
-      ? new THREE.WebGLRenderer({
-          canvas: canvas,
-          antialias: true,
-          alpha: true
-        })
-      : new CanvasRenderer({ canvas: canvas, antialias: true, alpha: true });
-    if (webgl === true) {
-      const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
-      renderer.setPixelRatio(DPR);
-    }
-      */
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
@@ -76,7 +63,7 @@ export default (canvas, initialProps, eventBus) => {
       farPlane
     );
 
-    camera.position.set(0, 5, 6);
+    camera.position.set(0, 5, 5);
     camera.lookAt(0, 0, 0);
 
     return camera;
@@ -97,6 +84,7 @@ export default (canvas, initialProps, eventBus) => {
   }
 
   function update() {
+    //const { width, height } = canvas;
     const elapsedTime = clock.getElapsedTime();
 
     for (let i = 0; i < sceneSubjects.length; i++) {

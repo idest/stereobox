@@ -16,4 +16,12 @@ require('three/examples/js/controls/OrbitControls');
 //require('three.ar.js');
 //require('./VRControls');
 
-module.exports = global.THREE;
+require('three/examples/js/lines/LineSegmentsGeometry');
+require('three/examples/js/lines/LineGeometry');
+require('three/examples/js/lines/WireframeGeometry2');
+require('three/examples/js/lines/LineMaterial');
+require('three/examples/js/lines/LineSegments2');
+require('three/examples/js/lines/Line2');
+require('three/examples/js/lines/Wireframe');
+
+export default global.THREE;

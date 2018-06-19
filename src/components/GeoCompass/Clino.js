@@ -3,6 +3,7 @@ import CircleTicks from './shared/CircleTicks';
 import NeedleLogic from './shared/NeedleLogic';
 import Needle from './shared/Needle';
 import ClinoCardinalTags from './ClinoCardinalTags';
+import styled, { withTheme } from 'styled-components';
 
 class Clino extends Component {
   constructor(props) {
@@ -16,35 +17,34 @@ class Clino extends Component {
   }
   render() {
     const { radius: r, azimuth, dipNeedleAngle } = this.props;
-    const centerColor = azimuth >= 90 && azimuth < 270 ? '#ff0000' : '#0000ff';
+    const centerColor =
+      azimuth >= 90 && azimuth < 270
+        ? this.props.theme.azColor
+        : this.props.theme.azExtColor;
     return (
-      <svg
+      <Svg
         viewBox={`0 0 100 ${this.viewBoxHeight}`}
         onDragStart={this.preventSVGDrag}
         style={{ width: '100%', height: '100%' }}
       >
         <g id="clinoGroup" transform={`translate(50,${this.clinoDY})`}>
-          <path
-            d="M0,0 m-40,0 a1,1 0 0 0 80,0 l-80,0"
-            stroke="white"
-            fill="transparent"
-          />
-          <CircleTicks
+          <ClinoPath d="M0,0 m-40,0 a1,1 0 0 0 80,0 l-80,0" />
+          <StyledCircleTicks
             step={Math.PI / 6}
             maxAngle={Math.PI}
             length={4}
             radius={r}
             label={step =>
-              (180 * Math.atan(Math.abs(Math.tan(step))) / Math.PI).toFixed(0)
+              ((180 * Math.atan(Math.abs(Math.tan(step)))) / Math.PI).toFixed(0)
             }
           />
-          <CircleTicks
+          <StyledCircleTicks
             step={Math.PI / 18}
             maxAngle={Math.PI}
             length={2}
             radius={r}
           />
-          <ClinoCardinalTags azimuth={azimuth} radius={r} />
+          <StyledCardinalTags azimuth={azimuth} radius={r} />
           <NeedleLogic
             onNeedleDrag={this.props.onNeedleDrag}
             onNeedleBackgroundClick={this.props.onNeedleBackgroundClick}
@@ -53,28 +53,48 @@ class Clino extends Component {
           >
             <Needle
               id="dip"
-              color="#ffff00"
-              angle={Math.PI * dipNeedleAngle / 180}
+              color={this.props.theme.dipColor}
+              angle={(Math.PI * dipNeedleAngle) / 180}
               length={r}
             />
             <Needle
               id="dip"
-              color="#00ff00"
-              angle={dipNeedleAngle > 90 ? Math.PI : 0}
+              color={this.props.theme.dipDirectionColor}
+              angle={dipNeedleAngle > 90 ? Math.PI : dipNeedleAngle * 0}
               length={0.5 * r}
             />
           </NeedleLogic>
           <circle
-            stroke={centerColor}
+            stroke={this.props.theme.bgColorD2}
             fill={centerColor}
-            r="0.7"
+            strokeWidth="0.75"
+            r="1.2"
             cx="0"
             cy="0"
           />
         </g>
-      </svg>
+      </Svg>
     );
   }
 }
+const Svg = styled.svg`
+  width: 100%;
+  height: 100%;
+`;
 
-export default Clino;
+const ClinoPath = styled.path`
+  stroke: ${props => props.theme.fgColorD20};
+  fill: transparent;
+`;
+
+const StyledCircleTicks = styled(CircleTicks)`
+  stroke: ${props => props.theme.fgColorD20};
+  fill: ${props => props.theme.fgColorD20};
+`;
+
+const StyledCardinalTags = styled(ClinoCardinalTags)`
+  stroke: ${props => props.theme.fgColorD20};
+  fill: ${props => props.theme.fgColorD20};
+`;
+
+export default withTheme(Clino);

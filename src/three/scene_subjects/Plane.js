@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as utils from './utils';
+import * as utils from '../utils';
 
 export default (scene, initialProps, eventBus) => {
   const { azimuth, dip, r1, r2 } = initialProps;
@@ -7,8 +7,11 @@ export default (scene, initialProps, eventBus) => {
   const plane = new THREE.Group();
   const innerIntersection = getIntersection(r1, r2);
   const outerIntersection = getIntersection(r2, r2);
+  const rectangularPlaneSurface = planeSurfaceRectangular();
+  const circularPlaneSurface = planeSurfaceCircular(r2);
   let intersection = innerIntersection;
-  plane.add(planeSurface());
+  let planeSurface = circularPlaneSurface;
+  plane.add(planeSurface);
   plane.add(intersection);
   scene.add(plane);
 
@@ -17,6 +20,7 @@ export default (scene, initialProps, eventBus) => {
   const azIndicators = getAzimuthIndicators(r1, r2);
   scene.add(azIndicators);
   azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
+  console.log(azIndicators);
 
   const dipIndicator = getDipIndicator(r1, r2);
   scene.add(dipIndicator);
@@ -25,26 +29,54 @@ export default (scene, initialProps, eventBus) => {
   );
 
   eventBus.subscribe('propsUpdate', updateOrientation);
-  eventBus.subscribe('toggleWireframe', toggleIntersectionLine);
+  eventBus.subscribe('wireframeChange', changeIntersectionLine);
+  eventBus.subscribe('planeTrimChange', trimPlane);
+  eventBus.subscribe('planeOpacityChange', changePlaneOpacity);
   //0x448960
 
-  function toggleIntersectionLine() {
+  function trimPlane(boolean) {
+    plane.remove(planeSurface);
+    let newPlaneSurface =
+      boolean === true ? circularPlaneSurface : rectangularPlaneSurface;
+    planeSurface = newPlaneSurface;
+    plane.add(planeSurface);
+  }
+
+  function changePlaneOpacity(planeOpacity) {
+    circularPlaneSurface.material.opacity = planeOpacity;
+    rectangularPlaneSurface.material.opacity = planeOpacity;
+  }
+
+  function changeIntersectionLine(boolean) {
     plane.remove(intersection);
     let newIntersection =
-      intersection === innerIntersection
-        ? outerIntersection
-        : innerIntersection;
+      boolean === true ? outerIntersection : innerIntersection;
     intersection = newIntersection;
     plane.add(intersection);
   }
 
-  function planeSurface() {
+  function planeSurfaceRectangular() {
     const planeGeometry = new THREE.PlaneGeometry(3.5, 3.5, 16, 16);
     const planeMaterial = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
+      color: initialProps.theme.planeColor,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.7
+      opacity: 0.5
+    });
+    const surface = new THREE.Mesh(planeGeometry, planeMaterial);
+    surface.setRotationFromQuaternion(getInitialPlaneOrientation());
+    return surface;
+  }
+
+  function planeSurfaceCircular(r2) {
+    const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
+    const planeGeometry = new THREE.CircleGeometry(r2 - 0.01, 128);
+    const planeMaterial = new THREE.MeshLambertMaterial({
+      color: '#bdae93',
+      side: THREE.DoubleSide,
+      clippingPlanes: [clippingPlane],
+      transparent: true,
+      opacity: 0.5
     });
     const surface = new THREE.Mesh(planeGeometry, planeMaterial);
     surface.setRotationFromQuaternion(getInitialPlaneOrientation());
@@ -63,19 +95,27 @@ export default (scene, initialProps, eventBus) => {
     const dipDirection1 = dipDirection.clone().multiplyScalar(0);
     const dipDirection2 = dipDirection.clone().multiplyScalar(r1 * 0.5);
 
-    const azimuthLine = utils.getLine(az1, az2, new THREE.Color(0xff0000));
-    const strikeLine = utils.getLine(azExt1, azExt2, new THREE.Color(0x0000ff));
-    const dipDirectionLine = utils.getLine(
-      dipDirection1,
-      dipDirection2,
-      new THREE.Color(0x00ff00)
-    );
+    const azimuthLine = utils.getLine([az1, az2], {
+      color: new THREE.Color(initialProps.theme.azColor),
+      linewidth: 4,
+      dashed: false
+    });
+    const strikeLine = utils.getLine([azExt1, azExt2], {
+      color: new THREE.Color(initialProps.theme.azExtColor),
+      linewidth: 4,
+      dashed: false
+    });
+    const dipDirectionLine = utils.getLine([dipDirection1, dipDirection2], {
+      color: new THREE.Color(initialProps.theme.dipDirectionColor),
+      linewidth: 4,
+      dashed: false
+    });
 
     const indicators = new THREE.Group();
     indicators.add(azimuthLine);
     indicators.add(strikeLine);
     indicators.add(dipDirectionLine);
-
+    indicators.position.y += 0.02;
     return indicators;
   }
 
@@ -85,7 +125,11 @@ export default (scene, initialProps, eventBus) => {
     const dip1 = dip.clone().multiplyScalar(r1);
     const dip2 = dip.clone().multiplyScalar(0);
 
-    const dipLine = utils.getLine(dip1, dip2, new THREE.Color(0xffff00));
+    const dipLine = utils.getLine([dip1, dip2], {
+      color: new THREE.Color(initialProps.theme.dipColor),
+      linewidth: 4,
+      dashed: false
+    });
 
     return dipLine;
   }
@@ -97,11 +141,11 @@ export default (scene, initialProps, eventBus) => {
     const azExt1 = azExt.clone().multiplyScalar(r1 - 0.01);
 
     const planeNormal = new THREE.Vector3(0, 1, 0);
-    const intersectionColor = new THREE.Color(0xffffff);
+    const intersectionColor = new THREE.Color(initialProps.theme.fgColorD20);
     const intersection = utils.getCurve(
       utils.createSphereArc(
-        az1,
-        azExt1.clone().applyAxisAngle(planeNormal, 0.01)
+        az1.clone().applyAxisAngle(planeNormal, -0.02),
+        azExt1.clone().applyAxisAngle(planeNormal, 0.02)
       ),
       { lineWidth: 0.05, color: intersectionColor }
     );
@@ -155,6 +199,7 @@ export default (scene, initialProps, eventBus) => {
   }
 
   function update(time) {
+    //azIndicators.children[0].material.resolution.set(width, height);
     /*
     parameters.az = Math.sin(time / 3) * 360;
     parameters.dip = Math.abs(Math.sin(time / 2)) * 90;

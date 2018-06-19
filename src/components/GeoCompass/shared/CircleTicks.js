@@ -29,10 +29,11 @@ class CircleTicks extends Component {
     return (
       <g transform={`rotate(${rotation})`}>
         {steps.map((step, i) => {
-          const stepDegrees = 180 * step / Math.PI;
+          const stepDegrees = (180 * step) / Math.PI;
           const labelRotation = this.getLabelRotation(stepDegrees, rotation);
           return (
             <Tick
+              className={this.props.className}
               index={i}
               angle={step}
               length={length}
@@ -55,7 +56,12 @@ class Tick extends Component {
     const y = Math.sin(angle);
     const labelPos = pos => pos * (radius + 5);
     return (
-      <g key={index} stroke="white" fill="white">
+      <g
+        key={index}
+        stroke="black"
+        fill="black"
+        className={this.props.className}
+      >
         <line
           x1={x * radius}
           x2={x * (radius - length)}
