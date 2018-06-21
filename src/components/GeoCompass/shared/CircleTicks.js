@@ -34,6 +34,7 @@ class CircleTicks extends Component {
           return (
             <Tick
               className={this.props.className}
+              key={i}
               index={i}
               angle={step}
               length={length}

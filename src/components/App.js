@@ -115,10 +115,10 @@ class App extends Component {
           return;
         }
       }
-      console.log('Interval stopped');
+      //console.log('Interval stopped');
       clearInterval(interval);
     };
-    console.log('Interval started');
+    //console.log('Interval started');
     const interval = setInterval(updateState, 5);
   }
   render() {
@@ -279,7 +279,7 @@ const StyledReadings = styled(Readings)`
 const StyledGeoCompass = styled(GeoCompass)`
   box-sizing: border-box;
   height: 100%;
-  min-height: 300px;
+  min-height: 200px;
   width: auto;
   padding-top: 15px;
   padding-bottom: 5px;
@@ -319,7 +319,7 @@ const VisualizationsSection = styled.div`
 `;
 
 const StyledSchmidtNet = styled(SchmidtNet)`
-  min-height: 300px;
+  min-height: 200px;
   ${media.tablet`
     width: 100%;
   `};
@@ -331,7 +331,7 @@ const StyledSchmidtNet = styled(SchmidtNet)`
 
 const StyledContext = styled(Context)`
   box-sizing: border-box;
-  min-height: 300px;
+  min-height: 200px;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   ${media.tablet`
     width: 100%;

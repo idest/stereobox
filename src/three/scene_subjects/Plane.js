@@ -20,7 +20,6 @@ export default (scene, initialProps, eventBus) => {
   const azIndicators = getAzimuthIndicators(r1, r2);
   scene.add(azIndicators);
   azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
-  console.log(azIndicators);
 
   const dipIndicator = getDipIndicator(r1, r2);
   scene.add(dipIndicator);
@@ -147,7 +146,7 @@ export default (scene, initialProps, eventBus) => {
         az1.clone().applyAxisAngle(planeNormal, -0.02),
         azExt1.clone().applyAxisAngle(planeNormal, 0.02)
       ),
-      { lineWidth: 0.05, color: intersectionColor }
+      { linewidth: 2, color: intersectionColor }
     );
     return intersection;
   }

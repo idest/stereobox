@@ -39,8 +39,6 @@ class Expander extends Component {
     window.removeEventListener('resize', this.updateStyle);
   }
   toggle() {
-    console.log('toggled');
-    console.log('bcr', this.ref.current.getBoundingClientRect());
     this.setState({ expanded: !this.state.expanded });
   }
   updateStyle() {

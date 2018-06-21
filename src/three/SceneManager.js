@@ -1,10 +1,13 @@
-//import * as THREE from 'three';
-import { default as THREE } from './lib/three';
+import * as THREE from 'three';
+//import { default as THREE } from './lib/three';
+import OrbitControls from './lib/examples/OrbitControls';
 import * as utils from './utils';
 import GeneralLights from './scene_subjects/GeneralLights';
 import Semisphere from './scene_subjects/Semisphere';
 import Plane from './scene_subjects/Plane';
 //import webglAvailable from './helpers/detector';
+
+//THREE.OrbitControls = OrbitControls;
 
 export default (canvas, initialProps, eventBus) => {
   const clock = new THREE.Clock();
@@ -13,12 +16,11 @@ export default (canvas, initialProps, eventBus) => {
     width: canvas.width,
     height: canvas.height
   };
-  console.log(screenDimensions);
 
   const scene = buildScene();
   const renderer = buildRenderer(screenDimensions);
   const camera = buildCamera(screenDimensions);
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
   const sceneSubjects = createSceneSubjects(scene, initialProps, eventBus);
 
   const origin = new THREE.Vector3(0, 0, 0);

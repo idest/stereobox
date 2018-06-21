@@ -1,6 +1,8 @@
-//import * as THREE from 'three';
-import { default as THREE } from './lib/three';
-//import { MeshLine, MeshLineMaterial } from 'three.meshline';
+//import { default as THREE } from './lib/three';
+import * as THREE from 'three';
+import LineGeometry from './lib/examples/LineGeometry';
+import LineMaterial from './lib/examples/LineMaterial';
+import Line2 from './lib/examples/Line2';
 
 export function getPoints(points, color) {
   var geometry = new THREE.Geometry();
@@ -35,7 +37,7 @@ export function createSphereArc(P, Q) {
 
 export function getLine(vertices, parameters) {
   parameters.linewidth = parameters.linewidth ? parameters.linewidth : 2;
-  const geometry = new THREE.LineGeometry();
+  const geometry = new LineGeometry();
   const positions = [];
   for (let i = 0; i < vertices.length; i++) {
     positions.push(vertices[i].x);
@@ -43,9 +45,9 @@ export function getLine(vertices, parameters) {
     positions.push(vertices[i].z);
   }
   geometry.setPositions(positions);
-  const material = new THREE.LineMaterial(parameters);
+  const material = new LineMaterial(parameters);
   material.resolution.set(300, 300);
-  const line = new THREE.Line2(geometry, material);
+  const line = new Line2(geometry, material);
   line.scale.set(1, 1, 1);
   return line;
 }
@@ -85,7 +87,7 @@ export function getMeshLine(vertices, color, outlineColor, dashed) {
 export function getMeshLineCurve(curve, parameters) {
   var geometry = new THREE.Geometry();
   geometry.vertices = curve.getPoints(100);
-  console.log(curve.getPoints(100));
+  //console.log(curve.getPoints(100));
   var line = new MeshLine();
   line.setGeometry(geometry);
   var material = new MeshLineMaterial(parameters);

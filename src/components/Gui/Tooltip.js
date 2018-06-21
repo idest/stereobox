@@ -31,7 +31,6 @@ class Tooltip extends Component {
   showTooltip() {
     const style = { width: this.tooltipWidth };
     const targetDimensions = this.el.current.getBoundingClientRect();
-    console.log(targetDimensions);
     style.left =
       targetDimensions.left +
       targetDimensions.width / 2 -
@@ -49,7 +48,6 @@ class Tooltip extends Component {
       style.bottom =
         window.innerHeight - targetDimensions.top + this.tooltipSpace;
     }
-    console.log(style);
     this.setState({ visible: true, style: style });
   }
   hideTooltip() {

@@ -35,7 +35,6 @@ class Context extends React.Component {
     this.eventBus.post('planeTrimChange', checked);
   }
   handlePlaneOpacityChange(planeOpacity) {
-    console.log('react fired');
     this.eventBus.post('planeOpacityChange', planeOpacity);
   }
   render() {
