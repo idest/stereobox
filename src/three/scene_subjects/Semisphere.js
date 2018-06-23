@@ -3,17 +3,24 @@ import * as utils from '../utils';
 import helvetikerFont from '../static/helvetiker_regular.typeface.json';
 
 export default (scene, initialProps, eventBus) => {
+  let currentProps = initialProps;
   const { r1, r2 } = initialProps;
   const sphereSolid = semisphereSolid(r1, r2);
   const sphereWireframe = semisphereWireframe(r2);
-  let semisphere = sphereSolid;
+  let semisphere = initialProps.sphereWireframe ? sphereWireframe : sphereSolid;
   scene.add(semisphere);
   scene.add(axes(r2));
   //0x4d6691
   //0x486087
-  eventBus.subscribe('wireframeChange', displayWireframe);
+  eventBus.subscribe('propsUpdate', propsUpdateHandler);
 
-  function displayWireframe(boolean) {
+  function propsUpdateHandler(updatedProps) {
+    if (currentProps.sphereWireframe !== updatedProps.sphereWireframe) {
+      toggleWireframe(updatedProps.sphereWireframe);
+    }
+    currentProps = updatedProps;
+  }
+  function toggleWireframe(boolean) {
     scene.remove(semisphere);
     let newSemisphere = boolean === true ? sphereWireframe : sphereSolid;
     semisphere = newSemisphere;

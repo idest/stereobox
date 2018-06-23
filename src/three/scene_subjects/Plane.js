@@ -2,15 +2,19 @@ import * as THREE from 'three';
 import * as utils from '../utils';
 
 export default (scene, initialProps, eventBus) => {
-  const { azimuth, dip, r1, r2 } = initialProps;
-
+  let currentProps = initialProps;
+  const { azimuth, dip, r1, r2, planeOpacity } = initialProps;
   const plane = new THREE.Group();
   const innerIntersection = getIntersection(r1, r2);
   const outerIntersection = getIntersection(r2, r2);
-  const rectangularPlaneSurface = planeSurfaceRectangular();
-  const circularPlaneSurface = planeSurfaceCircular(r2);
-  let intersection = innerIntersection;
-  let planeSurface = circularPlaneSurface;
+  const rectangularPlaneSurface = planeSurfaceRectangular(planeOpacity);
+  const circularPlaneSurface = planeSurfaceCircular(r2, planeOpacity);
+  let intersection = initialProps.sphereWireframe
+    ? outerIntersection
+    : innerIntersection;
+  let planeSurface = initialProps.planeTrim
+    ? circularPlaneSurface
+    : rectangularPlaneSurface;
   plane.add(planeSurface);
   plane.add(intersection);
   scene.add(plane);
@@ -27,11 +31,35 @@ export default (scene, initialProps, eventBus) => {
     getOrientationQuaternion(azimuth, dip)
   );
 
-  eventBus.subscribe('propsUpdate', updateOrientation);
-  eventBus.subscribe('wireframeChange', changeIntersectionLine);
-  eventBus.subscribe('planeTrimChange', trimPlane);
-  eventBus.subscribe('planeOpacityChange', changePlaneOpacity);
+  eventBus.subscribe('propsUpdate', propsUpdateHandler);
   //0x448960
+
+  function propsUpdateHandler(updatedProps) {
+    if (
+      currentProps.dip !== updatedProps.dip ||
+      currentProps.azimuth !== updatedProps.azimuth
+    ) {
+      updateOrientation(updatedProps.azimuth, updatedProps.dip);
+    }
+    if (currentProps.planeTrim !== updatedProps.planeTrim) {
+      trimPlane(updatedProps.planeTrim);
+    }
+    if (currentProps.planeOpacity !== updatedProps.planeOpacity) {
+      changePlaneOpacity(updatedProps.planeOpacity);
+    }
+    if (currentProps.sphereWireframe !== updatedProps.sphereWireframe) {
+      toggleIntersectionLine(updatedProps.sphereWireframe);
+    }
+    currentProps = updatedProps;
+  }
+
+  function updateOrientation(azimuth, dip) {
+    plane.setRotationFromQuaternion(getOrientationQuaternion(azimuth, dip));
+    azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
+    dipIndicator.setRotationFromQuaternion(
+      getOrientationQuaternion(azimuth, dip)
+    );
+  }
 
   function trimPlane(boolean) {
     plane.remove(planeSurface);
@@ -46,7 +74,7 @@ export default (scene, initialProps, eventBus) => {
     rectangularPlaneSurface.material.opacity = planeOpacity;
   }
 
-  function changeIntersectionLine(boolean) {
+  function toggleIntersectionLine(boolean) {
     plane.remove(intersection);
     let newIntersection =
       boolean === true ? outerIntersection : innerIntersection;
@@ -54,20 +82,20 @@ export default (scene, initialProps, eventBus) => {
     plane.add(intersection);
   }
 
-  function planeSurfaceRectangular() {
+  function planeSurfaceRectangular(planeOpacity) {
     const planeGeometry = new THREE.PlaneGeometry(3.5, 3.5, 16, 16);
     const planeMaterial = new THREE.MeshLambertMaterial({
       color: initialProps.theme.planeColor,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.5
+      opacity: planeOpacity
     });
     const surface = new THREE.Mesh(planeGeometry, planeMaterial);
     surface.setRotationFromQuaternion(getInitialPlaneOrientation());
     return surface;
   }
 
-  function planeSurfaceCircular(r2) {
+  function planeSurfaceCircular(r2, planeOpacity) {
     const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     const planeGeometry = new THREE.CircleGeometry(r2 - 0.01, 128);
     const planeMaterial = new THREE.MeshLambertMaterial({
@@ -75,7 +103,7 @@ export default (scene, initialProps, eventBus) => {
       side: THREE.DoubleSide,
       clippingPlanes: [clippingPlane],
       transparent: true,
-      opacity: 0.5
+      opacity: planeOpacity
     });
     const surface = new THREE.Mesh(planeGeometry, planeMaterial);
     surface.setRotationFromQuaternion(getInitialPlaneOrientation());
@@ -186,15 +214,6 @@ export default (scene, initialProps, eventBus) => {
     }
 
     return orientationQuaternion;
-  }
-
-  function updateOrientation(updatedProps) {
-    const { azimuth, dip } = updatedProps;
-    plane.setRotationFromQuaternion(getOrientationQuaternion(azimuth, dip));
-    azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
-    dipIndicator.setRotationFromQuaternion(
-      getOrientationQuaternion(azimuth, dip)
-    );
   }
 
   function update(time) {

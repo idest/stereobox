@@ -16,10 +16,17 @@ class Context extends React.Component {
     this.handleWireframeChange = this.handleWireframeChange.bind(this);
     this.handlePlaneTrimChange = this.handlePlaneTrimChange.bind(this);
     this.handlePlaneOpacityChange = this.handlePlaneOpacityChange.bind(this);
+    this.state = {
+      planeOpacity: 0.5,
+      planeTrim: true,
+      sphereWireframe: true
+    };
+    this.initialState = this.state;
   }
   componentDidMount() {
     const initialProps = {
       ...this.props,
+      ...this.state,
       r1: 1.3,
       r2: 1.5
     };
@@ -29,16 +36,19 @@ class Context extends React.Component {
     this.eventBus.post('resetCamera');
   }
   handleWireframeChange(checked) {
-    this.eventBus.post('wireframeChange', checked);
+    this.setState({ sphereWireframe: checked });
+    //this.eventBus.post('wireframeChange', checked);
   }
   handlePlaneTrimChange(checked) {
-    this.eventBus.post('planeTrimChange', checked);
+    this.setState({ planeTrim: checked });
+    //this.eventBus.post('planeTrimChange', checked);
   }
   handlePlaneOpacityChange(planeOpacity) {
-    this.eventBus.post('planeOpacityChange', planeOpacity);
+    this.setState({ planeOpacity: planeOpacity });
+    //this.eventBus.post('planeOpacityChange', planeOpacity);
   }
   render() {
-    this.eventBus.post('propsUpdate', { ...this.props });
+    this.eventBus.post('propsUpdate', { ...this.props, ...this.state });
     return (
       <ContextContainer className={this.props.className}>
         <StyledExpander height={120}>
@@ -46,16 +56,17 @@ class Context extends React.Component {
             <Checkbox
               title="Wireframe"
               callback={this.handleWireframeChange}
-              checked={false}
+              initialValue={this.state.sphereWireframe}
             />
             <Checkbox
               title="Trim plane"
               callback={this.handlePlaneTrimChange}
-              checked={true}
+              initialValue={this.state.planeTrim}
             />
             <Slider
               title="Plane opacity"
               callback={this.handlePlaneOpacityChange}
+              initialValue={this.state.planeOpacity}
             />
             <Button onClick={this.handleCameraReset}>Reset Camera</Button>
           </Gui>

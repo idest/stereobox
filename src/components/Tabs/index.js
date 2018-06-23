@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-class Tabs extends Component {
+class Tabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = { activeChildId: 0 };

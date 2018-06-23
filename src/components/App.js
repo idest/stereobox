@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Readings from './Readings';
 import GeoCompass from './GeoCompass';
 import SchmidtNet from './SchmidtNet';
@@ -9,7 +9,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { lighten, darken, desaturate } from 'polished';
 import { media } from '../utils/style';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.changePlaneState = this.changePlaneState.bind(this);
@@ -31,10 +31,10 @@ class App extends Component {
       bgColor: '#282828',
       fgColor: '#ffffff',
       planeColor: '#bcaa89',
-      get azColorDe20() { return desaturate(0.2, this.azColor) },
-      get azExtColorDe20() { return desaturate(0.2, this.azExtColor) },
-      get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor) },
-      get dipColorDe20() { return desaturate(0.2, this.dipColor) },
+      get azColorDe20() { return desaturate(0.2, this.azColor); },
+      get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
+      get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
+      get dipColorDe20() { return desaturate(0.2, this.dipColor); },
       get bgColorD2() { return darken(0.02, this.bgColor); },
       get bgColorL2() { return lighten(0.02, this.bgColor); },
       get bgColorL5() { return lighten(0.05, this.bgColor); },
@@ -96,6 +96,7 @@ class App extends Component {
     });
     */
   }
+
   animateStateChange(stateUpdater, animationId) {
     //TODO: find a way to clear all possible intervals in this line
     //console.log('animationId', animationId);

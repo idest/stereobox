@@ -7,12 +7,18 @@ import Body from './styled/Body';
 class Slider extends Component {
   constructor(props) {
     super(props);
-    this.state = { posX: 0.5, inputValue: 0.5 };
+    this.state = { posX: props.initialValue, inputValue: props.initialValue };
     this.changeState = this.changeState.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state !== nextState) {
+      return true;
+    }
+    return false;
   }
   changeState(posX) {
     posX = posX > 1 ? 1 : posX;
@@ -43,6 +49,7 @@ class Slider extends Component {
     e.target.select();
   }
   render() {
+    console.log(this.props);
     return (
       <Row>
         <Title>

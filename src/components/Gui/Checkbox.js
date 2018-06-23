@@ -7,11 +7,14 @@ import Body from './styled/Body';
 class Checkbox extends Component {
   constructor(props) {
     super(props);
-    this.state = { checked: true };
+    this.state = { checked: props.initialValue };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-  componentDidMount() {
-    this.setState({ checked: this.props.checked });
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state !== nextState) {
+      return true;
+    }
+    return false;
   }
   handleInputChange() {
     const checked = this.state.checked ? false : true;
