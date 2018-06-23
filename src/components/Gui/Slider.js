@@ -34,7 +34,7 @@ class Slider extends Component {
   }
   handleInputBlur(e) {
     const newValue = +e.target.value;
-    if (!Number.isNaN(newValue) && newValue > 0 && newValue < 1) {
+    if (!Number.isNaN(newValue) && newValue >= 0 && newValue <= 1) {
       this.changeState(newValue);
     } else {
       this.setState({ inputValue: this.state.posX });
