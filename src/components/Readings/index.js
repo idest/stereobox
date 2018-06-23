@@ -164,7 +164,6 @@ const Table = styled.div`
   margin: 0;
   background-color: ${props => props.theme.bgColor};
   /*border: solid 0.5px ${props => props.theme.bgColorL40};*/
-  height: 100%;
   font-size: 0.9em;
 `;
 

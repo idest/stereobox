@@ -274,7 +274,6 @@ const TabsWrapper = styled.div`
 
 const StyledReadings = styled(Readings)`
   width: 100%;
-  height: 8.2em;
 `;
 
 const StyledGeoCompass = styled(GeoCompass)`
