@@ -200,12 +200,12 @@ class App extends React.Component {
                   dip={this.state.planeDip}
                 />
               </VisualizationsSection>
-              <Credit>
-                <StyledA href="https://idest.github.io">
-                  <Logo src={logo} />
-                </StyledA>
-              </Credit>
             </Content>
+            <LogoContainer>
+              <StyledA href="https://idest.github.io">
+                <Logo src={logo} />
+              </StyledA>
+            </LogoContainer>
           </AppWrapper>
         </ThemeProvider>
       );
@@ -354,10 +354,10 @@ const StyledContext = styled(Context)`
   `};
 `;
 
-const Credit = styled.div`
+const LogoContainer = styled.div`
   display: flex;
   position: absolute;
-  left: 30px;
+  left: 20px;
   top: 15px;
   /*
   right: 30px;
