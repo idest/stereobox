@@ -290,8 +290,8 @@ const StyledGeoCompass = styled(GeoCompass)`
   height: 100%;
   min-height: 200px;
   width: auto;
-  padding-top: 15px;
-  padding-bottom: 5px;
+  padding-top: 25px;
+  padding-bottom: 15px;
   ${media.tablet`
     flex: 1;
     height: 70%; // kind of random value
