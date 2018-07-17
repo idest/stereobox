@@ -8,6 +8,7 @@ import Tab from './Tabs/Tab';
 import styled, { ThemeProvider } from 'styled-components';
 import { lighten, darken, desaturate } from 'polished';
 import { media } from '../utils/style';
+import logo from '../logo.png';
 
 class App extends React.Component {
   constructor(props) {
@@ -169,7 +170,10 @@ class App extends React.Component {
         <ThemeProvider theme={this.theme}>
           <AppWrapper>
             <Title>Geo Compass</Title>
-            <Subtitle>An interactive tool to visualize planes</Subtitle>
+            <Subtitle>
+              An interactive tool to visualize planes using the stereographic
+              projection
+            </Subtitle>
             <Content>
               <ControlsSection>
                 <StyledReadings
@@ -196,6 +200,11 @@ class App extends React.Component {
                   dip={this.state.planeDip}
                 />
               </VisualizationsSection>
+              <Credit>
+                <StyledA href="https://idest.github.io">
+                  <Logo src={logo} />
+                </StyledA>
+              </Credit>
             </Content>
           </AppWrapper>
         </ThemeProvider>
@@ -343,6 +352,31 @@ const StyledContext = styled(Context)`
     border-top: 0;
     border-left: 2px solid ${props => props.theme.bgColorL40};
   `};
+`;
+
+const Credit = styled.div`
+  display: flex;
+  position: absolute;
+  left: 30px;
+  top: 15px;
+  /*
+  right: 30px;
+  bottom: 15px;
+  */
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  height: 40px;
+`;
+
+const StyledA = styled.a`
+  opacity: 0.35;
+  &:hover {
+    opacity: 0.75;
+  }
 `;
 
 /*
