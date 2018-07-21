@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import CompassContainer from './CompassContainer';
 import ClinoContainer from './ClinoContainer';
 import Compass from './Compass';
 import Clino from './Clino';
-import styled from 'styled-components';
+import Header from '../styled/Header';
 
 class GeoCompass extends Component {
   constructor(props) {
@@ -13,30 +14,33 @@ class GeoCompass extends Component {
   }
   render() {
     return (
-      <div className={this.props.className}>
-        <CompassWrapper>
-          <CompassContainer
-            azimuth={this.props.azimuth}
-            changePlaneState={this.props.changePlaneState}
-            animateStateChange={this.props.animateStateChange}
-          >
-            <Compass radius={this.radius} />
-          </CompassContainer>
-        </CompassWrapper>
-        <ClinoWrapper>
-          <ClinoContainer
-            azimuth={this.props.azimuth}
-            dip={this.props.dip}
-            changePlaneState={this.props.changePlaneState}
-            animateStateChange={this.props.animateStateChange}
-          >
-            <Clino
-              radius={this.radius}
-              clinoToCompassRatio={this.clinoToCompassRatio}
-            />
-          </ClinoContainer>
-        </ClinoWrapper>
-      </div>
+      <React.Fragment>
+        <Header>Compass / Clinometer</Header>
+        <div className={this.props.className}>
+          <CompassWrapper>
+            <CompassContainer
+              azimuth={this.props.azimuth}
+              changePlaneState={this.props.changePlaneState}
+              animateStateChange={this.props.animateStateChange}
+            >
+              <Compass radius={this.radius} />
+            </CompassContainer>
+          </CompassWrapper>
+          <ClinoWrapper>
+            <ClinoContainer
+              azimuth={this.props.azimuth}
+              dip={this.props.dip}
+              changePlaneState={this.props.changePlaneState}
+              animateStateChange={this.props.animateStateChange}
+            >
+              <Clino
+                radius={this.radius}
+                clinoToCompassRatio={this.clinoToCompassRatio}
+              />
+            </ClinoContainer>
+          </ClinoWrapper>
+        </div>
+      </React.Fragment>
     );
   }
 }

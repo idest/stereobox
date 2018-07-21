@@ -22,7 +22,7 @@ class Portal extends Component {
 class Expander extends Component {
   constructor(props) {
     super(props);
-    this.state = { expanded: false, style: { top: 0, left: 0, width: 0 } };
+    this.state = { expanded: false, style: { bottom: 0, left: 0, width: 0 } };
     this.height = props.height;
     this.toggle = this.toggle.bind(this);
     this.updateStyle = this.updateStyle.bind(this);
@@ -42,8 +42,10 @@ class Expander extends Component {
     this.setState({ expanded: !this.state.expanded });
   }
   updateStyle() {
-    const { top, left, width } = this.ref.current.getBoundingClientRect();
-    this.setState({ style: { top: top, left: left, width: width } });
+    const { bottom, left, width } = this.ref.current.getBoundingClientRect();
+    this.setState({
+      style: { bottom: window.innerHeight - bottom, left: left, width: width }
+    });
   }
   render() {
     const height = this.state.expanded ? this.height : 0;
@@ -56,13 +58,14 @@ class Expander extends Component {
             </Container>
           </Portal>
         )}
-        <Handle onClick={this.toggle} top={height}>
-          <svg width="100%" height="100%" viewBox="0 0 100 100">
+        <Handle onClick={this.toggle} bottom={height}>
+          <span>Appearance</span>
+          <svg height="80%" viewBox="0 0 100 100">
             <g transform="translate(50,50)">
               <path
                 fill={this.props.theme.bgColorL40}
                 d="M-44.54 -35.23 L 44.54 -35.23 L 0 37.5 Z"
-                transform={this.state.expanded ? 'rotate(180)' : ''}
+                transform={this.state.expanded ? 'rotate(0)' : 'rotate(180)'}
               />
             </g>
           </svg>
@@ -87,15 +90,18 @@ const Handle = styled.div`
   box-sizing: border-box;
   display: flex;
   position: relative;
-  top: ${props => props.top}px;
+  bottom: ${props => props.bottom}px;
   width: 100%;
   height: 20px;
   padding: 0.2em;
-  border-bottom: 1px solid ${props => props.theme.bgColorL40};
-  justify-content: center;
+  border-top: 1px solid ${props => props.theme.bgColorL40};
+  justify-content: space-between;
   align-items: center;
   background: ${props => props.theme.bgColorL10};
   cursor: pointer;
+  padding: 2px 10px;
+  font-size: 0.6em;
+  color: ${props => props.theme.fgColorD30};
 `;
 
 export default withTheme(Expander);

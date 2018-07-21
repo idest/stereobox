@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { geoPath, geoGraticule, geoAzimuthalEqualArea } from 'd3-geo';
 import { rotateSph } from '../../logic/sphere';
-import styled from 'styled-components';
+import Header from '../styled/Header';
 
 class SchmidtNet extends Component {
   constructor(props) {
@@ -63,25 +64,28 @@ class SchmidtNet extends Component {
     const planeCoordinates = this.getPlaneCoordinates();
     return (
       <Wrapper className={this.props.className}>
-        <svg
-          className="svg"
-          style={{ height: '100%', width: '100%' }}
-          ref={this.svg}
-        >
-          <defs />
-          <SpherePath
+        <Header>Schmidt net</Header>
+        <SvgWrapper>
+          <svg
+            className="svg"
             style={{ height: '100%', width: '100%' }}
-            id="sphere"
-            d={path({ type: 'Sphere' })}
-          />
-          <GraticulePath id="graticule" d={path(geoGraticule()())} />
-          <LinePath
-            d={path({
-              type: 'LineString',
-              coordinates: planeCoordinates.plane
-            })}
-          />
-        </svg>
+            ref={this.svg}
+          >
+            <defs />
+            <SpherePath
+              style={{ height: '100%', width: '100%' }}
+              id="sphere"
+              d={path({ type: 'Sphere' })}
+            />
+            <GraticulePath id="graticule" d={path(geoGraticule()())} />
+            <LinePath
+              d={path({
+                type: 'LineString',
+                coordinates: planeCoordinates.plane
+              })}
+            />
+          </svg>
+        </SvgWrapper>
       </Wrapper>
     );
   }
@@ -90,12 +94,21 @@ class SchmidtNet extends Component {
 const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
+  flex-wrap: wrap;
   height: 100%;
   width: 100%;
-  padding: 1em;
   align-items: center;
   justify-content: center;
   /*background: black;*/
+`;
+const SvgWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 1em;
+  justify-content: center;
+  align-items: center;
 `;
 const GraticulePath = styled.path`
   height: 100%;

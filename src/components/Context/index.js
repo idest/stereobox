@@ -6,6 +6,7 @@ import Slider from '../Gui/Slider';
 import Checkbox from '../Gui/Checkbox';
 import Button from '../Gui/Button';
 import Expander from '../Gui/Expander';
+import Header from '../styled/Header';
 
 class Context extends React.Component {
   constructor(props) {
@@ -51,6 +52,8 @@ class Context extends React.Component {
     this.eventBus.post('propsUpdate', { ...this.props, ...this.state });
     return (
       <ContextContainer className={this.props.className}>
+        <Header>3D view</Header>
+        <ThreeContainer innerRef={this.threeRootElement} />
         <StyledExpander height={120}>
           <Gui>
             <Checkbox
@@ -71,7 +74,6 @@ class Context extends React.Component {
             <Button onClick={this.handleCameraReset}>Reset Camera</Button>
           </Gui>
         </StyledExpander>
-        <ThreeContainer innerRef={this.threeRootElement} />
       </ContextContainer>
     );
   }

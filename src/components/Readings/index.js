@@ -9,6 +9,7 @@ import {
 } from '../../logic/transformations';
 import { AZValidator, QDValidator, DDValidator } from '../../logic/validators';
 import PlaneReading from './PlaneReading';
+import Header from '../styled/Header';
 
 class Readings extends React.Component {
   constructor(props) {
@@ -119,41 +120,44 @@ class Readings extends React.Component {
         ? this.props.theme.azExtColorDe20
         : this.props.theme.azColorDe20;
     return (
-      <Table className={this.props.className}>
-        <PlaneReading
-          id="AZ"
-          index={0}
-          horizontal={this.AZ.horizontal}
-          vertical={this.AZ.vertical}
-          horizontalColor={horizontalColor.AZ}
-          verticalColor={verticalColor}
-          name="Azimuth / Dip *"
-          onPlaneChange={this.onAZChange}
-          tooltip={{
-            text: 'According to the right hand rule.'
-          }}
-        />
-        <PlaneReading
-          id="DD"
-          index={1}
-          horizontal={this.DD.horizontal}
-          vertical={this.DD.vertical}
-          horizontalColor={horizontalColor.DD}
-          verticalColor={verticalColor}
-          name="Dip Direction / Dip"
-          onPlaneChange={this.onDDChange}
-        />
-        <PlaneReading
-          id="QD"
-          index={2}
-          horizontal={this.QD.horizontal}
-          vertical={this.QD.vertical}
-          horizontalColor={horizontalColor.QD}
-          verticalColor={verticalColor}
-          name="Strike / Dip"
-          onPlaneChange={this.onQDChange}
-        />
-      </Table>
+      <React.Fragment>
+        <Header>Measurements</Header>
+        <Table className={this.props.className}>
+          <PlaneReading
+            id="AZ"
+            index={0}
+            horizontal={this.AZ.horizontal}
+            vertical={this.AZ.vertical}
+            horizontalColor={horizontalColor.AZ}
+            verticalColor={verticalColor}
+            name="Strike Azimuth / Dip *"
+            onPlaneChange={this.onAZChange}
+            tooltip={{
+              text: '* According to the right hand rule.'
+            }}
+          />
+          <PlaneReading
+            id="QD"
+            index={1}
+            horizontal={this.QD.horizontal}
+            vertical={this.QD.vertical}
+            horizontalColor={horizontalColor.QD}
+            verticalColor={verticalColor}
+            name="Strike Bearing / Dip"
+            onPlaneChange={this.onQDChange}
+          />
+          <PlaneReading
+            id="DD"
+            index={2}
+            horizontal={this.DD.horizontal}
+            vertical={this.DD.vertical}
+            horizontalColor={horizontalColor.DD}
+            verticalColor={verticalColor}
+            name="Dip Direction / Dip"
+            onPlaneChange={this.onDDChange}
+          />
+        </Table>
+      </React.Fragment>
     );
   }
 }
