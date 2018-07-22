@@ -63,7 +63,7 @@ class PlaneReading extends React.Component {
 
 const TitleCell = Cell.extend`
   width: 55%;
-  font-size: 0.8em;
+  font-size: 0.9em;
 `;
 const TitleSpan = Span.extend`
   justify-content: left;

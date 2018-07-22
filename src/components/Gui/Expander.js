@@ -100,7 +100,7 @@ const Handle = styled.div`
   background: ${props => props.theme.bgColorL10};
   cursor: pointer;
   padding: 2px 10px;
-  font-size: 0.6em;
+  font-size: 0.7em;
   color: ${props => props.theme.fgColorD30};
 `;
 
