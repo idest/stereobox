@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from '../Gui/Tooltip';
+import Tooltip from '../shared/Tooltip';
 import Reading from './Reading';
 import Cell from './styled/Cell';
 import Span from './styled/Span';

@@ -59,7 +59,7 @@ class Reading extends React.Component {
 }
 
 const ReadingCell = Cell.extend`
-  width: 22.5%;
+  width: 15%;
   text-align: center;
   cursor: pointer;
   font-size: 0.9em;
