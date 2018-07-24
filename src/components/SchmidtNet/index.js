@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { geoPath, geoGraticule, geoAzimuthalEqualArea } from 'd3-geo';
 import { rotateSph } from '../../logic/sphere';
 import Header from '../styled/Header';
+import WithDescription from '../shared/WithDescription';
+import description from '../../locales/en/SchmidtNet.md';
+import { HelpConsumer } from '../App.js';
 
 class SchmidtNet extends Component {
   constructor(props) {
@@ -63,40 +66,45 @@ class SchmidtNet extends Component {
     const path = this.createSchmidtNet();
     const planeCoordinates = this.getPlaneCoordinates();
     return (
-      <Wrapper className={this.props.className}>
-        <Header>Schmidt net</Header>
-        <SvgWrapper>
-          <svg
-            className="svg"
-            style={{ height: '100%', width: '100%' }}
-            ref={this.svg}
-          >
-            <defs />
-            <SpherePath
-              style={{ height: '100%', width: '100%' }}
-              id="sphere"
-              d={path({ type: 'Sphere' })}
-            />
-            <GraticulePath id="graticule" d={path(geoGraticule()())} />
-            <LinePath
-              d={path({
-                type: 'LineString',
-                coordinates: planeCoordinates.plane
-              })}
-            />
-          </svg>
-        </SvgWrapper>
-      </Wrapper>
+      <HelpConsumer>
+        {showHelp => (
+          <Container>
+            <Header>Schmidt net</Header>
+            <WithDescription text={description} show={showHelp}>
+              <SvgWrapper>
+                <svg
+                  className="svg"
+                  style={{ height: '100%', width: '100%' }}
+                  ref={this.svg}
+                >
+                  <defs />
+                  <SpherePath
+                    style={{ height: '100%', width: '100%' }}
+                    id="sphere"
+                    d={path({ type: 'Sphere' })}
+                  />
+                  <GraticulePath id="graticule" d={path(geoGraticule()())} />
+                  <LinePath
+                    d={path({
+                      type: 'LineString',
+                      coordinates: planeCoordinates.plane
+                    })}
+                  />
+                </svg>
+              </SvgWrapper>
+            </WithDescription>
+          </Container>
+        )}
+      </HelpConsumer>
     );
   }
 }
 
-const Wrapper = styled.div`
+const Container = styled.div`
   box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  width: 100%;
+  flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
   /*background: black;*/

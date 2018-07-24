@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 const Tab = styled.div`
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden; //moz fix;
 `;
 
 export default Tab;

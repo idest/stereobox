@@ -7,8 +7,14 @@ import Tabs from './Tabs';
 import Tab from './Tabs/Tab';
 import styled, { ThemeProvider } from 'styled-components';
 import { media } from '../utils/style';
-import logo from '../logo.png';
+import logo from '../assets/logo.png';
 import theme from '../utils/theme';
+import HelpIcon from '../assets/question-circle';
+
+const {
+  Provider: HelpProvider,
+  Consumer: HelpConsumer
+} = React.createContext();
 
 class App extends React.Component {
   constructor(props) {
@@ -16,12 +22,14 @@ class App extends React.Component {
     this.changePlaneState = this.changePlaneState.bind(this);
     this.animateStateChange = this.animateStateChange.bind(this);
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
+    this.toggleHelp = this.toggleHelp.bind(this);
     this.state = {
       planeAzimuth: 45,
       planeDip: 45,
       lastInput: 'AZ',
       lastAnimationId: null,
-      windowWidth: window.innerWidth
+      windowWidth: window.innerWidth,
+      showHelp: false
     };
   }
   componentWillMount() {
@@ -29,6 +37,9 @@ class App extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+  toggleHelp() {
+    this.setState({ showHelp: !this.state.showHelp });
   }
   handleWindowSizeChange() {
     this.setState({ windowWidth: window.innerWidth });
@@ -94,96 +105,122 @@ class App extends React.Component {
     if (isMobile) {
       return (
         <ThemeProvider theme={theme}>
-          <AppWrapper>
-            <Content>
-              <StyledReadings
-                className="controls"
-                azimuth={this.state.planeAzimuth}
-                dip={this.state.planeDip}
-                lastInput={this.state.lastInput}
-                changePlaneState={this.changePlaneState}
-              />
-              <TabsWrapper>
-                <Tabs>
-                  <Tab title="Compass">
-                    <StyledGeoCompass
-                      azimuth={this.state.planeAzimuth}
-                      dip={this.state.planeDip}
-                      changePlaneState={this.changePlaneState}
-                      animateStateChange={this.animateStateChange}
-                    />
-                  </Tab>
-                  <Tab title="Stereonet">
-                    <StyledSchmidtNet
-                      azimuth={this.state.planeAzimuth}
-                      dip={this.state.planeDip}
-                    />
-                  </Tab>
-                  <Tab title="3D Context">
-                    <StyledContext
-                      azimuth={this.state.planeAzimuth}
-                      dip={this.state.planeDip}
-                    />
-                  </Tab>
-                </Tabs>
-              </TabsWrapper>
-            </Content>
-          </AppWrapper>
-        </ThemeProvider>
-      );
-    } else {
-      return (
-        <ThemeProvider theme={theme}>
-          <AppWrapper>
-            <Title>Geo Compass</Title>
-            <Subtitle>
-              An interactive tool to visualize planes using the stereographic
-              projection
-            </Subtitle>
-            <Content>
-              <ControlsSection>
-                <StyledReadings
+          <HelpProvider value={this.state.showHelp}>
+            <AppWrapper>
+              <Content>
+                <Readings
                   className="controls"
                   azimuth={this.state.planeAzimuth}
                   dip={this.state.planeDip}
                   lastInput={this.state.lastInput}
                   changePlaneState={this.changePlaneState}
                 />
-                <StyledGeoCompass
-                  azimuth={this.state.planeAzimuth}
-                  dip={this.state.planeDip}
-                  changePlaneState={this.changePlaneState}
-                  animateStateChange={this.animateStateChange}
-                />
-              </ControlsSection>
-              <VisualizationsSection>
-                <StyledSchmidtNet
-                  azimuth={this.state.planeAzimuth}
-                  dip={this.state.planeDip}
-                />
-                <StyledContext
-                  azimuth={this.state.planeAzimuth}
-                  dip={this.state.planeDip}
-                />
-              </VisualizationsSection>
-            </Content>
-            <LogoContainer>
-              <StyledA href="https://idest.github.io">
-                <Logo src={logo} />
-              </StyledA>
-            </LogoContainer>
-          </AppWrapper>
+                <TabsWrapper>
+                  <Tabs>
+                    <Tab title="Compass">
+                      <GeoCompassWrapper>
+                        <GeoCompass
+                          azimuth={this.state.planeAzimuth}
+                          dip={this.state.planeDip}
+                          changePlaneState={this.changePlaneState}
+                          animateStateChange={this.animateStateChange}
+                        />
+                      </GeoCompassWrapper>
+                    </Tab>
+                    <Tab title="Stereonet">
+                      <SchmidtNetWrapper>
+                        <SchmidtNet
+                          azimuth={this.state.planeAzimuth}
+                          dip={this.state.planeDip}
+                        />
+                      </SchmidtNetWrapper>
+                    </Tab>
+                    <Tab title="3D Context">
+                      <ContextWrapper>
+                        <Context
+                          azimuth={this.state.planeAzimuth}
+                          dip={this.state.planeDip}
+                        />
+                      </ContextWrapper>
+                    </Tab>
+                  </Tabs>
+                </TabsWrapper>
+              </Content>
+            </AppWrapper>
+          </HelpProvider>
+        </ThemeProvider>
+      );
+    } else {
+      return (
+        <ThemeProvider theme={theme}>
+          <HelpProvider value={this.state.showHelp}>
+            <AppWrapper>
+              <Title>Geo Compass</Title>
+              <SubtitleContainer>
+                <Subtitle>
+                  An interactive tool to visualize planes using the
+                  stereographic projection
+                </Subtitle>
+                <Icon>
+                  <HelpIcon onClick={this.toggleHelp} />
+                </Icon>
+              </SubtitleContainer>
+              <Content>
+                <ControlsSection>
+                  <ReadingsWrapper>
+                    <Readings
+                      className="controls"
+                      azimuth={this.state.planeAzimuth}
+                      dip={this.state.planeDip}
+                      lastInput={this.state.lastInput}
+                      changePlaneState={this.changePlaneState}
+                    />
+                  </ReadingsWrapper>
+                  <GeoCompassWrapper>
+                    <GeoCompass
+                      azimuth={this.state.planeAzimuth}
+                      dip={this.state.planeDip}
+                      changePlaneState={this.changePlaneState}
+                      animateStateChange={this.animateStateChange}
+                    />
+                  </GeoCompassWrapper>
+                </ControlsSection>
+                <VisualizationsSection>
+                  <SchmidtNetWrapper>
+                    <SchmidtNet
+                      azimuth={this.state.planeAzimuth}
+                      dip={this.state.planeDip}
+                    />
+                  </SchmidtNetWrapper>
+                  <ContextWrapper>
+                    <Context
+                      azimuth={this.state.planeAzimuth}
+                      dip={this.state.planeDip}
+                    />
+                  </ContextWrapper>
+                </VisualizationsSection>
+              </Content>
+              <LogoContainer>
+                <StyledA href="https://idest.github.io">
+                  <Logo src={logo} />
+                </StyledA>
+              </LogoContainer>
+            </AppWrapper>
+          </HelpProvider>
         </ThemeProvider>
       );
     }
   }
 }
 
+export { HelpConsumer };
+
 const AppWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-flow: column;
   height: 100%;
+  min-height: 400px;
   width: auto;
   padding: 30px;
   justify-content: center;
@@ -191,10 +228,8 @@ const AppWrapper = styled.div`
   color: ${props => props.theme.fgColorD20};
   ${media.tablet`
     width: 640px;
-    height: 100%;
     margin-left: auto;
     margin-right: auto;
-    /*align-items: center;*/
     text-align: center;
   `};
   ${media.desktop`
@@ -214,65 +249,83 @@ const Title = styled.h1`
   `};
 `;
 
-const Subtitle = styled.h3`
+const SubtitleContainer = styled.div`
   ${media.tablet`
     display: none;
   `};
   ${media.desktop`
-    display: block;
+    position: relative
+    display: flex;
+    flex-wrap: wrap;
+    height: 2em;
     width: 100%;
-    margin-top: 0;
-    color: ${props => props.theme.fgColorD40};
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 5px;
   `};
+`;
+
+const Subtitle = styled.h3`
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: ${props => props.theme.fgColorD40};
+  z-index: 0;
+`;
+
+const Icon = styled.span`
+  display: flex;
+  height: 20px;
+  width: 20px;
+  margin-left: auto;
+  cursor: pointer;
+  z-index: 1;
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: ${props => props.theme.fgColorD40};
+    &:hover {
+      fill: ${props => props.theme.fgColorD20};
+    }
+  }
 `;
 
 const Content = styled.div`
   display: flex;
-  flex-flow: column;
-  height: 100%;
+  flex-direction: column;
+  flex: 1;
   overflow: hidden;
   border: solid 2px ${props => props.theme.bgColorL40};
   ${media.tablet`
     flex-direction: row;
-    flex-wrap: wrap;
-    display: flex;
-    width: 100%;
-    height: 500px;
+    max-height: 500px;
   `};
 `;
 
 const TabsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  height: 70%; // kind of random value, if height not defined width = 100%
-  overflow: hidden;
+  overflow: hidden; //moz fix
 `;
 
-const StyledReadings = styled(Readings)`
-  width: 100%;
-`;
+const ReadingsWrapper = styled.div``; // Geo..Wrapper overlaps Readings w/o this
 
-const StyledGeoCompass = styled(GeoCompass)`
-  box-sizing: border-box;
-  height: 100%;
-  min-height: 200px;
-  width: auto;
-  padding-top: 25px;
-  padding-bottom: 15px;
-  ${media.tablet`
-    flex: 1;
-    height: 70%; // kind of random value
-    overflow: hidden;
-  `};
+const GeoCompassWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 200px; // if not present height gets really big in moz
 `;
 
 const ControlsSection = styled.div`
   ${media.tablet`
     box-sizing: border-box;
     display: flex;
-    flex-flow: column;
-    height: 100%;
+    flex-direction: column;
     width: 45%;
-    overflow: hidden;
     border-right: 2px solid ${props => props.theme.bgColorL40};
   `};
   ${media.desktop`
@@ -283,38 +336,37 @@ const ControlsSection = styled.div`
 const VisualizationsSection = styled.div`
   ${media.tablet`
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     width: 55%;
-    height: 100%;
   `};
   ${media.desktop`
-    flex-flow: row;
+    flex-direction: row;
     width: 70%;
   `};
 `;
 
-const StyledSchmidtNet = styled(SchmidtNet)`
+const SchmidtNetWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   min-height: 200px;
-  ${media.tablet`
-    width: 100%;
-  `};
   ${media.desktop`
     width: 57.15%;
-    height: 100%;
   `};
 `;
 
-const StyledContext = styled(Context)`
+const ContextWrapper = styled.div`
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   min-height: 200px;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   ${media.tablet`
-    width: 100%;
     border-top: 2px solid ${props => props.theme.bgColorL40};
   `};
   ${media.desktop`
     width: 42.75%;
-    height: 100%;
     border-top: 0;
     border-left: 2px solid ${props => props.theme.bgColorL40};
   `};
@@ -344,14 +396,5 @@ const StyledA = styled.a`
     opacity: 0.75;
   }
 `;
-
-/*
-const FlexContainer = styled.div``;
-
-const Empty = styled.div`
-  width: 100%;
-  height: 25%;
-`;
-*/
 
 export default App;

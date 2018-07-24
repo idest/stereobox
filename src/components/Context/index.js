@@ -7,6 +7,9 @@ import Checkbox from '../Gui/Checkbox';
 import Button from '../Gui/Button';
 import Expander from '../Gui/Expander';
 import Header from '../styled/Header';
+import WithDescription from '../shared/WithDescription';
+import description from '../../locales/en/Context.md';
+import { HelpConsumer } from '../App.js';
 
 class Context extends React.Component {
   constructor(props) {
@@ -51,47 +54,53 @@ class Context extends React.Component {
   render() {
     this.eventBus.post('propsUpdate', { ...this.props, ...this.state });
     return (
-      <ContextContainer className={this.props.className}>
-        <Header>3D view</Header>
-        <ThreeContainer innerRef={this.threeRootElement} />
-        <StyledExpander height={120}>
-          <Gui>
-            <Checkbox
-              title="Wireframe"
-              callback={this.handleWireframeChange}
-              initialValue={this.state.sphereWireframe}
-            />
-            <Checkbox
-              title="Trim plane"
-              callback={this.handlePlaneTrimChange}
-              initialValue={this.state.planeTrim}
-            />
-            <Slider
-              title="Plane opacity"
-              callback={this.handlePlaneOpacityChange}
-              initialValue={this.state.planeOpacity}
-            />
-            <Button onClick={this.handleCameraReset}>Reset Camera</Button>
-          </Gui>
-        </StyledExpander>
-      </ContextContainer>
+      <HelpConsumer>
+        {showHelp => (
+          <Container>
+            <Header>3D view</Header>
+            <WithDescription text={description} show={showHelp}>
+              <ThreeContainer innerRef={this.threeRootElement} />
+            </WithDescription>
+            <Expander height={120}>
+              <Gui>
+                <Checkbox
+                  title="Wireframe"
+                  callback={this.handleWireframeChange}
+                  initialValue={this.state.sphereWireframe}
+                />
+                <Checkbox
+                  title="Trim plane"
+                  callback={this.handlePlaneTrimChange}
+                  initialValue={this.state.planeTrim}
+                />
+                <Slider
+                  title="Plane opacity"
+                  callback={this.handlePlaneOpacityChange}
+                  initialValue={this.state.planeOpacity}
+                />
+                <Button onClick={this.handleCameraReset}>Reset Camera</Button>
+              </Gui>
+            </Expander>
+          </Container>
+        )}
+      </HelpConsumer>
     );
   }
 }
 
-const ContextContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-flow: column;
-  width: 100%;
-  height: 100%;
+  flex-direction: column;
+  flex: 1;
 `;
 
 const ThreeContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow: hidden;
 `;
-
-const StyledExpander = styled(Expander)``;
 
 const Gui = styled.div`
   box-sizing: border-box;

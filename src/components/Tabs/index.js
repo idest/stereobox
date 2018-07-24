@@ -35,10 +35,10 @@ class Tabs extends React.Component {
 
 const TabsWrapper = styled.div`
   display: flex;
-  flex-flow: column;
-  height: 100%;
-  overflow: hidden;
+  flex-direction: column;
+  flex: 1;
   justify-content: center;
+  overflow: hidden;
 `;
 const TabTitle = styled.div`
   color: ${props =>
@@ -49,9 +49,7 @@ const TabTitle = styled.div`
 const TabsSelector = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 100%;
-  height: 10%;
-  min-height: 2em;
+  height: 2.5em;
   padding: 1em;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   align-items: center;
@@ -60,9 +58,10 @@ const TabsSelector = styled.div`
 `;
 
 const ActiveTab = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  height: 90%;
-  overflow: hidden;
+  overflow: hidden; //moz fix;
 `;
 
 export default Tabs;

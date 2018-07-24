@@ -92,7 +92,7 @@ const Handle = styled.div`
   position: relative;
   bottom: ${props => props.bottom}px;
   width: 100%;
-  height: 20px;
+  height: 2em;
   padding: 0.2em;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   justify-content: space-between;
