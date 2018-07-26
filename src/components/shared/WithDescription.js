@@ -56,7 +56,7 @@ const Description = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 20px;
   overflow: auto;
   text-align: left;
   font-size: 0.8em;

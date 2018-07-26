@@ -135,7 +135,7 @@ class App extends React.Component {
                         />
                       </SchmidtNetWrapper>
                     </Tab>
-                    <Tab title="3D Context">
+                    <Tab title="3D View">
                       <ContextWrapper>
                         <Context
                           azimuth={this.state.planeAzimuth}
@@ -161,8 +161,11 @@ class App extends React.Component {
                   An interactive tool to visualize planes using the
                   stereographic projection
                 </Subtitle>
-                <Icon>
-                  <HelpIcon onClick={this.toggleHelp} />
+                <Icon active={this.state.showHelp}>
+                  <HelpIcon
+                    active={this.state.showHelp}
+                    onClick={this.toggleHelp}
+                  />
                 </Icon>
               </SubtitleContainer>
               <Content>
@@ -285,7 +288,8 @@ const Icon = styled.span`
   > svg {
     width: 100%;
     height: 100%;
-    fill: ${props => props.theme.fgColorD40};
+    fill: ${props =>
+      props.active ? props.theme.fgColorD20 : props.theme.fgColorD40};
     &:hover {
       fill: ${props => props.theme.fgColorD20};
     }
