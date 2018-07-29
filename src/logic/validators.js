@@ -19,15 +19,15 @@ function AZValidator(az, dip) {
 }
 
 function QDValidator(qd, qdDip) {
-  let strikePattern = /^[NSEW]\d{0,2}[NSEW]$/;
-  let dipPattern = /^\d{1,2}[NSEW]{1,2}$/;
+  let strikePattern = /^[NSEW]\d{0,2}[NSEW]$/i;
+  let dipPattern = /^\d{1,2}[NSEW]{1,2}$/i;
   if (strikePattern.test(qd) && dipPattern.test(qdDip)) {
-    let strikeSense = qd.match(/[NSEW]/g).join('');
-    let dipSense = qdDip.match(/[NSEW]{1,2}/)[0];
+    let strikeSense = qd.match(/[NSEW]/gi).join('');
+    let dipSense = qdDip.match(/[NSEW]{1,2}/i)[0];
     let strike = parseFloat(qd.match(/(?!^)\d{0,2}/)[0]);
     let dip = parseFloat(qdDip.match(/\d{1,2}/)[0]);
-    let strikeSenseValidator = /N[SEW]|EW/.test(strikeSense);
-    let dipSenseValidator = /[NS][EW]|[NSEW]/.test(dipSense);
+    let strikeSenseValidator = /N[SEW]|EW/i.test(strikeSense);
+    let dipSenseValidator = /[NS][EW]|[NSEW]/i.test(dipSense);
     let strikeValidator = Number.isNaN(strike) || (strike >= 0 && strike <= 90);
     let dipValidator = dip >= 0 && dip <= 90;
     if (

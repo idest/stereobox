@@ -13,6 +13,7 @@ const theme = {
       get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
       get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
       get dipColorDe20() { return desaturate(0.2, this.dipColor); },
+      get bgColorD5() { return darken(0.05, this.bgColor); },
       get bgColorD2() { return darken(0.02, this.bgColor); },
       get bgColorL2() { return lighten(0.02, this.bgColor); },
       get bgColorL5() { return lighten(0.05, this.bgColor); },

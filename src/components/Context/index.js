@@ -8,8 +8,21 @@ import Button from '../Gui/Button';
 import Expander from '../Gui/Expander';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
-import description from '../../locales/en/Context.md';
 import { HelpConsumer } from '../App.js';
+import enMessages from '../../locales/context/en/messages.json';
+import esMessages from '../../locales/context/es/messages.json';
+import enHelp from '../../locales/context/en/help.md';
+import esHelp from '../../locales/context/es/help.md';
+
+const messages = {
+  en: enMessages,
+  es: esMessages
+};
+
+const help = {
+  en: enHelp,
+  es: esHelp
+};
 
 class Context extends React.Component {
   constructor(props) {
@@ -52,33 +65,36 @@ class Context extends React.Component {
     //this.eventBus.post('planeOpacityChange', planeOpacity);
   }
   render() {
+    const { locale } = this.props;
     this.eventBus.post('propsUpdate', { ...this.props, ...this.state });
     return (
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header>3D view</Header>
-            <WithDescription text={description} show={showHelp}>
+            <Header>{messages[locale].title}</Header>
+            <WithDescription text={help[locale]} show={showHelp}>
               <ThreeContainer innerRef={this.threeRootElement} />
             </WithDescription>
-            <Expander height={120}>
+            <Expander title={messages[locale].appearance} height={120}>
               <Gui>
                 <Checkbox
-                  title="Wireframe"
+                  title={messages[locale].wireframe}
                   callback={this.handleWireframeChange}
                   initialValue={this.state.sphereWireframe}
                 />
                 <Checkbox
-                  title="Trim plane"
+                  title={messages[locale].trimPlane}
                   callback={this.handlePlaneTrimChange}
                   initialValue={this.state.planeTrim}
                 />
                 <Slider
-                  title="Plane opacity"
+                  title={messages[locale].planeOpacity}
                   callback={this.handlePlaneOpacityChange}
                   initialValue={this.state.planeOpacity}
                 />
-                <Button onClick={this.handleCameraReset}>Reset Camera</Button>
+                <Button onClick={this.handleCameraReset}>
+                  {messages[locale].resetCamera}
+                </Button>
               </Gui>
             </Expander>
           </Container>

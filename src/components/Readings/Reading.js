@@ -40,16 +40,16 @@ class Reading extends React.Component {
         onBlur={this.turnEditableOff}
         onKeyPress={this.handleKeyPress}
         type="text"
-        tabIndex={this.props.tabIndex}
         value={value}
+        tabIndex={this.props.tabIndex}
       />
     ) : (
       <Span
         innerRef={this.props.spanRef}
         onClick={this.turnEditableOn}
-        tabIndex={this.props.tabIndex}
         onFocus={this.turnEditableOn}
         style={{ color: this.props.color }}
+        tabIndex={this.props.tabIndex}
       >
         {value}
       </Span>
@@ -59,10 +59,12 @@ class Reading extends React.Component {
 }
 
 const ReadingCell = Cell.extend`
-  width: 15%;
+  box-sizing: border-box;
+  width: 20%;
   text-align: center;
   cursor: pointer;
   font-size: 0.9em;
+  font-weight: bold;
 `;
 
 const Input = styled.input`
@@ -70,8 +72,9 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   padding: 0.8em;
+  padding-left: 0;
   border: 1px solid ${props => props.theme.fgColorD60};
-  text-align: left;
+  text-align: center;
   font-size: 0.9em;
   background: ${props => props.theme.bgColorL10};
   color: ${props => props.theme.fgColorD30};

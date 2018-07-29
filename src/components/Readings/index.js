@@ -11,8 +11,21 @@ import { AZValidator, QDValidator, DDValidator } from '../../logic/validators';
 import PlaneReading from './PlaneReading';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
-import description from '../../locales/en/Readings.md';
 import { HelpConsumer } from '../App.js';
+import enMessages from '../../locales/readings/en/messages.json';
+import esMessages from '../../locales/readings/es/messages.json';
+import enHelp from '../../locales/readings/en/help.md';
+import esHelp from '../../locales/readings/es/help.md';
+
+const messages = {
+  en: enMessages,
+  es: esMessages
+};
+
+const help = {
+  en: enHelp,
+  es: esHelp
+};
 
 class Readings extends React.Component {
   constructor(props) {
@@ -122,12 +135,13 @@ class Readings extends React.Component {
       this.props.azimuth > 90 && this.props.azimuth < 270
         ? this.props.theme.azExtColorDe20
         : this.props.theme.azColorDe20;
+    const { locale } = this.props;
     return (
       <HelpConsumer>
         {showHelp => (
           <div>
-            <Header>Measurements</Header>
-            <StyledWithDescription text={description} show={showHelp}>
+            <Header>{messages[locale].title}</Header>
+            <StyledWithDescription text={help[locale]} show={showHelp}>
               <Table className={this.props.className}>
                 <PlaneReading
                   id="AZ"
@@ -136,10 +150,10 @@ class Readings extends React.Component {
                   vertical={this.AZ.vertical}
                   horizontalColor={horizontalColor.AZ}
                   verticalColor={verticalColor}
-                  name="Strike Azimuth / Dip *"
+                  name={messages[locale].azName}
                   onPlaneChange={this.onAZChange}
                   tooltip={{
-                    text: '* According to the right hand rule.'
+                    text: messages[locale].azTooltip
                   }}
                 />
                 <PlaneReading
@@ -149,7 +163,7 @@ class Readings extends React.Component {
                   vertical={this.QD.vertical}
                   horizontalColor={horizontalColor.QD}
                   verticalColor={verticalColor}
-                  name="Strike Bearing / Dip"
+                  name={messages[locale].qdName}
                   onPlaneChange={this.onQDChange}
                 />
                 <PlaneReading
@@ -159,7 +173,7 @@ class Readings extends React.Component {
                   vertical={this.DD.vertical}
                   horizontalColor={horizontalColor.DD}
                   verticalColor={verticalColor}
-                  name="Dip Direction / Dip"
+                  name={messages[locale].ddName}
                   onPlaneChange={this.onDDChange}
                 />
               </Table>

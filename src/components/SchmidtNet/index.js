@@ -4,8 +4,21 @@ import { geoPath, geoGraticule, geoAzimuthalEqualArea } from 'd3-geo';
 import { rotateSph } from '../../logic/sphere';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
-import description from '../../locales/en/SchmidtNet.md';
 import { HelpConsumer } from '../App.js';
+import enMessages from '../../locales/schmidtnet/en/messages.json';
+import esMessages from '../../locales/schmidtnet/es/messages.json';
+import enHelp from '../../locales/schmidtnet/en/help.md';
+import esHelp from '../../locales/schmidtnet/es/help.md';
+
+const messages = {
+  en: enMessages,
+  es: esMessages
+};
+
+const help = {
+  en: enHelp,
+  es: esHelp
+};
 
 class SchmidtNet extends Component {
   constructor(props) {
@@ -63,14 +76,15 @@ class SchmidtNet extends Component {
   }
   getPlaneFromCoordinates() {}
   render() {
+    const { locale } = this.props;
     const path = this.createSchmidtNet();
     const planeCoordinates = this.getPlaneCoordinates();
     return (
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header>Schmidt net</Header>
-            <WithDescription text={description} show={showHelp}>
+            <Header>{messages[locale].title}</Header>
+            <WithDescription text={help[locale]} show={showHelp}>
               <SvgWrapper>
                 <svg
                   className="svg"
@@ -130,7 +144,7 @@ const SpherePath = styled.path`
   width: 100%;
   fill: none;
   stroke: ${props => props.theme.fgColorD20};
-  stroke-width: 1px;
+  stroke-width: 1.5px;
 `;
 
 const LinePath = SpherePath.extend``;

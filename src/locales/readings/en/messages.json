@@ -1,0 +1,7 @@
+{
+  "title": "Readings",
+  "azName": "Strike Azimuth / Dip *",
+  "qdName": "Strike Bearing / Dip",
+  "ddName": "Dip Direction / Dip",
+  "azTooltip": "* According to the right hand rule."
+}

@@ -7,19 +7,27 @@ class WithDescription extends React.Component {
     super(props);
     this.state = { html: marked('') };
   }
-  componentWillMount() {
+  fetchData() {
     if (this.props.text) {
       fetch(this.props.text)
         .then(response => response.text())
         .then(text => {
           this.setState({ html: marked(text) });
         });
+      //console.log('data fetched');
+    }
+  }
+  componentWillMount() {
+    this.fetchData();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.text !== this.props.text) {
+      this.fetchData();
     }
   }
   render() {
     // const { text } = this.props;
     // const html = marked(text || '');
-    console.log(this.state.html);
     return (
       <Container>
         {this.props.children}

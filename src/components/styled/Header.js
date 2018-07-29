@@ -12,6 +12,7 @@ const Header = styled.div`
   font-size: 0.7em;
   color: ${props => props.theme.fgColorD30};
   background-color: ${props => props.theme.bgColorL10};
+  font-weight: bold;
 `;
 
 export default Header;

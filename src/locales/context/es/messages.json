@@ -1,0 +1,8 @@
+{
+  "title": "Vista 3D",
+  "appearance": "Apariencia",
+  "wireframe": "Malla",
+  "trimPlane": "Cortar plano",
+  "planeOpacity": "Opacidad",
+  "resetCamera": "Reiniciar camara"
+}

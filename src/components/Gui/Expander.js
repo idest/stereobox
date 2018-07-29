@@ -15,6 +15,7 @@ class Portal extends Component {
     document.body.removeChild(this.el);
   }
   render() {
+    //TODO: find a way to update portal when locale changes
     return ReactDOM.createPortal(this.props.children, this.el);
   }
 }
@@ -59,7 +60,7 @@ class Expander extends Component {
           </Portal>
         )}
         <Handle onClick={this.toggle} bottom={height}>
-          <span>Appearance</span>
+          <span>{this.props.title}</span>
           <svg height="80%" viewBox="0 0 100 100">
             <g transform="translate(50,50)">
               <path
@@ -101,6 +102,7 @@ const Handle = styled.div`
   cursor: pointer;
   padding: 2px 10px;
   font-size: 0.7em;
+  font-weight: bold;
   color: ${props => props.theme.fgColorD30};
 `;
 

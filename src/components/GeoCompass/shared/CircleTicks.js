@@ -68,7 +68,7 @@ class Tick extends Component {
           x2={x * (radius - length)}
           y1={y * radius}
           y2={y * (radius - length)}
-          strokeWidth="0.5"
+          strokeWidth="0.75"
         />
         <text
           x={labelPos(x)}
@@ -77,7 +77,7 @@ class Tick extends Component {
           textAnchor="middle"
           transform={`rotate(${labelRotation}, ${labelPos(x)}, ${labelPos(y)})`}
           dy="0.4em"
-          strokeWidth="0.1"
+          strokeWidth="0.25"
         >
           {this.props.children}
         </text>

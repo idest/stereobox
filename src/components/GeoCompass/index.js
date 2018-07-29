@@ -6,8 +6,21 @@ import Compass from './Compass';
 import Clino from './Clino';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
-import description from '../../locales/en/GeoCompass.md';
 import { HelpConsumer } from '../App.js';
+import enMessages from '../../locales/geocompass/en/messages.json';
+import esMessages from '../../locales/geocompass/es/messages.json';
+import enHelp from '../../locales/geocompass/en/help.md';
+import esHelp from '../../locales/geocompass/es/help.md';
+
+const messages = {
+  en: enMessages,
+  es: esMessages
+};
+
+const help = {
+  en: enHelp,
+  es: esHelp
+};
 
 class GeoCompass extends Component {
   constructor(props) {
@@ -16,12 +29,13 @@ class GeoCompass extends Component {
     this.clinoToCompassRatio = 2 / 3; // Height ratio
   }
   render() {
+    const { locale } = this.props;
     return (
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header>Compass / Clinometer</Header>
-            <WithDescription text={description} show={showHelp}>
+            <Header>{messages[locale].title}</Header>
+            <WithDescription text={help[locale]} show={showHelp}>
               <GeoCompassContainer>
                 <CompassWrapper>
                   <CompassContainer

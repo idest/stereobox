@@ -4,14 +4,23 @@ function toAZFromQD(qd, qdDip) {
   let dipSense = qdDip.dipSense;
   let dip = qdDip.dip;
   let az;
-  if (strikeSense === 'NS' && (dipSense === 'E' || dipSense === 'W')) {
-    az = dipSense === 'E' ? 0 : 180;
-  } else if (strikeSense === 'EW' && (dipSense === 'S' || dipSense === 'N')) {
-    az = dipSense === 'S' ? 90 : 270;
-  } else if (strikeSense === 'NE' && (dipSense === 'SE' || dipSense === 'NW')) {
-    az = dipSense === 'SE' ? strike : 180 + strike;
-  } else if (strikeSense === 'NW' && (dipSense === 'NE' || dipSense === 'SW')) {
-    az = dipSense === 'NE' ? 360 - strike : 180 - strike;
+  if (/NS/i.test(strikeSense) && (/E/i.test(dipSense) || /W/i.test(dipSense))) {
+    az = /E/i.test(dipSense) ? 0 : 180;
+  } else if (
+    /EW/i.test(strikeSense) &&
+    (/S/.test(dipSense) || /N/i.test(dipSense))
+  ) {
+    az = /S/i.test(dipSense) ? 90 : 270;
+  } else if (
+    /NE/i.test(strikeSense) &&
+    (/SE/i.test(dipSense) || /NW/i.test(dipSense))
+  ) {
+    az = /SE/i.test(dipSense) ? strike : 180 + strike;
+  } else if (
+    /NW/i.test(strikeSense) &&
+    (/NE/i.test(dipSense) || /SW/i.test(dipSense))
+  ) {
+    az = /NE/i.test(dipSense) ? 360 - strike : 180 - strike;
   } else {
     console.log('toAZFromQD else case fired, investigate!');
     return { horizontal: NaN, vertical: NaN };

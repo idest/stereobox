@@ -41,33 +41,36 @@ class PlaneReading extends React.Component {
           id={this.props.id}
           azimuth={this.props.azimuth}
           spanRef={this.firstInput}
-          tabIndex={this.props.index * 3 + 1}
           value={this.props.horizontal}
           dir="horizontal"
           onValueChange={this.onValueChange}
           color={this.props.horizontalColor}
+          tabIndex={this.props.index * 2 + 1}
         />
         <Reading
           id={this.props.id}
-          tabIndex={this.props.index * 3 + 2}
           value={this.props.vertical}
           dir="vertical"
           onValueChange={this.onValueChange}
           color={this.props.verticalColor}
+          tabIndex={this.props.index * 2 + 2}
         />
+        {/*
         <div tabIndex={this.props.index * 3 + 3} onFocus={this.handleFocus} />
+        */}
       </React.Fragment>
     );
   }
 }
 
 const TitleCell = Cell.extend`
-  width: 55%;
+  width: 60%;
   font-size: 0.9em;
 `;
 const TitleSpan = Span.extend`
   justify-content: left;
   padding-right: 0;
+  padding-left: 0.8em;
 `;
 
 export default PlaneReading;

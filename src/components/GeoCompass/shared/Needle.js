@@ -9,7 +9,7 @@ class Needle extends Component {
     return (
       <g>
         <LineBorder
-          strokeWidth="3"
+          strokeWidth="4"
           strokeLinecap="round"
           x1="0"
           x2={x}
@@ -18,7 +18,7 @@ class Needle extends Component {
         />
         <line
           stroke={color}
-          strokeWidth="1.5"
+          strokeWidth="2"
           strokeLinecap="round"
           x1="0"
           x2={x}

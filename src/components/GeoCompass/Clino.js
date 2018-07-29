@@ -68,7 +68,7 @@ class Clino extends Component {
             stroke={this.props.theme.bgColorD2}
             fill={centerColor}
             strokeWidth="0.75"
-            r="1.2"
+            r="1.5"
             cx="0"
             cy="0"
           />
@@ -85,6 +85,7 @@ const Svg = styled.svg`
 const ClinoPath = styled.path`
   stroke: ${props => props.theme.fgColorD20};
   fill: transparent;
+  stroke-width: 1.5px;
 `;
 
 const StyledCircleTicks = styled(CircleTicks)`

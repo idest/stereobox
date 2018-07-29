@@ -1,0 +1,8 @@
+{
+  "title": "3D View",
+  "appearance": "Appearance",
+  "wireframe": "Wireframe",
+  "trimPlane": "Trim plane",
+  "planeOpacity": "Plane opacity",
+  "resetCamera": "Reset camera"
+}

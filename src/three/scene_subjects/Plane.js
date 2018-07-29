@@ -99,7 +99,7 @@ export default (scene, initialProps, eventBus) => {
     const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     const planeGeometry = new THREE.CircleGeometry(r2 - 0.01, 128);
     const planeMaterial = new THREE.MeshLambertMaterial({
-      color: '#bdae93',
+      color: initialProps.theme.planeColor,
       side: THREE.DoubleSide,
       clippingPlanes: [clippingPlane],
       transparent: true,

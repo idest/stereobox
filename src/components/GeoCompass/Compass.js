@@ -59,7 +59,7 @@ class Compass extends Component {
               length={r * 0.5}
             />
           </NeedleLogic>
-          <CenterCircle strokeWidth="0.75" r="1.2" cx="0" cy="0" />
+          <CenterCircle strokeWidth="0.75" r="1.5" cx="0" cy="0" />
         </g>
       </Svg>
     );
@@ -73,6 +73,7 @@ const Svg = styled.svg`
 const CompassCircle = styled.circle`
   stroke: ${props => props.theme.fgColorD20};
   fill: transparent;
+  stroke-width: 1.5px;
 `;
 
 const StyledCircleTicks = styled(CircleTicks)`
