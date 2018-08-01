@@ -4,5 +4,6 @@
   "wireframe": "Wireframe",
   "trimPlane": "Trim plane",
   "planeOpacity": "Plane opacity",
+  "showIndicators": "Show indicators",
   "resetCamera": "Reset camera"
 }

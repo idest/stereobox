@@ -6,7 +6,7 @@ const Title = styled.div`
   align-items: center;
   justify-content: left;
   color: ${props => props.theme.fgColorD40};
-  width: 40%;
+  width: 45%;
   box-sizing: border-box;
   padding-left: 20px;
 `;

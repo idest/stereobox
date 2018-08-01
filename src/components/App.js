@@ -42,27 +42,28 @@ class App extends React.Component {
     this.setState({ windowWidth: window.innerWidth });
   }
   changePlaneState(newPlaneState) {
-    let planeAzimuth =
-      newPlaneState.planeAzimuth === undefined
-        ? this.state.planeAzimuth
-        : newPlaneState.planeAzimuth;
-    let planeDip =
-      newPlaneState.planeDip === undefined
-        ? this.state.planeDip
-        : newPlaneState.planeDip;
-    let lastInput =
-      newPlaneState.lastInput === undefined ? 'AZ' : newPlaneState.lastInput;
-    let lastAnimationId =
-      newPlaneState.lastAnimationId === undefined
-        ? this.state.lastAnimationId
-        : newPlaneState.lastAnimationId;
-    this.setState({
-      planeAzimuth: planeAzimuth,
-      planeDip: planeDip,
-      lastInput: lastInput,
-      lastAnimationId: lastAnimationId
-    });
-    /*
+    if (newPlaneState) {
+      let planeAzimuth =
+        newPlaneState.planeAzimuth === undefined
+          ? this.state.planeAzimuth
+          : newPlaneState.planeAzimuth;
+      let planeDip =
+        newPlaneState.planeDip === undefined
+          ? this.state.planeDip
+          : newPlaneState.planeDip;
+      let lastInput =
+        newPlaneState.lastInput === undefined ? 'AZ' : newPlaneState.lastInput;
+      let lastAnimationId =
+        newPlaneState.lastAnimationId === undefined
+          ? this.state.lastAnimationId
+          : newPlaneState.lastAnimationId;
+      this.setState({
+        planeAzimuth: planeAzimuth,
+        planeDip: planeDip,
+        lastInput: lastInput,
+        lastAnimationId: lastAnimationId
+      });
+      /*
     console.log('newPlaneState:', {
       planeAzimuth: planeAzimuth,
       planeDip: planeDip,
@@ -70,6 +71,7 @@ class App extends React.Component {
       animationId: animationId
     });
     */
+    }
   }
 
   animateStateChange(stateUpdater, animationId) {
@@ -130,6 +132,7 @@ class App extends React.Component {
               azimuth={this.state.planeAzimuth}
               dip={this.state.planeDip}
               locale={locale}
+              changePlaneState={this.changePlaneState}
             />
             <Context
               name="context"

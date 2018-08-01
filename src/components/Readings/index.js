@@ -141,7 +141,7 @@ class Readings extends React.Component {
         {showHelp => (
           <div>
             <Header>{messages[locale].title}</Header>
-            <StyledWithDescription text={help[locale]} show={showHelp}>
+            <WithDescription text={help[locale]} show={showHelp}>
               <Table className={this.props.className}>
                 <PlaneReading
                   id="AZ"
@@ -177,17 +177,13 @@ class Readings extends React.Component {
                   onPlaneChange={this.onDDChange}
                 />
               </Table>
-            </StyledWithDescription>
+            </WithDescription>
           </div>
         )}
       </HelpConsumer>
     );
   }
 }
-
-const StyledWithDescription = styled(WithDescription)`
-  border-bottom: solid 1px ${props => props.theme.bgColorL40};
-`;
 
 const Table = styled.div`
   display: flex;

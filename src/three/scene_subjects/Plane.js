@@ -22,14 +22,19 @@ export default (scene, initialProps, eventBus) => {
   plane.setRotationFromQuaternion(getOrientationQuaternion(azimuth, dip));
 
   const azIndicators = getAzimuthIndicators(r1, r2);
-  scene.add(azIndicators);
   azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
-
   const dipIndicator = getDipIndicator(r1, r2);
-  scene.add(dipIndicator);
   dipIndicator.setRotationFromQuaternion(
     getOrientationQuaternion(azimuth, dip)
   );
+  const noIndicatorsLine = getNoIndicatorsLine(r1, r2);
+  noIndicatorsLine.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
+  if (initialProps.showIndicators === true) {
+    scene.add(azIndicators);
+    scene.add(dipIndicator);
+  } else {
+    scene.add(noIndicatorsLine);
+  }
 
   eventBus.subscribe('propsUpdate', propsUpdateHandler);
   //0x448960
@@ -50,6 +55,9 @@ export default (scene, initialProps, eventBus) => {
     if (currentProps.sphereWireframe !== updatedProps.sphereWireframe) {
       toggleIntersectionLine(updatedProps.sphereWireframe);
     }
+    if (currentProps.showIndicators !== updatedProps.showIndicators) {
+      toggleIndicators(updatedProps.showIndicators);
+    }
     currentProps = updatedProps;
   }
 
@@ -58,6 +66,9 @@ export default (scene, initialProps, eventBus) => {
     azIndicators.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
     dipIndicator.setRotationFromQuaternion(
       getOrientationQuaternion(azimuth, dip)
+    );
+    noIndicatorsLine.setRotationFromQuaternion(
+      getOrientationQuaternion(azimuth)
     );
   }
 
@@ -80,6 +91,18 @@ export default (scene, initialProps, eventBus) => {
       boolean === true ? outerIntersection : innerIntersection;
     intersection = newIntersection;
     plane.add(intersection);
+  }
+
+  function toggleIndicators(boolean) {
+    if (boolean === true) {
+      scene.add(azIndicators);
+      scene.add(dipIndicator);
+      scene.remove(noIndicatorsLine);
+    } else {
+      scene.remove(azIndicators);
+      scene.remove(dipIndicator);
+      scene.add(noIndicatorsLine);
+    }
   }
 
   function planeSurfaceRectangular(planeOpacity) {
@@ -159,6 +182,19 @@ export default (scene, initialProps, eventBus) => {
     });
 
     return dipLine;
+  }
+
+  function getNoIndicatorsLine(r1, r2) {
+    const az = new THREE.Vector3(1, 0, 0);
+    const azExt = new THREE.Vector3(-1, 0, 0);
+    const p1 = az.clone().multiplyScalar(r2 - 0.01);
+    const p2 = azExt.clone().multiplyScalar(r2 - 0.01);
+    const noIndicatorsLine = utils.getLine([p1, p2], {
+      color: new THREE.Color(initialProps.theme.fgColorD20),
+      linewidth: 1,
+      dashed: false
+    });
+    return noIndicatorsLine;
   }
 
   function getIntersection(r1, r2) {

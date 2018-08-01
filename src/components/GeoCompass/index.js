@@ -73,6 +73,7 @@ const Container = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: hidden; // moz fix;
+  border-top: solid 2px ${props => props.theme.bgColorL40};
 `;
 const GeoCompassContainer = styled.div`
   box-sizing: border - box;

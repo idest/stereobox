@@ -1,13 +1,15 @@
 import nj from 'numjs';
 //var nj = require('numjs');
 
+//order of spherical coordinates: [longitude, latitude]
+
 const toRadians = angle => angle * (Math.PI / 180);
 
 const toDegrees = angle => angle * (180 / Math.PI);
 
 const sph2cart = sphVector => {
-  const lat = toRadians(sphVector[0]);
-  const lon = toRadians(sphVector[1]);
+  const lon = toRadians(sphVector[0]);
+  const lat = toRadians(sphVector[1]);
   const x = Math.cos(lat) * Math.cos(lon);
   const y = Math.cos(lat) * Math.sin(lon);
   const z = Math.sin(lat);
@@ -18,9 +20,14 @@ const cart2sph = cartVector => {
   const x = cartVector.get(0),
     y = cartVector.get(1),
     z = cartVector.get(2);
-  const lat = Math.asin(z);
-  const lon = Math.atan(y / x);
-  return [toDegrees(lat), toDegrees(lon)];
+  //atan2 is necessaty when -pi < lon < pi to get the appropiaete signs
+  const lon = Math.atan2(y, x);
+  //TODO: figure out the difference between these two methods for calculating
+  //latitude, second one always works when transforming a vector calculated
+  //using cross product, first one doesn't
+  //const lat = Math.asin(z); // this one doesn't always work
+  const lat = Math.atan(z / Math.sqrt(x ** 2 + y ** 2)); //this one does
+  return [toDegrees(lon), toDegrees(lat)];
 };
 
 const rot = (eulerCartVector, w) => {
@@ -49,4 +56,30 @@ const rotateSph = (posSphVector, eulerSphVector, w) => {
   return rotatedSph;
 };
 
-export { sph2cart, cart2sph, rot, rotateSph };
+const cross = (cartVectorA, cartVectorB) => {
+  const [a1, a2, a3] = cartVectorA.tolist();
+  const [b1, b2, b3] = cartVectorB.tolist();
+  const x = a2 * b3 - a3 * b2;
+  const y = a3 * b1 - a1 * b3;
+  const z = a1 * b2 - a2 * b1;
+  return nj.array([x, y, z]);
+};
+
+const haversine = (sphVector1, sphVector2) => {
+  //Distancia entre 2 puntos en la superficie terrestre
+  const lon1 = toRadians(sphVector1[0]),
+    lat1 = toRadians(sphVector1[1]),
+    lon2 = toRadians(sphVector2[0]),
+    lat2 = toRadians(sphVector2[1]);
+
+  //haversine formula
+  const dlon = lon2 - lon1,
+    dlat = lat2 - lat1,
+    a =
+      Math.sin(dlat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) ** 2,
+    c = 2 * Math.asin(Math.sqrt(a));
+  return toDegrees(c);
+};
+
+export { sph2cart, cart2sph, rot, rotateSph, cross, haversine };

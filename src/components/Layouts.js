@@ -174,9 +174,6 @@ const Icon = styled.span`
     height: 100%;
     fill: ${props =>
       props.active ? props.theme.fgColorD20 : props.theme.fgColorD40};
-    &:hover {
-      fill: ${props => props.theme.fgColorD20};
-    }
   }
 `;
 
@@ -213,11 +210,11 @@ const ControlsSection = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    width: 45%;
+    flex: 9;
     border-right: 2px solid ${props => props.theme.bgColorL40};
   `};
   ${media.desktop`
-    width: 30%;
+    flex: 3;
   `};
 `;
 
@@ -225,11 +222,11 @@ const VisualizationsSection = styled.div`
   ${media.tablet`
     display: flex;
     flex-direction: column;
-    width: 55%;
+    flex: 11;
   `};
   ${media.desktop`
     flex-direction: row;
-    width: 70%;
+    flex: 7;
   `};
 `;
 
@@ -237,9 +234,10 @@ const SchmidtNetWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  //order: 2;
   min-height: 200px;
   ${media.desktop`
-  flex: 4;
+    flex: 4;
   `};
 `;
 
@@ -248,6 +246,7 @@ const ContextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  //order: 1;
   min-height: 200px;
   border-top: 1px solid ${props => props.theme.bgColorL40};
   ${media.tablet`

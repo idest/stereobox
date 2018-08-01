@@ -4,7 +4,7 @@ const Cell = styled.div`
   box-sizing: border-box;
   flex-grow: 1;
   overflow: hidden;
-  border-bottom: solid 1px ${props => props.theme.bgColorL40};
+  border-top: solid 1px ${props => props.theme.bgColorL10};
   text-align: center;
   background-color: ${props => props.theme.bgColor};
   color: ${props => props.theme.fgColorD30};

@@ -4,5 +4,6 @@
   "wireframe": "Malla",
   "trimPlane": "Cortar plano",
   "planeOpacity": "Opacidad",
-  "resetCamera": "Reiniciar camara"
+  "showIndicators": "Mostrar indicadores",
+  "resetCamera": "Reiniciar cámara"
 }

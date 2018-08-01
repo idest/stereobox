@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { fixAz, modAz } from '../../logic/utils';
 
 class CompassContainer extends Component {
   constructor(props) {
@@ -12,30 +13,10 @@ class CompassContainer extends Component {
   azimuthAnimationUpdater(azimuth, newAzimuth) {
     let az = azimuth;
     const newAz = newAzimuth;
-    const modAz = (azToMod, azDiff) => {
-      let azMod = azToMod;
-      if (azDiff > 180) {
-        if (newAz > azToMod) {
-          azMod = newAz + (360 - azDiff);
-        } else {
-          azMod = newAz - (360 - azDiff);
-        }
-      }
-      return azMod;
-    };
-    const fixAz = azToFix => {
-      let azFix = azToFix;
-      if (azToFix < 0) {
-        azFix = azToFix + 360;
-      } else {
-        azFix = azToFix % 360;
-      }
-      return azFix;
-    };
     const updater = () => {
       const azDiff = Math.abs(newAz - az);
       if (azDiff > 2) {
-        az = modAz(az, azDiff);
+        az = modAz(az, newAz); // previously modAz(az, azDiff)
         az = 0.93 * az + 0.07 * newAz;
         az = fixAz(az);
         return { planeAzimuth: az };
@@ -68,7 +49,7 @@ class CompassContainer extends Component {
     const animationId = `COM${currentMouseAngle}`;
     const stateUpdater = this.azimuthAnimationUpdater(
       this.props.azimuth,
-      newAzimuth
+      fixAz(newAzimuth - 90)
     );
     this.props.animateStateChange(stateUpdater, animationId);
   }

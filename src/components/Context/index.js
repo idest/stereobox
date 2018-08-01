@@ -33,10 +33,12 @@ class Context extends React.Component {
     this.handleWireframeChange = this.handleWireframeChange.bind(this);
     this.handlePlaneTrimChange = this.handlePlaneTrimChange.bind(this);
     this.handlePlaneOpacityChange = this.handlePlaneOpacityChange.bind(this);
+    this.handleToggleIndicators = this.handleToggleIndicators.bind(this);
     this.state = {
       planeOpacity: 0.5,
       planeTrim: true,
-      sphereWireframe: true
+      sphereWireframe: true,
+      showIndicators: true
     };
     this.initialState = this.state;
   }
@@ -64,6 +66,9 @@ class Context extends React.Component {
     this.setState({ planeOpacity: planeOpacity });
     //this.eventBus.post('planeOpacityChange', planeOpacity);
   }
+  handleToggleIndicators(checked) {
+    this.setState({ showIndicators: checked });
+  }
   render() {
     const { locale } = this.props;
     this.eventBus.post('propsUpdate', { ...this.props, ...this.state });
@@ -74,29 +79,34 @@ class Context extends React.Component {
             <Header>{messages[locale].title}</Header>
             <WithDescription text={help[locale]} show={showHelp}>
               <ThreeContainer innerRef={this.threeRootElement} />
+              <Button onClick={this.handleCameraReset}>
+                {messages[locale].resetCamera}
+              </Button>
+              <Expander title={messages[locale].appearance} height={135}>
+                <Gui>
+                  <Checkbox
+                    title={messages[locale].wireframe}
+                    callback={this.handleWireframeChange}
+                    initialValue={this.state.sphereWireframe}
+                  />
+                  <Checkbox
+                    title={messages[locale].trimPlane}
+                    callback={this.handlePlaneTrimChange}
+                    initialValue={this.state.planeTrim}
+                  />
+                  <Checkbox
+                    title={messages[locale].showIndicators}
+                    callback={this.handleToggleIndicators}
+                    initialValue={this.state.showIndicators}
+                  />
+                  <Slider
+                    title={messages[locale].planeOpacity}
+                    callback={this.handlePlaneOpacityChange}
+                    initialValue={this.state.planeOpacity}
+                  />
+                </Gui>
+              </Expander>
             </WithDescription>
-            <Expander title={messages[locale].appearance} height={120}>
-              <Gui>
-                <Checkbox
-                  title={messages[locale].wireframe}
-                  callback={this.handleWireframeChange}
-                  initialValue={this.state.sphereWireframe}
-                />
-                <Checkbox
-                  title={messages[locale].trimPlane}
-                  callback={this.handlePlaneTrimChange}
-                  initialValue={this.state.planeTrim}
-                />
-                <Slider
-                  title={messages[locale].planeOpacity}
-                  callback={this.handlePlaneOpacityChange}
-                  initialValue={this.state.planeOpacity}
-                />
-                <Button onClick={this.handleCameraReset}>
-                  {messages[locale].resetCamera}
-                </Button>
-              </Gui>
-            </Expander>
           </Container>
         )}
       </HelpConsumer>

@@ -1,6 +1,7 @@
 import { lighten, darken, desaturate } from 'polished';
 
 // prettier-ignore
+//planeColor: '#bcaa89',
 const theme = {
       azColor: '#cc615b',
       azExtColor: '#3d7fcc',
@@ -8,7 +9,7 @@ const theme = {
       dipColor: '#ccc470',
       bgColor: '#282828',
       fgColor: '#ffffff',
-      planeColor: '#bcaa89',
+      planeColor: darken(0.2, '#ffffff'),
       get azColorDe20() { return desaturate(0.2, this.azColor); },
       get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
       get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
