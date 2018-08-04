@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { media } from '../utils/style';
+import { media, ie } from '../utils/style';
 import Tabs from './Tabs';
 import Tab from './Tabs/Tab';
 import HelpIcon from '../assets/question-circle';
@@ -115,6 +115,9 @@ const MainSection = styled.div`
   justify-content: center;
   background: ${props => props.theme.bgColor};
   color: ${props => props.theme.fgColorD20};
+  ${ie`
+    justify-content: flex-start; 
+  `};
   ${media.tablet`
     width: 640px;
     margin-left: auto;

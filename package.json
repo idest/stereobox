@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://idest.io/compass",
   "dependencies": {
+    "core-js": "^2.5.7",
     "d3-geo": "^1.10.0",
     "marked": "^0.4.0",
     "mathjs": "^5.0.4",

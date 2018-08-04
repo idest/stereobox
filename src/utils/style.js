@@ -16,3 +16,10 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
   `;
   return accumulator;
 }, {});
+
+// target IE10+
+export const ie = (...args) => css`
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    ${css(...args)};
+  }
+`;

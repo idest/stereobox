@@ -67,8 +67,7 @@ class Compass extends Component {
 }
 
 const Svg = styled.svg`
-  width: 100%;
-  height: 100%;
+  flex: 1;
 `;
 const CompassCircle = styled.circle`
   stroke: ${props => props.theme.fgColorD20};

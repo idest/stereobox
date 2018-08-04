@@ -25,7 +25,6 @@ class Clino extends Component {
       <Svg
         viewBox={`0 0 100 ${this.viewBoxHeight}`}
         onDragStart={this.preventSVGDrag}
-        style={{ width: '100%', height: '100%' }}
       >
         <g id="clinoGroup" transform={`translate(50,${this.clinoDY})`}>
           <ClinoPath d="M0,0 m-40,0 a1,1 0 0 0 80,0 l-80,0" />
@@ -78,8 +77,7 @@ class Clino extends Component {
   }
 }
 const Svg = styled.svg`
-  width: 100%;
-  height: 100%;
+  flex: 1;
 `;
 
 const ClinoPath = styled.path`

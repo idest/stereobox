@@ -72,25 +72,31 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden; // moz fix;
+  overflow: hidden; // moz fix
   border-top: solid 2px ${props => props.theme.bgColorL40};
 `;
 const GeoCompassContainer = styled.div`
-  box-sizing: border - box;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   padding-top: 25px;
   padding-bottom: 15px;
   flex: 1;
-  overflow: hidden; // moz fix;
+  overflow: hidden; // moz fix
 `;
 
 const CompassWrapper = styled.div`
-  height: 60%;
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  overflow: hidden; // moz fix
 `;
 
 const ClinoWrapper = styled.div`
-  height: 40%;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  overflow: hidden; // moz fix
 `;
 
 //TODO: get rid of '//moz fix' everywhere

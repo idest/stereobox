@@ -244,12 +244,7 @@ class SchmidtNet extends Component {
             <Header>{messages[locale].title}</Header>
             <WithDescription text={help[locale]} show={showHelp}>
               <SvgWrapper>
-                <svg
-                  className="svg"
-                  style={{ height: '100%', width: '100%' }}
-                  ref={this.svg}
-                  onDragStart={this.preventSVGDrag}
-                >
+                <Svg innerRef={this.svg} onDragStart={this.preventSVGDrag}>
                   <g
                     onMouseMove={this.handleMouseMove}
                     onMouseUp={this.handleMouseUp}
@@ -340,7 +335,7 @@ class SchmidtNet extends Component {
                       onMouseDown={this.handleMouseDown}
                     />
                   </g>
-                </svg>
+                </Svg>
               </SvgWrapper>
             </WithDescription>
           </Container>
@@ -349,6 +344,11 @@ class SchmidtNet extends Component {
     );
   }
 }
+
+const Svg = styled.svg`
+  flex: 1;
+  width: 100%;
+`;
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -362,8 +362,8 @@ const Container = styled.div`
 const SvgWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
-  height: 100%;
-  width: 100%;
+  flex-direction: column;
+  flex: 1;
   padding: 1em;
   justify-content: center;
   align-items: center;
