@@ -31,10 +31,10 @@ export class MobileLayout extends React.Component {
                     {children.find(child => child.props.name === 'geocompass')}
                   </GeoCompassWrapper>
                 </Tab>
-                <Tab title={messages[locale].schmidtnetTab}>
-                  <SchmidtNetWrapper>
-                    {children.find(child => child.props.name === 'schmidtnet')}
-                  </SchmidtNetWrapper>
+                <Tab title={messages[locale].stereonetTab}>
+                  <StereonetWrapper>
+                    {children.find(child => child.props.name === 'stereonet')}
+                  </StereonetWrapper>
                 </Tab>
                 <Tab title={messages[locale].contextTab}>
                   <ContextWrapper>
@@ -78,9 +78,9 @@ export class DesktopLayout extends React.Component {
               </GeoCompassWrapper>
             </ControlsSection>
             <VisualizationsSection>
-              <SchmidtNetWrapper>
-                {children.find(child => child.props.name === 'schmidtnet')}
-              </SchmidtNetWrapper>
+              <StereonetWrapper>
+                {children.find(child => child.props.name === 'stereonet')}
+              </StereonetWrapper>
               <ContextWrapper>
                 {children.find(child => child.props.name === 'context')}
               </ContextWrapper>
@@ -233,7 +233,7 @@ const VisualizationsSection = styled.div`
   `};
 `;
 
-const SchmidtNetWrapper = styled.div`
+const StereonetWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;

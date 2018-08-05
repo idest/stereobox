@@ -2,6 +2,6 @@
   "subtitle":
     "An interactive tool to visualize planes using the stereographic projection.",
   "geocompassTab": "Compass",
-  "schmidtnetTab": "Schmidt net",
+  "stereonetTab": "Stereonet",
   "contextTab": "3D View"
 }

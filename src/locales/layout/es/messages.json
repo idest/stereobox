@@ -2,6 +2,6 @@
   "subtitle":
     "Una herramienta para visualizar planos usando la proyección estereográfica.",
   "geocompassTab": "Brújula",
-  "schmidtnetTab": "Red de Schmidt",
+  "stereonetTab": "Stereonet",
   "contextTab": "Vista 3D"
 }

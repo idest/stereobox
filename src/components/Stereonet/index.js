@@ -12,10 +12,10 @@ import { fixAz, modAz } from '../../logic/utils';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
 import { HelpConsumer } from '../App.js';
-import enMessages from '../../locales/schmidtnet/en/messages.json';
-import esMessages from '../../locales/schmidtnet/es/messages.json';
-import enHelp from '../../locales/schmidtnet/en/help.md';
-import esHelp from '../../locales/schmidtnet/es/help.md';
+import enMessages from '../../locales/stereonet/en/messages.json';
+import esMessages from '../../locales/stereonet/es/messages.json';
+import enHelp from '../../locales/stereonet/en/help.md';
+import esHelp from '../../locales/stereonet/es/help.md';
 
 const messages = {
   en: enMessages,
@@ -27,10 +27,10 @@ const help = {
   es: esHelp
 };
 
-class SchmidtNet extends Component {
+class Stereonet extends Component {
   constructor(props) {
     super(props);
-    //this.createSchmidtNet = this.createSchmidtNet.bind(this);
+    //this.createStereonet = this.createStereonet.bind(this);
     this.getPlaneCoordinates = this.getPlaneCoordinates.bind(this);
     this.getPlaneFromAzAndDipChange.bind(this);
     this.svg = React.createRef();
@@ -87,7 +87,7 @@ class SchmidtNet extends Component {
     const clientRect = this.svg.current.getBoundingClientRect();
     this.setState({ width: clientRect.width, height: clientRect.height });
   }
-  createSchmidtNet() {
+  createStereonet() {
     const geojson = { type: 'Sphere' };
     const pad = 20; //padding
     const projection = geoAzimuthalEqualArea()
@@ -229,7 +229,7 @@ class SchmidtNet extends Component {
   }
   render() {
     const { locale } = this.props;
-    //const path = this.createSchmidtNet();
+    //const path = this.createStereonet();
     const path = geoPath()
       .projection(this.state.projection)
       .pointRadius(4);
@@ -410,4 +410,4 @@ const PointPath = SpherePath.extend`
 `;
 */
 
-export default SchmidtNet;
+export default Stereonet;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Readings from './Readings';
 import GeoCompass from './GeoCompass';
-import SchmidtNet from './SchmidtNet';
+import Stereonet from './Stereonet';
 import Context from './Context';
 import { ThemeProvider } from 'styled-components';
 import theme from '../utils/theme';
@@ -127,8 +127,8 @@ class App extends React.Component {
               animateStateChange={this.animateStateChange}
               locale={locale}
             />
-            <SchmidtNet
-              name="schmidtnet"
+            <Stereonet
+              name="stereonet"
               azimuth={this.state.planeAzimuth}
               dip={this.state.planeDip}
               locale={locale}
