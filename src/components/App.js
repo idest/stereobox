@@ -147,7 +147,7 @@ class App extends React.Component {
 class LocalizedApp extends React.Component {
   render() {
     return (
-      <Router>
+      <Router basename="/compass">
         <Switch>
           <Route exact path="/" render={() => <App locale="en" />} />
           <Route exact path="/es" render={() => <App locale="es" />} />
