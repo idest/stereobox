@@ -1,10 +1,7 @@
 {
   "main.css": "static/css/main.1a116e46.css",
   "main.css.map": "static/css/main.1a116e46.css.map",
-  "main.js": "static/js/main.01683ef4.js",
-  "main.js.map": "static/js/main.01683ef4.js.map",
-  "static/media/Context.md": "static/media/Context.63b88dae.md",
-  "static/media/GeoCompass.md": "static/media/GeoCompass.63b88dae.md",
-  "static/media/Readings.md": "static/media/Readings.63b88dae.md",
-  "static/media/SchmidtNet.md": "static/media/SchmidtNet.63b88dae.md"
+  "main.js": "static/js/main.94f25df4.js",
+  "main.js.map": "static/js/main.94f25df4.js.map",
+  "static/media/help.md": "static/media/help.b0610efe.md"
 }
