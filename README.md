@@ -1,2 +1,2 @@
-# compass
-An interactive tool for visualizing planes
+# Stereobox
+An interactive introduction to stereonets.

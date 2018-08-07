@@ -1,6 +1,5 @@
 {
-  "subtitle":
-    "Una herramienta para visualizar planos usando la proyección estereográfica.",
+  "subtitle": "Una introducción interactiva a la red estereográfica",
   "geocompassTab": "Brújula",
   "stereonetTab": "Stereonet",
   "contextTab": "Vista 3D"

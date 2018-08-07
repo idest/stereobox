@@ -1,8 +1,8 @@
 {
-  "name": "compass",
+  "name": "stereobox",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://idest.io/compass",
+  "homepage": "https://idest.io/stereobox",
   "dependencies": {
     "core-js": "^2.5.7",
     "d3-geo": "^1.10.0",

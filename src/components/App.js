@@ -5,7 +5,7 @@ import Stereonet from './Stereonet';
 import Context from './Context';
 import { ThemeProvider } from 'styled-components';
 import theme from '../utils/theme';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { MobileLayout, DesktopLayout } from './Layouts';
 
 const {
@@ -150,7 +150,7 @@ class App extends React.Component {
 class LocalizedApp extends React.Component {
   render() {
     return (
-      <Router basename="/compass">
+      <Router>
         <Switch>
           <Route exact path="/" render={() => <App locale="en" />} />
           <Route exact path="/es" render={() => <App locale="es" />} />

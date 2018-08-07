@@ -58,7 +58,7 @@ export class DesktopLayout extends React.Component {
       <AppWrapper>
         <TopBar locale={locale} />
         <MainSection>
-          <Title>Geo Compass</Title>
+          <Title>Stereobox</Title>
           <SubtitleContainer>
             <Subtitle>{messages[locale].subtitle}</Subtitle>
             <Icon active={this.props.showHelp}>
