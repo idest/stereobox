@@ -139,32 +139,55 @@ export default (scene, initialProps, eventBus) => {
     const dipDirection = new THREE.Vector3(0, 0, 1);
 
     const az1 = az.clone().multiplyScalar(0);
-    const az2 = az.clone().multiplyScalar(r2 - 0.01);
+    //const az2 = az.clone().multiplyScalar(r2 - 0.01);
+    const az2 = az.clone().multiplyScalar(r1 - 0.01);
+    //
+    const az3 = az.clone().multiplyScalar(r2 - 0.01);
     const azExt1 = azExt.clone().multiplyScalar(0);
-    const azExt2 = azExt.clone().multiplyScalar(r2 - 0.01);
+    //const azExt2 = azExt.clone().multiplyScalar(r2 - 0.01);
+    const azExt2 = azExt.clone().multiplyScalar(r1 - 0.01);
+    //
+    const azExt3 = azExt.clone().multiplyScalar(r2 - 0.01);
     const dipDirection1 = dipDirection.clone().multiplyScalar(0);
     const dipDirection2 = dipDirection.clone().multiplyScalar(r1 * 0.5);
+    //
+    const dipDirection3 = dipDirection.clone().multiplyScalar(r2 - 0.01);
 
     const azimuthLine = utils.getLine([az1, az2], {
-      color: new THREE.Color(initialProps.theme.azColor),
+      color: new THREE.Color(initialProps.theme.azColorD5),
       linewidth: 4,
       dashed: false
     });
     const strikeLine = utils.getLine([azExt1, azExt2], {
-      color: new THREE.Color(initialProps.theme.azExtColor),
+      color: new THREE.Color(initialProps.theme.azExtColorD5),
       linewidth: 4,
       dashed: false
     });
     const dipDirectionLine = utils.getLine([dipDirection1, dipDirection2], {
-      color: new THREE.Color(initialProps.theme.dipDirectionColor),
+      color: new THREE.Color(initialProps.theme.dipDirectionColorD5),
       linewidth: 4,
       dashed: false
+    });
+    const azimuthPoint = utils.getSpheres([az3], {
+      r: 0.06,
+      color: new THREE.Color(initialProps.theme.azColor)
+    });
+    const strikePoint = utils.getSpheres([azExt3], {
+      r: 0.06,
+      color: new THREE.Color(initialProps.theme.azExtColor)
+    });
+    const dipDirectionPoint = utils.getSpheres([dipDirection3], {
+      r: 0.06,
+      color: new THREE.Color(initialProps.theme.dipDirectionColor)
     });
 
     const indicators = new THREE.Group();
     indicators.add(azimuthLine);
     indicators.add(strikeLine);
     indicators.add(dipDirectionLine);
+    indicators.add(azimuthPoint);
+    indicators.add(strikePoint);
+    indicators.add(dipDirectionPoint);
     indicators.position.y += 0.02;
     return indicators;
   }
@@ -174,14 +197,23 @@ export default (scene, initialProps, eventBus) => {
 
     const dip1 = dip.clone().multiplyScalar(r1);
     const dip2 = dip.clone().multiplyScalar(0);
+    //
+    const dip3 = dip.clone().multiplyScalar(r2 + 0.01);
 
     const dipLine = utils.getLine([dip1, dip2], {
-      color: new THREE.Color(initialProps.theme.dipColor),
+      color: new THREE.Color(initialProps.theme.dipColorD5),
       linewidth: 4,
       dashed: false
     });
+    const dipPoint = utils.getSpheres([dip3], {
+      r: 0.06,
+      color: new THREE.Color(initialProps.theme.dipColor)
+    });
+    const dipIndicators = new THREE.Group();
+    dipIndicators.add(dipLine);
+    dipIndicators.add(dipPoint);
 
-    return dipLine;
+    return dipIndicators;
   }
 
   function getNoIndicatorsLine(r1, r2) {

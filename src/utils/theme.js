@@ -2,6 +2,10 @@ import { lighten, darken, desaturate } from 'polished';
 
 // prettier-ignore
 //planeColor: '#bcaa89',
+//planeColor: darken(0.2, '#ffffff'),
+//planeColor: '#214b4e',
+//planeColor: '#3e4a4b',
+//planeColor: '#3b565a',
 const theme = {
       azColor: '#cc615b',
       azExtColor: '#3d7fcc',
@@ -9,11 +13,17 @@ const theme = {
       dipColor: '#ccc470',
       bgColor: '#282828',
       fgColor: '#ffffff',
-      planeColor: darken(0.2, '#ffffff'),
+      planeColor: '#2c484c',
       get azColorDe20() { return desaturate(0.2, this.azColor); },
       get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
       get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
       get dipColorDe20() { return desaturate(0.2, this.dipColor); },
+      get azColorD5() { return desaturate(0.1, darken(0.05, this.azColor)); },
+      get azExtColorD5() { return desaturate(0.1, darken(0.05, this.azExtColor)); },
+      get dipDirectionColorD5() { return desaturate(
+        0.1, darken(0.05, this.dipDirectionColor)
+      ); },
+      get dipColorD5() { return desaturate(0.1, darken(0.05, this.dipColor)); },
       get bgColorD5() { return darken(0.05, this.bgColor); },
       get bgColorD2() { return darken(0.02, this.bgColor); },
       get bgColorL2() { return lighten(0.02, this.bgColor); },
@@ -32,6 +42,7 @@ const theme = {
       get fgColorD30() { return darken(0.3, this.fgColor); },
       get fgColorD40() { return darken(0.4, this.fgColor); },
       get fgColorD50() { return darken(0.5, this.fgColor); },
+      get fgColorD55() { return darken(0.55, this.fgColor); },
       get fgColorD60() { return darken(0.6, this.fgColor); },
       get fgColorD70() { return darken(0.7, this.fgColor); },
       get fgColorD80() { return darken(0.8, this.fgColor); },

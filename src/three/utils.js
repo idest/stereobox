@@ -16,6 +16,22 @@ export function getPoints(points, color) {
   return new THREE.Points(geometry, material);
 }
 
+export function getSpheres(points, parameters) {
+  const sphereGeometry = new THREE.SphereGeometry(parameters.r, 16, 16);
+  const sphereMaterial = new THREE.MeshBasicMaterial({
+    color: parameters.color,
+    side: THREE.DoubleSide
+  });
+  const spheres = new THREE.Group();
+  for (let i = 0; i < points.length; i++) {
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere.position.copy(points[i]);
+    spheres.add(sphere);
+  }
+  console.log(spheres);
+  return spheres;
+}
+
 export function greatCircleFunction(P, Q) {
   var angle = P.angleTo(Q);
   return function(t) {

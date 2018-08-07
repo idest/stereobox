@@ -1,8 +1,8 @@
 Finalmente, aquí es donde todo converge. Esta sección muestra una vista 3D de la orientación del plano actual junto con el hemisferio inferior del *sistema de coordenadas horizontal*.
 
-Las agujas de la sección "Brújula/Clinómetro" junto con los puntos de la sección "Stereonet" también se muestran para propósitos de referencia.
+Las agujas de la sección "Brújula/Clinómetro" junto con los puntos de la sección "Red estereográfica" también se muestran para propósitos de referencia.
 
-Intenta cambiar la posición de la cámara para obtener una vista del plano desde arriba hacia abajo, y nota la relación de la linea de intersección entre el plano y el hemisferio inferior con el trazado del plano en el stereonet. 
+Intenta cambiar la posición de la cámara para obtener una vista del plano desde arriba hacia abajo, y nota la relación de la linea de intersección entre el plano y el hemisferio inferior con el trazado del plano en la red estereográfica.
 
 <hr/>
 

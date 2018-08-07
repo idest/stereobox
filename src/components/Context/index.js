@@ -35,8 +35,8 @@ class Context extends React.Component {
     this.handlePlaneOpacityChange = this.handlePlaneOpacityChange.bind(this);
     this.handleToggleIndicators = this.handleToggleIndicators.bind(this);
     this.state = {
-      planeOpacity: 0.5,
-      planeTrim: true,
+      planeOpacity: 0.75,
+      planeTrim: false,
       sphereWireframe: true,
       showIndicators: true
     };
@@ -46,7 +46,7 @@ class Context extends React.Component {
     const initialProps = {
       ...this.props,
       ...this.state,
-      r1: 1.3,
+      r1: 1.4,
       r2: 1.5
     };
     threeEntryPoint(this.threeRootElement.current, initialProps, this.eventBus);
