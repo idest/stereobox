@@ -35,7 +35,7 @@ class Context extends React.Component {
     this.handlePlaneOpacityChange = this.handlePlaneOpacityChange.bind(this);
     this.handleToggleIndicators = this.handleToggleIndicators.bind(this);
     this.state = {
-      planeOpacity: 0.75,
+      planeOpacity: 0.8,
       planeTrim: false,
       sphereWireframe: true,
       showIndicators: true

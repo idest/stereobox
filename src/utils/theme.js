@@ -14,7 +14,7 @@ const theme = {
       dipColor: '#ccc470',
       bgColor: '#282828',
       fgColor: '#ffffff',
-      planeColor: '#454642',
+      planeColor: '#ffffff',
       get azColorDe20() { return desaturate(0.2, this.azColor); },
       get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
       get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
