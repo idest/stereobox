@@ -82,24 +82,6 @@ class Stereonet extends Component {
       projection: projection
     });
   }
-  /*
-  updateDimensions() {
-    const clientRect = this.svg.current.getBoundingClientRect();
-    this.setState({ width: clientRect.width, height: clientRect.height });
-  }
-  createStereonet() {
-    const geojson = { type: 'Sphere' };
-    const pad = 20; //padding
-    const projection = geoAzimuthalEqualArea()
-      .precision(0.1)
-      .clipAngle(95)
-      .fitExtent(
-        [[pad, pad], [this.state.width - pad, this.state.height - pad]],
-        geojson
-      );
-    return geoPath().projection(projection);
-  }
-  */
   getPlaneCoordinates() {
     const az = this.props.azimuth,
       dip = this.props.dip,
@@ -241,7 +223,9 @@ class Stereonet extends Component {
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header>{messages[locale].title}</Header>
+            <Header showNumber={showHelp} number="1.">
+              {messages[locale].title}
+            </Header>
             <WithDescription text={help[locale]} show={showHelp}>
               <SvgWrapper>
                 <Svg innerRef={this.svg} onDragStart={this.preventSVGDrag}>

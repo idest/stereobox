@@ -25,17 +25,19 @@ class Needle extends Component {
           y1="0"
           y2={y}
         />
-        <LineWrapper
-          id={id}
-          strokeWidth="10"
-          stroke="transparent"
-          fill="transparent"
-          onMouseDown={this.props.handleMouseDown}
-          x1="0"
-          x2={x}
-          y1="0"
-          y2={y}
-        />
+        {this.props.unselectable ? null : (
+          <LineWrapper
+            id={id}
+            strokeWidth="10"
+            stroke="transparent"
+            fill="transparent"
+            onMouseDown={this.props.handleMouseDown}
+            x1="0"
+            x2={x}
+            y1="0"
+            y2={y}
+          />
+        )}
       </g>
     );
   }

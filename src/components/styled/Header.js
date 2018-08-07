@@ -1,6 +1,23 @@
+import React from 'react';
 import styled from 'styled-components';
 
-const Header = styled.div`
+const Header = props => {
+  return (
+    <HeaderStyled>
+      {props.showNumber ? (
+        <Span>
+          <strong>{props.number}</strong>
+        </Span>
+      ) : null}
+      {props.children}
+    </HeaderStyled>
+  );
+};
+
+const Span = styled.span`
+  padding-right: 5px;
+`;
+const HeaderStyled = styled.div`
   box-sizing: border-box;
   display: flex;
   width: 100%;
@@ -9,7 +26,7 @@ const Header = styled.div`
   align-items: center;
   border-bottom: solid 1px ${props => props.theme.bgColorL40};
   padding: 0px 10px;
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: ${props => props.theme.fgColorD30};
   background-color: ${props => props.theme.bgColorL10};
   font-weight: bold;

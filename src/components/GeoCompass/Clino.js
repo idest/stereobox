@@ -57,10 +57,11 @@ class Clino extends Component {
               length={r}
             />
             <Needle
-              id="dip"
+              id="dipDirection"
               color={this.props.theme.dipDirectionColor}
               angle={dipNeedleAngle > 90 ? Math.PI : dipNeedleAngle * 0}
               length={0.5 * r}
+              unselectable={true}
             />
           </NeedleLogic>
           <circle

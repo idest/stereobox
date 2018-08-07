@@ -76,7 +76,9 @@ class Context extends React.Component {
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header>{messages[locale].title}</Header>
+            <Header showNumber={showHelp} number="4.">
+              {messages[locale].title}
+            </Header>
             <WithDescription text={help[locale]} show={showHelp}>
               <ThreeContainer innerRef={this.threeRootElement} />
               <Button onClick={this.handleCameraReset}>

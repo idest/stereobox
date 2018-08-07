@@ -140,7 +140,9 @@ class Readings extends React.Component {
       <HelpConsumer>
         {showHelp => (
           <div>
-            <Header>{messages[locale].title}</Header>
+            <Header showNumber={showHelp} number="2.">
+              {messages[locale].title}
+            </Header>
             <WithDescription text={help[locale]} show={showHelp}>
               <Table className={this.props.className}>
                 <PlaneReading

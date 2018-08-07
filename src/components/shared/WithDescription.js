@@ -64,11 +64,13 @@ const Description = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 5px 20px;
   overflow: auto;
   text-align: left;
   font-size: 0.8em;
+  line-height: 1.35em;
+  color: ${props => props.theme.fgColorD40};
   background-color: ${props => props.theme.bgColorL5};
-  opacity: 0.9;
+  opacity: 0.95;
 `;
 export default WithDescription;
