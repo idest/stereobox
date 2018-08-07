@@ -6,6 +6,7 @@ import { lighten, darken, desaturate } from 'polished';
 //planeColor: '#214b4e',
 //planeColor: '#3e4a4b',
 //planeColor: '#3b565a',
+//planeColor: '#2c484c',
 const theme = {
       azColor: '#cc615b',
       azExtColor: '#3d7fcc',
@@ -13,7 +14,7 @@ const theme = {
       dipColor: '#ccc470',
       bgColor: '#282828',
       fgColor: '#ffffff',
-      planeColor: '#2c484c',
+      planeColor: '#454642',
       get azColorDe20() { return desaturate(0.2, this.azColor); },
       get azExtColorDe20() { return desaturate(0.2, this.azExtColor); },
       get dipDirectionColorDe20() { return desaturate(0.2, this.dipDirectionColor); },
