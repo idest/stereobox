@@ -34,7 +34,7 @@ class GeoCompass extends Component {
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header showNumber={showHelp} number="3.">
+            <Header showOrder={showHelp} order="C)">
               {messages[locale].title}
             </Header>
             <WithDescription text={help[locale]} show={showHelp}>

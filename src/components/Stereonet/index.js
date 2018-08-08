@@ -223,7 +223,7 @@ class Stereonet extends Component {
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header showNumber={showHelp} number="1.">
+            <Header showOrder={showHelp} order="A)">
               {messages[locale].title}
             </Header>
             <WithDescription text={help[locale]} show={showHelp}>

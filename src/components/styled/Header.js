@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { media } from '../../utils/style';
 
 const Header = props => {
   return (
     <HeaderStyled>
-      {props.showNumber ? (
+      {props.showOrder ? (
         <Span>
-          <strong>{props.number}</strong>
+          <strong>{props.order}</strong>
         </Span>
       ) : null}
       {props.children}
@@ -15,8 +16,12 @@ const Header = props => {
 };
 
 const Span = styled.span`
-  padding-right: 5px;
-  color: #cfd3e1;
+  display: none;
+  ${media.tablet`
+    display: block;
+    padding-right: 5px;
+    color: #cfd3e1;
+  `};
 `;
 const HeaderStyled = styled.div`
   box-sizing: border-box;

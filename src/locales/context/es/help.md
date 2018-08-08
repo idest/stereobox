@@ -1,4 +1,4 @@
-Finalmente, aquí es donde todo converge. Esta sección muestra una vista 3D de la orientación del plano actual junto con el hemisferio inferior del *sistema de coordenadas horizontal*.
+Aquí es donde todo converge. Esta sección muestra una vista 3D de la orientación del plano actual junto con el hemisferio inferior del *sistema de coordenadas horizontal*.
 
 Las agujas de la sección "Brújula/Clinómetro" junto con los puntos de la sección "Red estereográfica" también se muestran para propósitos de referencia.
 

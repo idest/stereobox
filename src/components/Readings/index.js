@@ -140,7 +140,7 @@ class Readings extends React.Component {
       <HelpConsumer>
         {showHelp => (
           <div>
-            <Header showNumber={showHelp} number="2.">
+            <Header showOrder={showHelp} order="B)">
               {messages[locale].title}
             </Header>
             <WithDescription text={help[locale]} show={showHelp}>

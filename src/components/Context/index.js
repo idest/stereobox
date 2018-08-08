@@ -76,7 +76,7 @@ class Context extends React.Component {
       <HelpConsumer>
         {showHelp => (
           <Container>
-            <Header showNumber={showHelp} number="4.">
+            <Header showOrder={showHelp} order="D)">
               {messages[locale].title}
             </Header>
             <WithDescription text={help[locale]} show={showHelp}>
