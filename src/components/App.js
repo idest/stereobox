@@ -21,7 +21,7 @@ class App extends React.Component {
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
     this.toggleHelp = this.toggleHelp.bind(this);
     this.state = {
-      planeAzimuth: 45,
+      planeAzimuth: 30,
       planeDip: 45,
       lastInput: 'AZ',
       lastAnimationId: null,
