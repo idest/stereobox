@@ -29,7 +29,7 @@ class App extends React.Component {
       showHelp: false
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
   componentWillUnmount() {

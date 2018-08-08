@@ -17,7 +17,7 @@ class WithDescription extends React.Component {
       //console.log('data fetched');
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
   componentDidUpdate(prevProps) {

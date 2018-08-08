@@ -49,7 +49,6 @@ class Slider extends Component {
     e.target.select();
   }
   render() {
-    console.log(this.props);
     return (
       <Row>
         <Title>

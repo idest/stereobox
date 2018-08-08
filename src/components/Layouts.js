@@ -21,11 +21,8 @@ export class MobileLayout extends React.Component {
     return (
       <AppWrapper>
         <TopBar>
-          <Icon active={this.props.showHelp}>
-            <HelpIcon
-              active={this.props.showHelp}
-              onClick={this.props.toggleHelp}
-            />
+          <Icon active={this.props.showHelp ? 1 : 0}>
+            <HelpIcon onClick={this.props.toggleHelp} />
           </Icon>
           <LangBar locale={locale} />
         </TopBar>
@@ -69,11 +66,8 @@ export class DesktopLayout extends React.Component {
           <Title>Stereobox</Title>
           <SubtitleContainer>
             <Subtitle>{messages[locale].subtitle}</Subtitle>
-            <Icon active={this.props.showHelp}>
-              <HelpIcon
-                active={this.props.showHelp}
-                onClick={this.props.toggleHelp}
-              />
+            <Icon active={this.props.showHelp ? 1 : 0}>
+              <HelpIcon onClick={this.props.toggleHelp} />
             </Icon>
           </SubtitleContainer>
           <Content>

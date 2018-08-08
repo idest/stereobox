@@ -108,7 +108,6 @@ export default (scene, initialProps, eventBus) => {
   function planeSurfaceRectangular(planeOpacity) {
     const planeGeometry = new THREE.PlaneGeometry(3.5, 3.5, 16, 16);
     const planeMaterial = new THREE.MeshDepthMaterial({
-      color: initialProps.theme.planeColor,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: planeOpacity
@@ -122,7 +121,6 @@ export default (scene, initialProps, eventBus) => {
     const clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     const planeGeometry = new THREE.CircleGeometry(r2 - 0.01, 128);
     const planeMaterial = new THREE.MeshDepthMaterial({
-      color: initialProps.theme.planeColor,
       side: THREE.DoubleSide,
       clippingPlanes: [clippingPlane],
       transparent: true,

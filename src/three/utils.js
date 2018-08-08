@@ -28,7 +28,7 @@ export function getSpheres(points, parameters) {
     sphere.position.copy(points[i]);
     spheres.add(sphere);
   }
-  console.log(spheres);
+  //console.log(spheres);
   return spheres;
 }
 
