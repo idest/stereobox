@@ -6,6 +6,6 @@ The curved line you see here, comprised of the red, yellow and blue points, repr
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 To change the plane orientation you can click on any point on the stereonet, or drag any of the colored points to the desired position.
-</span>
+</p>

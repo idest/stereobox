@@ -28,7 +28,7 @@ export default (containerElement, initialProps, eventBus) => {
   function resizeCanvas() {
     //canvas.style.height = '100%';
     canvas.style.width = '100%';
-    canvas.style.flex = 1;
+    canvas.style.flex = '1 1 auto';
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;

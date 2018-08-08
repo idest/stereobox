@@ -4,7 +4,7 @@ import styled from 'styled-components';
 class Tabs extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activeChildId: 0 };
+    this.state = { activeChildId: 1 };
   }
   handleClick(id) {
     this.setState({ activeChildId: id });

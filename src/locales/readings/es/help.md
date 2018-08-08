@@ -4,6 +4,6 @@ Los números en la columna izquierda se relacionan con rotaciones en la horizont
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 Haz click en cualquier número para cambiar su valor. Si la notación es inválida ningún plano será mostrado. También puedes considerar esta sección como un conversor de notaciones.
-</span>
+</p>

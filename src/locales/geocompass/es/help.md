@@ -14,6 +14,6 @@ La aguja azul es mostrada por conveniencia, ya que al leer el rumbo de un plano 
 
 <hr/>
 
-<span style="color:#8a98a7">
-Arrastra cualquier aguja para cambiar su posición. Haz click en el fondo de la brújula o el compás para cambiar la posición de la dirección del manteo o del manteo respectivamente.
-</span>
+<p style="color:#8a98a7">
+Arrastra cualquier aguja para cambiar su posición. Haz click en el fondo de la brújula o del clinómetro para cambiar la posición de la dirección del manteo o del manteo respectivamente.
+</p>

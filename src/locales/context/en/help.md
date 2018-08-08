@@ -6,6 +6,6 @@ Try changing the camera position to get a top down view of the plane, and notice
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 Drag the mouse around to change the camera position. Click the "Reset Camera" button to get back to the initial camera position. Adjust the visual parameters of the 3D view by clicking on the "Appearance" tab below.
-</span>
+</p>

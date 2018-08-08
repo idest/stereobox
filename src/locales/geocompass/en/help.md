@@ -14,6 +14,6 @@ The blue needle is depicted for convenience, because when reading the strike bea
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 Drag any needle to change its position. Click on the background of the compass or clinometer to change the position of the dip direction or dip needle respectively.
-</span>
+</p>

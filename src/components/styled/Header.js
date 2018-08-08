@@ -16,6 +16,7 @@ const Header = props => {
 
 const Span = styled.span`
   padding-right: 5px;
+  color: #cfd3e1;
 `;
 const HeaderStyled = styled.div`
   box-sizing: border-box;

@@ -4,6 +4,6 @@ The numbers in the left column relate to horizontal rotations while the numbers 
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 Click on any number to change it's value. If the notation is invalid no plane will be displayed. You can also think of this section as a notation converter.
-</span>
+</p>

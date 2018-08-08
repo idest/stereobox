@@ -6,6 +6,6 @@ Intenta cambiar la posición de la cámara para obtener una vista del plano desd
 
 <hr/>
 
-<span style="color:#8a98a7">
+<p style="color:#8a98a7">
 Arrastra el mouse para cambiar la posición de la cámara. Haz click en el botón "Reiniciar cámara" para volver a la posición inicial de la cámara. Ajusta los parámetros visuales de la vista 3D haciendo click en la pestaña "Apariencia" situada al inferior.
-</span>
+</p>

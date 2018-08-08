@@ -5,7 +5,7 @@ import Tabs from './Tabs';
 import Tab from './Tabs/Tab';
 import HelpIcon from '../assets/question-circle';
 import logo from '../assets/logo.png';
-import TopBar from './TopBar';
+import LangBar from './LangBar';
 import enMessages from '../locales/layout/en/messages.json';
 import esMessages from '../locales/layout/es/messages.json';
 
@@ -20,7 +20,15 @@ export class MobileLayout extends React.Component {
     const { locale } = this.props;
     return (
       <AppWrapper>
-        <TopBar locale={locale} />
+        <TopBar>
+          <Icon active={this.props.showHelp}>
+            <HelpIcon
+              active={this.props.showHelp}
+              onClick={this.props.toggleHelp}
+            />
+          </Icon>
+          <LangBar locale={locale} />
+        </TopBar>
         <MainSection>
           <Content>
             {children.find(child => child.props.name === 'readings')}
@@ -56,7 +64,7 @@ export class DesktopLayout extends React.Component {
     const { locale } = this.props;
     return (
       <AppWrapper>
-        <TopBar locale={locale} />
+        <LangBar locale={locale} />
         <MainSection>
           <Title>Stereobox</Title>
           <SubtitleContainer>
@@ -104,6 +112,14 @@ const AppWrapper = styled.div`
   height: 100%;
 `;
 
+const TopBar = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 30px;
+`;
+
 const MainSection = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -116,7 +132,7 @@ const MainSection = styled.div`
   background: ${props => props.theme.bgColor};
   color: ${props => props.theme.fgColorD20};
   ${ie`
-    justify-content: flex-start; 
+    justify-content: flex-start;
   `};
   ${media.tablet`
     width: 640px;
@@ -141,9 +157,6 @@ const Title = styled.h1`
 
 const SubtitleContainer = styled.div`
   ${media.tablet`
-    display: none;
-  `};
-  ${media.desktop`
     position: relative
     display: flex;
     flex-wrap: wrap;
@@ -167,9 +180,8 @@ const Subtitle = styled.h3`
 
 const Icon = styled.span`
   display: flex;
-  height: 20px;
-  width: 20px;
-  margin-left: auto;
+  height: 15px;
+  width: 15px;
   cursor: pointer;
   z-index: 1;
   > svg {
@@ -178,6 +190,11 @@ const Icon = styled.span`
     fill: ${props =>
       props.active ? props.theme.fgColorD20 : props.theme.fgColorD40};
   }
+  ${media.tablet`
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+  `};
 `;
 
 const Content = styled.div`
@@ -239,6 +256,10 @@ const StereonetWrapper = styled.div`
   flex: 1;
   //order: 2;
   min-height: 200px;
+  border-top: 2px solid ${props => props.theme.bgColorL40};
+  ${media.tablet`
+    border-top: 0;
+  `};
   ${media.desktop`
     flex: 4;
   `};
@@ -251,10 +272,7 @@ const ContextWrapper = styled.div`
   flex: 1;
   //order: 1;
   min-height: 200px;
-  border-top: 1px solid ${props => props.theme.bgColorL40};
-  ${media.tablet`
-    border-top: 2px solid ${props => props.theme.bgColorL40};
-  `};
+  border-top: 2px solid ${props => props.theme.bgColorL40};
   ${media.desktop`
     flex: 3;
     border-top: 0;
@@ -265,8 +283,8 @@ const ContextWrapper = styled.div`
 const LogoContainer = styled.div`
   display: flex;
   position: absolute;
-  left: 20px;
-  top: 15px;
+  left: 25px;
+  top: 25px;
   /*
   right: 30px;
   bottom: 15px;
