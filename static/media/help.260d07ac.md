@@ -1,0 +1,11 @@
+Here is where everything comes together. This section shows a 3D view of the current plane's orientation together with the lower hemisphere of the *horizontal coordinate system*.
+
+The needles from the "Compass/Clinometer" section together with the points from the stereonet section are also shown for reference purposes.
+
+Try changing the camera position to get a top down view of the plane, and notice the relationship between the intersection line of the plane with the lower hemisphere and the plane's plot in the stereonet.
+
+<hr/>
+
+<p style="color:#8a98a7">
+Drag the mouse around to change the camera position. Click the "Reset Camera" button to get back to the initial camera position. Adjust the visual parameters of the 3D view by clicking on the "Appearance" tab below.
+</p>
