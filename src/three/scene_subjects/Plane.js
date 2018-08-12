@@ -27,13 +27,9 @@ export default (scene, initialProps, eventBus) => {
   dipIndicator.setRotationFromQuaternion(
     getOrientationQuaternion(azimuth, dip)
   );
-  const noIndicatorsLine = getNoIndicatorsLine(r1, r2);
-  noIndicatorsLine.setRotationFromQuaternion(getOrientationQuaternion(azimuth));
   if (initialProps.showIndicators === true) {
     scene.add(azIndicators);
     scene.add(dipIndicator);
-  } else {
-    scene.add(noIndicatorsLine);
   }
 
   eventBus.subscribe('propsUpdate', propsUpdateHandler);
@@ -67,9 +63,6 @@ export default (scene, initialProps, eventBus) => {
     dipIndicator.setRotationFromQuaternion(
       getOrientationQuaternion(azimuth, dip)
     );
-    noIndicatorsLine.setRotationFromQuaternion(
-      getOrientationQuaternion(azimuth)
-    );
   }
 
   function trimPlane(boolean) {
@@ -81,7 +74,7 @@ export default (scene, initialProps, eventBus) => {
   }
 
   function changePlaneOpacity(planeOpacity) {
-    circularPlaneSurface.material.opacity = planeOpacity;
+    circularPlaneSurface.children[0].material.opacity = planeOpacity;
     rectangularPlaneSurface.children[0].material.opacity = planeOpacity;
   }
 
@@ -97,11 +90,9 @@ export default (scene, initialProps, eventBus) => {
     if (boolean === true) {
       scene.add(azIndicators);
       scene.add(dipIndicator);
-      scene.remove(noIndicatorsLine);
     } else {
       scene.remove(azIndicators);
       scene.remove(dipIndicator);
-      scene.add(noIndicatorsLine);
     }
   }
 
@@ -141,7 +132,19 @@ export default (scene, initialProps, eventBus) => {
       transparent: true,
       opacity: planeOpacity
     });
-    const surface = new THREE.Mesh(planeGeometry, planeMaterial);
+    const surface = new THREE.Group();
+    const planeSurface = new THREE.Mesh(planeGeometry, planeMaterial);
+    const az = new THREE.Vector3(1, 0, 0);
+    const azExt = new THREE.Vector3(-1, 0, 0);
+    const p1 = az.clone().multiplyScalar(r2 - 0.01);
+    const p2 = azExt.clone().multiplyScalar(r2 - 0.01);
+    const topOutline = utils.getLine([p1, p2], {
+      color: new THREE.Color(initialProps.theme.fgColorD20),
+      linewidth: 2,
+      dashed: false
+    });
+    surface.add(planeSurface);
+    surface.add(topOutline);
     surface.setRotationFromQuaternion(getInitialPlaneOrientation());
     return surface;
   }
@@ -227,19 +230,6 @@ export default (scene, initialProps, eventBus) => {
     dipIndicators.add(dipPoint);
 
     return dipIndicators;
-  }
-
-  function getNoIndicatorsLine(r1, r2) {
-    const az = new THREE.Vector3(1, 0, 0);
-    const azExt = new THREE.Vector3(-1, 0, 0);
-    const p1 = az.clone().multiplyScalar(r2 - 0.01);
-    const p2 = azExt.clone().multiplyScalar(r2 - 0.01);
-    const noIndicatorsLine = utils.getLine([p1, p2], {
-      color: new THREE.Color(initialProps.theme.fgColorD20),
-      linewidth: 2,
-      dashed: false
-    });
-    return noIndicatorsLine;
   }
 
   function getIntersection(r1, r2) {
