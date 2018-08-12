@@ -46,6 +46,7 @@ class PlaneReading extends React.Component {
           onValueChange={this.onValueChange}
           color={this.props.horizontalColor}
           tabIndex={this.props.index * 2 + 1}
+          digits={this.props.horizontalDigits}
         />
         <Reading
           id={this.props.id}
@@ -54,6 +55,7 @@ class PlaneReading extends React.Component {
           onValueChange={this.onValueChange}
           color={this.props.verticalColor}
           tabIndex={this.props.index * 2 + 2}
+          digits={this.props.verticalDigits}
         />
         {/*
         <div tabIndex={this.props.index * 3 + 3} onFocus={this.handleFocus} />

@@ -154,6 +154,8 @@ class Readings extends React.Component {
                   verticalColor={verticalColor}
                   name={messages[locale].azName}
                   onPlaneChange={this.onAZChange}
+                  horizontalDigits="3"
+                  verticalDigits="2"
                   tooltip={{
                     text: messages[locale].azTooltip
                   }}
@@ -177,6 +179,8 @@ class Readings extends React.Component {
                   verticalColor={verticalColor}
                   name={messages[locale].ddName}
                   onPlaneChange={this.onDDChange}
+                  horizontalDigits="3"
+                  verticalDigits="2"
                 />
               </Table>
             </WithDescription>

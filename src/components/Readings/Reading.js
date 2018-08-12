@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Cell from './styled/Cell';
 import Span from './styled/Span';
+import zeroPad from '../../utils/zeroPad';
 
 class Reading extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class Reading extends React.Component {
   }
   render() {
     const value = Number.isNaN(this.props.value) ? '' : this.props.value;
+    const digits = this.props.digits;
     const reading = this.state.isEditable ? (
       <Input
         autoFocus
@@ -51,7 +53,7 @@ class Reading extends React.Component {
         style={{ color: this.props.color }}
         tabIndex={this.props.tabIndex}
       >
-        {value}
+        {digits ? zeroPad(value, digits) : value}
       </Span>
     );
     return <ReadingCell>{reading}</ReadingCell>;
