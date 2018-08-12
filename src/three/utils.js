@@ -51,7 +51,7 @@ export function createSphereArc(P, Q) {
   return sphereArc;
 }
 
-export function getLine(vertices, parameters) {
+export function getLine(vertices, parameters, closeLine) {
   parameters.linewidth = parameters.linewidth ? parameters.linewidth : 2;
   const geometry = new LineGeometry();
   const positions = [];
@@ -59,6 +59,11 @@ export function getLine(vertices, parameters) {
     positions.push(vertices[i].x);
     positions.push(vertices[i].y);
     positions.push(vertices[i].z);
+  }
+  if (closeLine === true) {
+    positions.push(vertices[0].x);
+    positions.push(vertices[0].y);
+    positions.push(vertices[0].z);
   }
   geometry.setPositions(positions);
   const material = new LineMaterial(parameters);

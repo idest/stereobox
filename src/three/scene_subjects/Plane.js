@@ -82,7 +82,7 @@ export default (scene, initialProps, eventBus) => {
 
   function changePlaneOpacity(planeOpacity) {
     circularPlaneSurface.material.opacity = planeOpacity;
-    rectangularPlaneSurface.material.opacity = planeOpacity;
+    rectangularPlaneSurface.children[0].material.opacity = planeOpacity;
   }
 
   function toggleIntersectionLine(boolean) {
@@ -112,7 +112,22 @@ export default (scene, initialProps, eventBus) => {
       transparent: true,
       opacity: planeOpacity
     });
-    const surface = new THREE.Mesh(planeGeometry, planeMaterial);
+    const planeSurface = new THREE.Mesh(planeGeometry, planeMaterial);
+    const vertex1 = new THREE.Vector3(1.75, 1.75, 0);
+    const vertex2 = new THREE.Vector3(1.75, -1.75, 0);
+    const vertex3 = new THREE.Vector3(-1.75, -1.75, 0);
+    const vertex4 = new THREE.Vector3(-1.75, 1.75, 0);
+    const planeOutline = utils.getLine(
+      [vertex1, vertex2, vertex3, vertex4],
+      {
+        color: initialProps.theme.fgColorD20,
+        linewidth: 1.5
+      },
+      true
+    );
+    const surface = new THREE.Group();
+    surface.add(planeSurface);
+    surface.add(planeOutline);
     surface.setRotationFromQuaternion(getInitialPlaneOrientation());
     return surface;
   }
@@ -221,7 +236,7 @@ export default (scene, initialProps, eventBus) => {
     const p2 = azExt.clone().multiplyScalar(r2 - 0.01);
     const noIndicatorsLine = utils.getLine([p1, p2], {
       color: new THREE.Color(initialProps.theme.fgColorD20),
-      linewidth: 1,
+      linewidth: 2,
       dashed: false
     });
     return noIndicatorsLine;
@@ -240,7 +255,7 @@ export default (scene, initialProps, eventBus) => {
         az1.clone().applyAxisAngle(planeNormal, -0.02),
         azExt1.clone().applyAxisAngle(planeNormal, 0.02)
       ),
-      { linewidth: 2, color: intersectionColor }
+      { linewidth: 3, color: intersectionColor }
     );
     return intersection;
   }
