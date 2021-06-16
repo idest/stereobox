@@ -8,7 +8,7 @@ import {
   cross,
   haversine
 } from '../../logic/sphere';
-import { fixAz, modAz } from '../../logic/utils';
+import { fixAz } from '../../logic/utils';
 import Header from '../styled/Header';
 import WithDescription from '../shared/WithDescription';
 import { HelpConsumer } from '../App.js';
@@ -36,8 +36,7 @@ class Stereonet extends Component {
     this.svg = React.createRef();
     this.preventSVGDrag = this.preventSVGDrag.bind(this);
     this.state = {
-      projection: null,
-      currentAz: this.props.azimuth
+      projection: null
     };
     //this.updateDimensions = this.updateDimensions.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -101,38 +100,24 @@ class Stereonet extends Component {
       pole: poleCoords
     };
   }
-  getPlaneFromAzAndDipChange(x, y, getExactCoordinates) {
+  getPlaneFromAzAndDipChange(x, y) {
     const mouseCoords = this.state.projection.invert([x, y]);
     //TODO: keep this DRY by using this.getAngleFromCoords
     const centerVector = sph2cart([0, 0]),
       mouseVector = sph2cart(mouseCoords),
-      azVector = cross(centerVector, mouseVector),
+      azVector = cross(mouseVector, centerVector),
       azCoords = cart2sph(azVector),
       northCoords = [0, 90],
       azDistanceToNorth = haversine(azCoords, northCoords),
-      az = mouseCoords[1] < 0 ? azDistanceToNorth : 360 - azDistanceToNorth,
+      az = mouseCoords[1] > 0 ? azDistanceToNorth : 360 - azDistanceToNorth,
       dipDirectionVector = cross(azVector, centerVector),
       dipDirectionCoords = cart2sph(dipDirectionVector),
-      dip = haversine(dipDirectionCoords, mouseCoords);
-    //prettier-ignore
-    //const fit = (a,b,c) => 1 + a / (2**((b-dip)/c)); //1, 80, 3 // 1,75,2
+      dip =
+        Math.abs(mouseCoords[0]) > 90
+          ? 90
+          : haversine(dipDirectionCoords, mouseCoords) - 90;
     let newPlaneState;
-    if (getExactCoordinates === true && dip < 80) {
-      newPlaneState = { planeAzimuth: az, planeDip: dip, lastInput: 'SN' };
-    } else {
-      const fit = (a, b) => 1 + a / (b - dip);
-      let currentAz = this.state.currentAz;
-      const newAz = az;
-      currentAz = modAz(currentAz, newAz);
-      currentAz = this.state.currentAz + (newAz - currentAz) / fit(40, 91);
-      let correctedAz = fixAz(currentAz);
-      this.setState({ currentAz: correctedAz });
-      newPlaneState = {
-        planeAzimuth: correctedAz,
-        planeDip: dip,
-        lastInput: 'SN'
-      };
-    }
+    newPlaneState = { planeAzimuth: az, planeDip: dip, lastInput: 'SN' };
     return newPlaneState;
   }
   getPlaneFromAzChange(x, y, pointId) {
@@ -148,6 +133,27 @@ class Stereonet extends Component {
     }
     const correctedAz = fixAz(mouseAngle + correction);
     return { planeAzimuth: correctedAz, lastInput: 'SN' };
+  }
+  getPlaneFromDipChange(x, y, pointId) {
+    const mouseCoords = this.state.projection.invert([x, y]);
+    const currentAz = this.props.azimuth;
+    const centerCoords = [0, 0],
+      northCoords = [0, 90],
+      dipDirectionCoords = rotateSph(
+        northCoords,
+        centerCoords,
+        270 - currentAz
+      ),
+      az =
+        haversine(dipDirectionCoords, mouseCoords) >= 90
+          ? fixAz(currentAz + 180)
+          : currentAz;
+    let dip =
+      Math.abs(mouseCoords[0]) > 90
+        ? 0
+        : haversine(dipDirectionCoords, mouseCoords);
+    dip = Math.abs(dip) > 90 ? 90 : dip;
+    return { planeAzimuth: az, planeDip: dip, lastInput: 'SN' };
   }
   getAngleFromCoords(coords) {
     const centerCoords = [0, 0];
@@ -168,7 +174,7 @@ class Stereonet extends Component {
   }
   handleMouseUp() {
     //console.log('handleMouseUp called');
-    if (this.state.clickedPoint === 'dip') {
+    if (this.state.clickedPoint === 'pole') {
       this.setState({ mouseDown: false });
     } else {
       // avoid click after mouseUp
@@ -185,8 +191,10 @@ class Stereonet extends Component {
     const pointId = this.state.clickedPoint;
     const { x, y } = this.getEventCoordinates(e);
     let newPlaneState = undefined;
-    if (pointId === 'dip') {
+    if (pointId === 'pole') {
       newPlaneState = this.getPlaneFromAzAndDipChange(x, y);
+    } else if (pointId === 'dip') {
+      newPlaneState = this.getPlaneFromDipChange(x, y);
     } else {
       newPlaneState = this.getPlaneFromAzChange(x, y, pointId);
     }
@@ -196,7 +204,7 @@ class Stereonet extends Component {
     //console.log('handleMouseClick called');
     if (this.state.mouseDown === false) {
       const { x, y } = this.getEventCoordinates(e);
-      const newPlaneState = this.getPlaneFromAzAndDipChange(x, y, true);
+      const newPlaneState = this.getPlaneFromAzAndDipChange(x, y);
       this.props.changePlaneState(newPlaneState);
     }
   }
@@ -286,6 +294,13 @@ class Stereonet extends Component {
                         coordinates: planeCoordinates.dip
                       })}
                     />
+                    <PointPath
+                      stroke="fgColor"
+                      d={path({
+                        type: 'Point',
+                        coordinates: planeCoordinates.pole
+                      })}
+                    />
                     <OuterPointPath
                       id="az"
                       d={outerPointPath({
@@ -315,6 +330,14 @@ class Stereonet extends Component {
                       d={outerPointPath({
                         type: 'Point',
                         coordinates: planeCoordinates.dip
+                      })}
+                      onMouseDown={this.handleMouseDown}
+                    />
+                    <OuterPointPath
+                      id="pole"
+                      d={outerPointPath({
+                        type: 'Point',
+                        coordinates: planeCoordinates.pole
                       })}
                       onMouseDown={this.handleMouseDown}
                     />

@@ -27,9 +27,14 @@ export default (scene, initialProps, eventBus) => {
   dipIndicator.setRotationFromQuaternion(
     getOrientationQuaternion(azimuth, dip)
   );
+  const poleIndicator = getPoleIndicator(r1, r2);
+  poleIndicator.setRotationFromQuaternion(
+    getOrientationQuaternion(azimuth + 180, 90 - dip)
+  );
   if (initialProps.showIndicators === true) {
     scene.add(azIndicators);
     scene.add(dipIndicator);
+    scene.add(poleIndicator);
   }
 
   eventBus.subscribe('propsUpdate', propsUpdateHandler);
@@ -63,6 +68,9 @@ export default (scene, initialProps, eventBus) => {
     dipIndicator.setRotationFromQuaternion(
       getOrientationQuaternion(azimuth, dip)
     );
+    poleIndicator.setRotationFromQuaternion(
+      getOrientationQuaternion(azimuth + 180, 90 - dip)
+    );
   }
 
   function trimPlane(boolean) {
@@ -90,9 +98,11 @@ export default (scene, initialProps, eventBus) => {
     if (boolean === true) {
       scene.add(azIndicators);
       scene.add(dipIndicator);
+      scene.add(poleIndicator);
     } else {
       scene.remove(azIndicators);
       scene.remove(dipIndicator);
+      scene.remove(poleIndicator);
     }
   }
 
@@ -230,6 +240,30 @@ export default (scene, initialProps, eventBus) => {
     dipIndicators.add(dipPoint);
 
     return dipIndicators;
+  }
+
+  function getPoleIndicator(r1, r2) {
+    const pole = new THREE.Vector3(0, 0, 1);
+
+    const pole1 = pole.clone().multiplyScalar(r1);
+    const pole2 = pole.clone().multiplyScalar(0);
+    //
+    const pole3 = pole.clone().multiplyScalar(r2 + 0.01);
+
+    const poleLine = utils.getLine([pole1, pole2], {
+      color: new THREE.Color(initialProps.theme.fgColorD20),
+      linewidth: 1.5,
+      dashed: true
+    });
+    const polePoint = utils.getSpheres([pole3], {
+      r: 0.06,
+      color: new THREE.Color(initialProps.theme.fgColor)
+    });
+    const poleIndicators = new THREE.Group();
+    poleIndicators.add(poleLine);
+    poleIndicators.add(polePoint);
+
+    return poleIndicators;
   }
 
   function getIntersection(r1, r2) {
